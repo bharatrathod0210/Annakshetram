@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
 const connectDB = require('./config/db');
 
@@ -15,32 +14,28 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-// CORS config
-const corsOptions = {
-  origin: function (origin, callback) {
-    const allowed = [
-      'http://localhost:5173',
-      'http://localhost:5175',
-      'http://localhost:3000',
-      'https://apiszen.com',
-      'https://www.apiszen.com',
-      'https://annakshetram.onrender.com',
-    ];
-    // allow requests with no origin (mobile apps, curl, Render health checks, etc.)
-    if (!origin || allowed.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-
-// Handle preflight BEFORE all routes
-app.options('*', cors(corsOptions));
-app.use(cors(corsOptions));
+// Manual CORS headers — most reliable approach for cross-origin APIs
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  const allowed = [
+    'http://localhost:5173',
+    'http://localhost:5175',
+    'http://localhost:3000',
+    'https://apiszen.com',
+    'https://www.apiszen.com',
+  ];
+  if (!origin || allowed.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '*');
+  }
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  // Respond to preflight immediately
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
