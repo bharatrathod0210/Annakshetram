@@ -15,8 +15,8 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-// Middleware
-app.use(cors({
+// CORS config
+const corsOptions = {
   origin: function (origin, callback) {
     const allowed = [
       'http://localhost:5173',
@@ -26,7 +26,7 @@ app.use(cors({
       'https://www.apiszen.com',
       'https://annakshetram.onrender.com',
     ];
-    // allow requests with no origin (mobile apps, curl, etc.)
+    // allow requests with no origin (mobile apps, curl, Render health checks, etc.)
     if (!origin || allowed.includes(origin)) {
       callback(null, true);
     } else {
@@ -36,10 +36,11 @@ app.use(cors({
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+};
 
-// Handle preflight requests
-app.options('*', cors());
+// Handle preflight BEFORE all routes
+app.options('*', cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -56,6 +57,22 @@ app.use('/api/admin', adminRoutes);
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'Annakshetram API is running 🌿', timestamp: new Date().toISOString() });
+});
+
+// Seed endpoint — protected by secret key
+app.post('/api/seed', async (req, res) => {
+  const { secret } = req.body;
+  if (secret !== process.env.SEED_SECRET) {
+    return res.status(403).json({ success: false, message: 'Forbidden' });
+  }
+  try {
+    const runSeed = require('./utils/seed');
+    await runSeed();
+    res.json({ success: true, message: 'Seed completed' });
+  } catch (err) {
+    console.error('Seed error:', err);
+    res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 // 404 handler

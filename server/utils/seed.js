@@ -1,14 +1,12 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const connectDB = require('../config/db');
 const User = require('../models/User');
 const Category = require('../models/Category');
 const Product = require('../models/Product');
-const Banner = require('../models/Banner');
 const Settings = require('../models/Settings');
 
-const seed = async () => {
+const runSeed = async () => {
   await connectDB();
   console.log('🌱 Starting seed...');
 
@@ -77,7 +75,12 @@ const seed = async () => {
       const exists = await Product.findOne({ slug });
       if (!exists) {
         const catIdx = Math.min(i, catDocs.length - 1);
-        await Product.create({ ...p, slug, categoryId: catDocs[catIdx].categoryId, longDescription: `${p.description}. Sourced from organic farms in Karnataka and processed using traditional methods without any chemicals or preservatives.` });
+        await Product.create({
+          ...p,
+          slug,
+          categoryId: catDocs[catIdx].categoryId,
+          longDescription: `${p.description}. Sourced from organic farms in Karnataka and processed using traditional methods without any chemicals or preservatives.`,
+        });
         console.log(`✅ Product: ${p.name}`);
       }
     }
@@ -85,7 +88,11 @@ const seed = async () => {
 
   console.log('\n🎉 Seed complete!');
   console.log('🔐 Admin Login: admin@annakshetram.com / Admin@123');
-  process.exit(0);
 };
 
-seed().catch(err => { console.error(err); process.exit(1); });
+// Run directly: node utils/seed.js
+if (require.main === module) {
+  runSeed().then(() => process.exit(0)).catch(err => { console.error(err); process.exit(1); });
+}
+
+module.exports = runSeed;
