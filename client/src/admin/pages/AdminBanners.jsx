@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Pencil, Trash2, Image } from 'lucide-react';
-import api, { BASE_URL } from '../../lib/api';
+import api, { BASE_URL, imgUrl } from '../../lib/api';
 import toast from 'react-hot-toast';
 
 export default function AdminBanners() {
@@ -118,7 +118,7 @@ export default function AdminBanners() {
         ) : banners.map(b => (
           <div key={b.bannerId} className={`bg-white rounded-lg shadow-sm border border-gray-100 p-4 flex gap-4 items-center hover:shadow-md transition-shadow ${b.isDeleted ? 'opacity-40' : ''}`}>
             {b.image ? (
-              <img src={`${BASE_URL}${b.image}`} alt="" className="w-24 h-16 rounded-lg object-cover flex-shrink-0" />
+              <img src={imgUrl(b.image)} alt="" className="w-24 h-16 rounded-lg object-cover flex-shrink-0" />
             ) : (
               <div className="w-24 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0"><Image className="w-6 h-6 text-primary/40" /></div>
             )}

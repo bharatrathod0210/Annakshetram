@@ -26,7 +26,7 @@ const getAllBannersAdmin = async (req, res) => {
 const createBanner = async (req, res) => {
   try {
     const { title, subtitle, ctaText, ctaLink, isActive, order } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : '';
+    const image = req.file ? req.file.path : '';
     const banner = await Banner.create({ title, subtitle, image, ctaText, ctaLink, isActive: isActive !== 'false', order: Number(order) || 0 });
     res.status(201).json({ success: true, data: { banner } });
   } catch (err) {
@@ -39,7 +39,7 @@ const updateBanner = async (req, res) => {
     const banner = await Banner.findOne({ bannerId: req.params.id });
     if (!banner) return res.status(404).json({ success: false, message: 'Banner not found' });
     const updates = { ...req.body };
-    if (req.file) updates.image = `/uploads/${req.file.filename}`;
+    if (req.file) updates.image = req.file.path;
     if (updates.isActive !== undefined) updates.isActive = updates.isActive === 'true' || updates.isActive === true;
     if (updates.order !== undefined) updates.order = Number(updates.order);
     Object.assign(banner, updates);

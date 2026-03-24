@@ -1,7 +1,14 @@
 import axios from 'axios';
 
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-export const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:5000';
+export const API_URL = import.meta.env.VITE_API_URL || 'https://annakshetram.onrender.com/api';
+export const BASE_URL = import.meta.env.VITE_BASE_URL || 'https://annakshetram.onrender.com';
+
+// Handles both Cloudinary full URLs and legacy /uploads/ paths
+export const imgUrl = (path) => {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  return `${BASE_URL}${path}`;
+};
 
 const api = axios.create({
   baseURL: API_URL,

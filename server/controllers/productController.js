@@ -49,7 +49,7 @@ const createProduct = async (req, res) => {
   try {
     const { name, description, longDescription, categoryId, price, mrp, unit, stock, isFeatured, tags } = req.body;
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    const images = req.files ? req.files.map(f => `/uploads/${f.filename}`) : [];
+    const images = req.files ? req.files.map(f => f.path) : [];
 
     const product = await Product.create({
       name, slug, description, longDescription, categoryId,
@@ -76,7 +76,7 @@ const updateProduct = async (req, res) => {
     if (updates.stock) updates.stock = Number(updates.stock);
     if (updates.isFeatured !== undefined) updates.isFeatured = updates.isFeatured === 'true' || updates.isFeatured === true;
     if (updates.tags && typeof updates.tags === 'string') updates.tags = updates.tags.split(',').map(t => t.trim());
-    if (req.files && req.files.length > 0) updates.images = req.files.map(f => `/uploads/${f.filename}`);
+    if (req.files && req.files.length > 0) updates.images = req.files.map(f => f.path);
     if (updates.name) updates.slug = updates.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
     Object.assign(product, updates);

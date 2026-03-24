@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ShoppingCart, MessageCircle, Check, ChevronLeft, Minus, Plus, Leaf } from 'lucide-react';
-import api, { BASE_URL } from '../lib/api';
+import api, { BASE_URL, imgUrl } from '../lib/api';
 import useCartStore from '../store/useCartStore';
 import useAuthStore from '../store/useAuthStore';
 import useSettingsStore from '../store/useSettingsStore';
@@ -98,7 +98,7 @@ export default function ProductDetailPage() {
           <div>
             <div className="aspect-square bg-white rounded-lg overflow-hidden shadow-card mb-4">
               {product.images?.[selectedImage] ? (
-                <img src={`${BASE_URL}${product.images[selectedImage]}`} alt={product.name} className="w-full h-full object-cover" />
+                <img src={imgUrl(product.images[selectedImage])} alt={product.name} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-cream">
                   <span className="text-8xl">🌿</span>
@@ -113,7 +113,7 @@ export default function ProductDetailPage() {
                     onClick={() => setSelectedImage(i)}
                     className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${i === selectedImage ? 'border-primary' : 'border-border'}`}
                   >
-                    <img src={`${BASE_URL}${img}`} alt="" className="w-full h-full object-cover" />
+                    <img src={imgUrl(img)} alt="" className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
