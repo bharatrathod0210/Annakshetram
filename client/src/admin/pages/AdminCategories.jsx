@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Plus, Pencil, Trash2, Tag } from 'lucide-react';
-import api from '../../lib/api';
+import api, { BASE_URL } from '../../lib/api';
 import toast from 'react-hot-toast';
 
 export default function AdminCategories() {
@@ -97,7 +97,7 @@ export default function AdminCategories() {
         ) : categories.map(c => (
           <div key={c.categoryId} className={`bg-white rounded-lg shadow-sm border border-gray-100 p-5 flex gap-4 items-center hover:shadow-md transition-shadow ${c.isDeleted ? 'opacity-50' : ''}`}>
             {c.image ? (
-              <img src={`http://localhost:5000${c.image}`} alt="" className="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
+              <img src={`${BASE_URL}${c.image}`} alt="" className="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
             ) : (
               <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
                 <Tag className="w-6 h-6 text-primary" />

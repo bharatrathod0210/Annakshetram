@@ -17,9 +17,29 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173','http://localhost:5175', 'http://localhost:3000'],
+  origin: function (origin, callback) {
+    const allowed = [
+      'http://localhost:5173',
+      'http://localhost:5175',
+      'http://localhost:3000',
+      'https://apiszen.com',
+      'https://www.apiszen.com',
+      'https://annakshetram.onrender.com',
+    ];
+    // allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

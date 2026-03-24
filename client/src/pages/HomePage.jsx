@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Leaf, Shield, Award, Truck, ChevronRight, Star, MessageCircle } from 'lucide-react';
-import api from '../lib/api';
+import api, { BASE_URL } from '../lib/api';
 import useSettingsStore from '../store/useSettingsStore';
 import ProductCard from '../components/ProductCard';
 
@@ -168,7 +168,7 @@ export default function HomePage() {
                 <Link key={cat.categoryId} to={`/products?category=${cat.categoryId}`} className="group reveal" style={{ transitionDelay: `${i * 80}ms` }}>
                   <div className="card-hover relative overflow-hidden aspect-square">
                     {cat.image ? (
-                      <img src={`http://localhost:5000${cat.image}`} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      <img src={`${BASE_URL}${cat.image}`} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-br from-primary/5 to-accent/10 flex flex-col items-center justify-center gap-2">
                         <span className="text-4xl">{categoryEmojis[i % categoryEmojis.length]}</span>

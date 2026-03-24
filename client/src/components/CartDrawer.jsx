@@ -2,6 +2,7 @@ import { X, ShoppingCart, Plus, Minus, Trash2, MessageCircle } from 'lucide-reac
 import useCartStore from '../store/useCartStore';
 import useSettingsStore from '../store/useSettingsStore';
 import { formatPrice, generateWhatsAppMessage } from '../lib/utils';
+import { BASE_URL } from '../lib/api';
 
 export default function CartDrawer() {
   const { items, isOpen, setOpen, updateQuantity, removeItem, getTotal } = useCartStore();
@@ -57,7 +58,7 @@ export default function CartDrawer() {
                 <div key={item.productId} className="flex gap-3 p-3 bg-cream rounded-lg border border-border">
                   {item.image ? (
                     <img
-                      src={`http://localhost:5000${item.image}`}
+                      src={`${BASE_URL}${item.image}`}
                       alt={item.name}
                       className="w-16 h-16 object-cover rounded-lg flex-shrink-0"
                     />

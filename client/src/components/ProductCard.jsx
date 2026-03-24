@@ -4,6 +4,7 @@ import useCartStore from '../store/useCartStore';
 import useAuthStore from '../store/useAuthStore';
 import useSettingsStore from '../store/useSettingsStore';
 import { formatPrice, generateWhatsAppMessage } from '../lib/utils';
+import { BASE_URL } from '../lib/api';
 import toast from 'react-hot-toast';
 
 export default function ProductCard({ product }) {
@@ -48,7 +49,7 @@ export default function ProductCard({ product }) {
       <div className="relative overflow-hidden aspect-square bg-cream flex-shrink-0">
         {product.images?.[0] ? (
           <img
-            src={`http://localhost:5000${product.images[0]}`}
+            src={`${BASE_URL}${product.images[0]}`}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Pencil, Trash2, Eye, Star, Package } from 'lucide-react';
 import api from '../../lib/api';
+import { BASE_URL } from '../../lib/api';
 import { formatPrice } from '../../lib/utils';
 import toast from 'react-hot-toast';
 
@@ -184,7 +185,7 @@ export default function AdminProducts() {
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-3">
                       {p.images?.[0] ? (
-                        <img src={`http://localhost:5000${p.images[0]}`} alt="" className="w-10 h-10 rounded-lg object-cover" />
+                        <img src={`${BASE_URL}${p.images[0]}`} alt="" className="w-10 h-10 rounded-lg object-cover" />
                       ) : (
                         <div className="w-10 h-10 bg-cream rounded-lg flex items-center justify-center"><Package className="w-5 h-5 text-primary/40" /></div>
                       )}
