@@ -4,11 +4,14 @@ import { ShoppingBag, Leaf, Shield, Award, Truck, ChevronRight, Star, MessageCir
 import api, { imgUrl } from '../lib/api';
 import useSettingsStore from '../store/useSettingsStore';
 import ProductCard from '../components/ProductCard';
-import heroBg from '../assets/hero.png';
+
+import heroBg from '../assets/hero-bg.png';
+
 export default function HomePage() {
   const { settings } = useSettingsStore();
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +23,7 @@ export default function HomePage() {
         setFeaturedProducts(productRes.data.data.products);
         setCategories(catRes.data.data.categories);
       } catch {}
+      finally { setLoading(false); }
     };
     fetchData();
   }, []);
@@ -57,7 +61,7 @@ export default function HomePage() {
         className="relative min-h-screen flex items-center overflow-hidden"
         style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-dark/95 via-primary/88 to-[#2B0606]/85" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-dark/75 via-primary/65 to-[#2B0606]/70" />
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[...Array(8)].map((_, i) => (
             <div key={i} className="particle" style={{ width: `${8 + i * 4}px`, height: `${8 + i * 4}px`, top: `${10 + i * 10}%`, left: `${5 + i * 11}%`, animationDelay: `${i * 0.8}s`, animationDuration: `${5 + i}s` }} />
@@ -114,7 +118,7 @@ export default function HomePage() {
                 </div>
                 <div className="glass rounded-lg p-4 flex items-center gap-3 animate-float-slow" style={{ animationDelay: '2s' }}>
                   <span className="text-3xl">🏆</span>
-                  <div><p className="font-semibold text-cream text-sm">Premium Grade</p><p className="text-accent/80 text-xs">Lab Tested</p></div>
+                  <div><p className="font-semibold text-cream text-sm">Premium Grade</p></div>
                 </div>
               </div>
               <div className="glass rounded-lg p-4 flex items-center gap-4 animate-float" style={{ animationDelay: '0.5s' }}>
@@ -155,121 +159,484 @@ export default function HomePage() {
       </section>
 
       {/* CATEGORIES */}
-      {categories.length > 0 && (
-        <section className="py-20 bg-cream">
-          <div className="container-custom">
+      {(loading || categories.length > 0) && (
+        <section className="py-20 bg-cream relative overflow-hidden">
+          <div className="container-custom relative z-10">
             <div className="text-center mb-14 reveal">
-              <div className="ornament mb-3"><span className="text-accent text-sm">+</span></div>
+              <div className="ornament mb-3"><span className="text-accent text-sm">✦</span></div>
               <h2 className="section-title">Shop by Category</h2>
               <p className="section-subtitle">Discover our range of pure, traditional products</p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
-              {categories.map((cat, i) => (
-                <Link key={cat.categoryId} to={`/products?category=${cat.categoryId}`} className="group reveal" style={{ transitionDelay: `${i * 80}ms` }}>
-                  <div className="card-hover relative overflow-hidden aspect-square">
-                    {cat.image ? (
-                      <img src={imgUrl(cat.image)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-primary/5 to-accent/10 flex flex-col items-center justify-center gap-2">
-                        <span className="text-4xl">{categoryEmojis[i % categoryEmojis.length]}</span>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent" />
-                    <div className="absolute inset-0 flex items-end p-4">
-                      <div>
-                        <p className="font-heading font-bold text-white text-sm">{cat.name}</p>
-                        <p className="text-accent text-xs mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">Shop Now</p>
+              {loading ? (
+                [...Array(5)].map((_, i) => (
+                  <div key={i} className="aspect-square rounded-xl overflow-hidden relative">
+                    <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 animate-pulse" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <div className="h-3 bg-primary/20 rounded animate-pulse w-3/4 mb-1" />
+                      <div className="h-2 bg-primary/10 rounded animate-pulse w-1/2" />
+                    </div>
+                    {/* Shimmer overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-shimmer-sweep" style={{ animationDelay: `${i * 0.15}s` }} />
+                  </div>
+                ))
+              ) : (
+                categories.map((cat, i) => (
+                  <Link key={cat.categoryId} to={`/products?category=${cat.categoryId}`} className="group reveal" style={{ transitionDelay: `${i * 80}ms` }}>
+                    <div className="card-hover relative overflow-hidden aspect-square">
+                      {cat.image ? (
+                        <img src={imgUrl(cat.image)} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-primary/5 to-accent/10 flex flex-col items-center justify-center gap-2">
+                          <span className="text-4xl">{categoryEmojis[i % categoryEmojis.length]}</span>
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent" />
+                      <div className="absolute inset-0 flex items-end p-4">
+                        <div>
+                          <p className="font-heading font-bold text-white text-sm">{cat.name}</p>
+                          <p className="text-accent text-xs mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity">Shop Now</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))
+              )}
             </div>
           </div>
         </section>
       )}
 
       {/* FEATURED PRODUCTS */}
-      {featuredProducts.length > 0 && (
+      {(loading || featuredProducts.length > 0) && (
         <section className="py-20 bg-white">
           <div className="container-custom">
-            <div className="flex items-end justify-between mb-14">
-              <div className="reveal">
-                <div className="ornament mb-3"><span className="text-accent text-sm">+</span></div>
-                <h2 className="section-title">Our Bestsellers</h2>
-                <p className="text-text-secondary">Loved by hundreds of families across India</p>
-              </div>
-              <Link to="/products" className="btn-outline text-sm hidden md:flex items-center gap-1 reveal">
-                View All <ChevronRight className="w-4 h-4" />
-              </Link>
+            <div className="text-center mb-14 reveal">
+              <div className="ornament mb-3"><span className="text-accent text-sm">✦</span></div>
+              <h2 className="section-title">Our Bestsellers</h2>
+              <p className="section-subtitle">Loved by hundreds of families across India</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProducts.map((product, i) => (
-                <div key={product.productId} className="reveal" style={{ transitionDelay: `${i * 80}ms` }}>
-                  <ProductCard product={product} />
-                </div>
-              ))}
+              {loading ? (
+                [...Array(6)].map((_, i) => (
+                  <div key={i} className="rounded-xl overflow-hidden border border-border bg-white shadow-sm">
+                    {/* Image skeleton */}
+                    <div className="relative h-56 bg-gradient-to-br from-primary/8 to-accent/8 animate-pulse overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shimmer-sweep" style={{ animationDelay: `${i * 0.1}s` }} />
+                      {/* Leaf icon placeholder */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
+                          <svg className="w-7 h-7 text-primary/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3C7 3 3 7.5 3 12c0 2.5 1 4.8 2.7 6.4C7.2 19.8 9.5 21 12 21s4.8-1.2 6.3-2.6C20 16.8 21 14.5 21 12c0-4.5-4-9-9-9z"/></svg>
+                        </div>
+                      </div>
+                      {/* Badge skeleton */}
+                      <div className="absolute top-3 left-3 h-5 w-16 bg-accent/20 rounded-full animate-pulse" />
+                    </div>
+                    {/* Content skeleton */}
+                    <div className="p-4 space-y-3">
+                      <div className="h-4 bg-gray-100 rounded animate-pulse w-4/5" />
+                      <div className="h-3 bg-gray-100 rounded animate-pulse w-3/5" />
+                      <div className="flex items-center justify-between pt-1">
+                        <div className="h-5 bg-accent/20 rounded animate-pulse w-1/4" />
+                        <div className="h-8 w-8 bg-primary/10 rounded-lg animate-pulse" />
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                featuredProducts.map((product, i) => (
+                  <div key={product.productId} className="reveal" style={{ transitionDelay: `${i * 80}ms` }}>
+                    <ProductCard product={product} />
+                  </div>
+                ))
+              )}
             </div>
-            <div className="text-center mt-10 md:hidden">
-              <Link to="/products" className="btn-outline">View All Products</Link>
-            </div>
+            {!loading && (
+              <div className="text-center mt-10 md:hidden">
+                <Link to="/products" className="btn-outline">View All Products</Link>
+              </div>
+            )}
           </div>
         </section>
       )}
 
       {/* WHY US */}
-      <section className="py-20 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #6B1414 0%, #8B1A1A 40%, #5a0f0f 100%)' }}>
-        <div className="absolute top-0 right-0 w-80 h-80 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #C9A84C, transparent)' }} />
-        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #C9A84C, transparent)' }} />
+      <section className="py-20 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #6B1414 0%, #6B1414 40%, #5a0f0f 100%)' }}>
+        {/* Animated golden design */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 600">
+            <defs>
+              <radialGradient id="rg1_wh" cx="15%" cy="15%" r="45%">
+                <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.22"/>
+                <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
+              </radialGradient>
+              <radialGradient id="rg2_wh" cx="85%" cy="85%" r="45%">
+                <stop offset="0%" stopColor="#E0BE7A" stopOpacity="0.18"/>
+                <stop offset="100%" stopColor="#E0BE7A" stopOpacity="0"/>
+              </radialGradient>
+              <radialGradient id="rg3_wh" cx="85%" cy="15%" r="35%">
+                <stop offset="0%" stopColor="#A8883A" stopOpacity="0.12"/>
+                <stop offset="100%" stopColor="#A8883A" stopOpacity="0"/>
+              </radialGradient>
+            </defs>
+            {/* Glow blobs */}
+            <rect width="100%" height="100%" fill={`url(#rg1_wh)`}/>
+            <rect width="100%" height="100%" fill={`url(#rg2_wh)`}/>
+            <rect width="100%" height="100%" fill={`url(#rg3_wh)`}/>
+            {/* Top border */}
+            <line x1="0" y1="1" x2="100%" y2="1" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5"/>
+            <line x1="0" y1="4" x2="100%" y2="4" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3"/>
+            {/* Bottom border */}
+            <line x1="0" y1="99%" x2="100%" y2="99%" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5"/>
+            <line x1="0" y1="96%" x2="100%" y2="96%" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3"/>
+            {/* TL corner arcs */}
+            <g opacity="0.45">
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
+              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+            </g>
+            {/* TR corner arcs */}
+            <g opacity="0.45" transform="translate(100%,0) scale(-1,1)">
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
+              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+            </g>
+            {/* BL corner arcs */}
+            <g opacity="0.45" transform="translate(0,100%) scale(1,-1)">
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
+              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+            </g>
+            {/* BR corner arcs */}
+            <g opacity="0.45" transform="translate(100%,100%) scale(-1,-1)">
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
+              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+            </g>
+            {/* Animated floating dots */}
+            <circle cx="20%" cy="25%" r="2" fill="#C9A84C" fillOpacity="0.25">
+              <animate attributeName="cy" values="25%;22%;25%" dur="4s" repeatCount="indefinite"/>
+              <animate attributeName="fillOpacity" values="0.25;0.5;0.25" dur="4s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="80%" cy="70%" r="1.5" fill="#E0BE7A" fillOpacity="0.2">
+              <animate attributeName="cy" values="70%;67%;70%" dur="5s" repeatCount="indefinite"/>
+              <animate attributeName="fillOpacity" values="0.2;0.45;0.2" dur="5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="50%" cy="15%" r="1.5" fill="#C9A84C" fillOpacity="0.2">
+              <animate attributeName="cy" values="15%;12%;15%" dur="3.5s" repeatCount="indefinite"/>
+              <animate attributeName="fillOpacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="75%" cy="30%" r="1" fill="#E0BE7A" fillOpacity="0.18">
+              <animate attributeName="cy" values="30%;27%;30%" dur="6s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="25%" cy="75%" r="1" fill="#C9A84C" fillOpacity="0.18">
+              <animate attributeName="cy" values="75%;72%;75%" dur="4.5s" repeatCount="indefinite"/>
+            </circle>
+            {/* Animated shimmer line */}
+            <line x1="-100%" y1="50%" x2="0%" y2="50%" stroke="#C9A84C" strokeWidth="0.5" strokeOpacity="0.3">
+              <animate attributeName="x1" values="-100%;200%" dur="6s" repeatCount="indefinite"/>
+              <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite"/>
+            </line>
+            {/* Center rotating diamond */}
+            <g opacity="0.08" transform="translate(50%,50%)">
+              <rect x="-90" y="-90" width="180" height="180" fill="none" stroke="#C9A84C" strokeWidth="0.8" transform="rotate(45)">
+                <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="-60" y="-60" width="120" height="120" fill="none" stroke="#E0BE7A" strokeWidth="0.5" transform="rotate(45)">
+                <animateTransform attributeName="transform" type="rotate" from="45" to="-315" dur="20s" repeatCount="indefinite"/>
+              </rect>
+            </g>
+            {/* Corner leaves */}
+            <g opacity="0.35">
+              {/* TL — 2 leaves, spread apart */}
+              <g transform="translate(-5,0) rotate(-28)">
+                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+              </g>
+              <g transform="translate(55,-8) rotate(-6)">
+                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+              </g>
+              {/* TR — 2 leaves, spread apart */}
+              <g transform="translate(1205,0) rotate(208)">
+                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+              </g>
+              <g transform="translate(1145,-8) rotate(186)">
+                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+              </g>
+              {/* BL — 2 leaves, spread apart */}
+              <g transform="translate(-5,600) rotate(152)">
+                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+              </g>
+              <g transform="translate(55,608) rotate(174)">
+                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+              </g>
+              {/* BR — 2 leaves, spread apart */}
+              <g transform="translate(1205,600) rotate(-28)">
+                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+              </g>
+              <g transform="translate(1145,608) rotate(-6)">
+                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+              </g>
+              {/* CENTER scattered — 4 leaves, well spaced, no overlap */}
+              <g transform="translate(280,300) rotate(20)">
+                <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+              </g>
+              <g transform="translate(920,300) rotate(-20)">
+                <path fill="none" stroke="#C9A84C" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+              </g>
+              <g transform="translate(580,150) rotate(35)">
+                <path fill="none" stroke="#E0BE7A" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+              </g>
+              <g transform="translate(620,450) rotate(-35)">
+                <path fill="none" stroke="#C9A84C" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
+                <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div className="absolute top-0 right-0 w-80 h-80 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #9b7513ff, transparent)' }} />
+        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #9b7513ff, transparent)' }} />
 
         <div className="container-custom relative z-10">
           <div className="text-center mb-14 reveal">
-            <div className="ornament mb-3"><span className="text-accent text-sm">+</span></div>
+            <div className="ornament mb-3"><span className="text-accent text-sm">✦</span></div>
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-cream mb-3">
               Why Choose <span className="text-gradient-gold">Annakshetram?</span>
             </h2>
             <p className="text-cream/60 text-lg max-w-xl mx-auto">Pure food, honest farming, and generations of trust</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 reveal">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left - Feature Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 reveal">
               {[
                 ['🌾', 'Farmer Direct', 'We work directly with organic farmers, ensuring fair prices and fresh produce.'],
-                ['🔬', 'Lab Tested', 'Every batch is tested for purity - zero adulterants reach your family.'],
-                ['📦', 'Eco Packaging', 'Sustainable, minimal packaging that respects our planet.'],
+                ['🌱', 'Chemical Free', 'Zero pesticides, zero chemicals — grown the way nature intended.'],
+                ['�', 'Eco Packaging', 'Sustainable, minimal packaging that respects our planet.'],
                 ['💚', 'Health First', 'No artificial additives, colors, or preservatives - ever.'],
               ].map(([emoji, title, desc]) => (
-                <div key={title} className="rounded-lg p-5 border border-white/10 hover:border-accent/40 transition-all group" style={{ background: 'rgba(255,255,255,0.06)' }}>
-                  <div className="text-3xl mb-3">{emoji}</div>
+                <div key={title} className="rounded-xl p-5 border border-white/10 hover:border-accent/50 hover:-translate-y-1 transition-all duration-300 group" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-xl" style={{ background: 'rgba(201,168,76,0.15)' }}>{emoji}</div>
                   <p className="font-semibold text-accent mb-1 text-sm">{title}</p>
-                  <p className="text-cream/65 text-xs leading-relaxed">{desc}</p>
+                  <p className="text-cream/60 text-xs leading-relaxed">{desc}</p>
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-2 gap-5 reveal">
-              {[
-                ['🌿', '100%', 'Organic Certified'],
-                ['🏅', '5+', 'Years of Trust'],
-                ['👨‍👩‍👧', '500+', 'Families Served'],
-                ['🌱', '0', 'Preservatives'],
-              ].map(([emoji, num, label]) => (
-                <div key={label} className="rounded-lg p-6 text-center border border-white/10 hover:border-accent/50 transition-all duration-300 group" style={{ background: 'rgba(255,255,255,0.06)' }}>
-                  <p className="text-3xl mb-3">{emoji}</p>
-                  <p className="font-heading text-4xl font-bold text-gradient-gold mb-1">{num}</p>
-                  <p className="text-cream/65 text-xs">{label}</p>
+            {/* Right - Stats */}
+            <div className="flex flex-col gap-4 reveal">
+              <div className="rounded-xl p-6 border border-white/10 flex items-center gap-5" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                <div className="text-4xl">🌿</div>
+                <div>
+                  <p className="font-heading text-4xl font-bold text-gradient-gold">100%</p>
+                  <p className="text-cream/65 text-sm mt-0.5">Organic Certified — every single product</p>
                 </div>
-              ))}
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="rounded-xl p-5 border border-white/10 text-center" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                  <p className="text-3xl mb-2">🏅</p>
+                  <p className="font-heading text-3xl font-bold text-gradient-gold">5+</p>
+                  <p className="text-cream/60 text-xs mt-1">Years of Trust</p>
+                </div>
+                <div className="rounded-xl p-5 border border-white/10 text-center" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                  <p className="text-3xl mb-2">👨‍👩‍👧</p>
+                  <p className="font-heading text-3xl font-bold text-gradient-gold">500+</p>
+                  <p className="text-cream/60 text-xs mt-1">Families Served</p>
+                </div>
+              </div>
+              <div className="rounded-xl p-6 border border-accent/30 flex items-center gap-5" style={{ background: 'rgba(201,168,76,0.08)' }}>
+                <div className="text-4xl">🤝</div>
+                <div>
+                  <p className="font-heading text-4xl font-bold text-gradient-gold">0</p>
+                  <p className="text-cream/65 text-sm mt-0.5">Preservatives — pure as nature</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="py-20 bg-cream-dark">
-        <div className="container-custom">
+      <section className="py-20 bg-cream-dark relative overflow-hidden">
+        {/* Animated golden design */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 600">
+            <defs>
+              <radialGradient id="rg1_tm" cx="15%" cy="15%" r="45%">
+                <stop offset="0%" stopColor="#8B1A1A" stopOpacity="0.154"/>
+                <stop offset="100%" stopColor="#8B1A1A" stopOpacity="0"/>
+              </radialGradient>
+              <radialGradient id="rg2_tm" cx="85%" cy="85%" r="45%">
+                <stop offset="0%" stopColor="#6B1414" stopOpacity="0.126"/>
+                <stop offset="100%" stopColor="#6B1414" stopOpacity="0"/>
+              </radialGradient>
+              <radialGradient id="rg3_tm" cx="85%" cy="15%" r="35%">
+                <stop offset="0%" stopColor="#8B1A1A" stopOpacity="0.084"/>
+                <stop offset="100%" stopColor="#8B1A1A" stopOpacity="0"/>
+              </radialGradient>
+            </defs>
+            {/* Glow blobs */}
+            <rect width="100%" height="100%" fill={`url(#rg1_tm)`}/>
+            <rect width="100%" height="100%" fill={`url(#rg2_tm)`}/>
+            <rect width="100%" height="100%" fill={`url(#rg3_tm)`}/>
+            {/* Top border */}
+            <line x1="0" y1="1" x2="100%" y2="1" stroke="#8B1A1A" strokeWidth="1.5" strokeOpacity="0.5"/>
+            <line x1="0" y1="4" x2="100%" y2="4" stroke="#6B1414" strokeWidth="0.4" strokeOpacity="0.3"/>
+            {/* Bottom border */}
+            <line x1="0" y1="99%" x2="100%" y2="99%" stroke="#8B1A1A" strokeWidth="1.5" strokeOpacity="0.5"/>
+            <line x1="0" y1="96%" x2="100%" y2="96%" stroke="#6B1414" strokeWidth="0.4" strokeOpacity="0.3"/>
+            {/* TL corner arcs */}
+            <g opacity="0.45">
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1"/>
+              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
+            </g>
+            {/* TR corner arcs */}
+            <g opacity="0.45" transform="translate(100%,0) scale(-1,1)">
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1"/>
+              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
+            </g>
+            {/* BL corner arcs */}
+            <g opacity="0.45" transform="translate(0,100%) scale(1,-1)">
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1"/>
+              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
+            </g>
+            {/* BR corner arcs */}
+            <g opacity="0.45" transform="translate(100%,100%) scale(-1,-1)">
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1"/>
+              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
+            </g>
+            {/* Animated floating dots */}
+            <circle cx="20%" cy="25%" r="2" fill="#8B1A1A" fillOpacity="0.25">
+              <animate attributeName="cy" values="25%;22%;25%" dur="4s" repeatCount="indefinite"/>
+              <animate attributeName="fillOpacity" values="0.25;0.5;0.25" dur="4s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="80%" cy="70%" r="1.5" fill="#6B1414" fillOpacity="0.2">
+              <animate attributeName="cy" values="70%;67%;70%" dur="5s" repeatCount="indefinite"/>
+              <animate attributeName="fillOpacity" values="0.2;0.45;0.2" dur="5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="50%" cy="15%" r="1.5" fill="#8B1A1A" fillOpacity="0.2">
+              <animate attributeName="cy" values="15%;12%;15%" dur="3.5s" repeatCount="indefinite"/>
+              <animate attributeName="fillOpacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="75%" cy="30%" r="1" fill="#6B1414" fillOpacity="0.18">
+              <animate attributeName="cy" values="30%;27%;30%" dur="6s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="25%" cy="75%" r="1" fill="#8B1A1A" fillOpacity="0.18">
+              <animate attributeName="cy" values="75%;72%;75%" dur="4.5s" repeatCount="indefinite"/>
+            </circle>
+            {/* Animated shimmer line */}
+            <line x1="-100%" y1="50%" x2="0%" y2="50%" stroke="#8B1A1A" strokeWidth="0.5" strokeOpacity="0.3">
+              <animate attributeName="x1" values="-100%;200%" dur="6s" repeatCount="indefinite"/>
+              <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite"/>
+            </line>
+            {/* Center rotating diamond */}
+            <g opacity="0.08" transform="translate(50%,50%)">
+              <rect x="-90" y="-90" width="180" height="180" fill="none" stroke="#8B1A1A" strokeWidth="0.8" transform="rotate(45)">
+                <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="-60" y="-60" width="120" height="120" fill="none" stroke="#6B1414" strokeWidth="0.5" transform="rotate(45)">
+                <animateTransform attributeName="transform" type="rotate" from="45" to="-315" dur="20s" repeatCount="indefinite"/>
+              </rect>
+            </g>
+            {/* Corner leaves */}
+            <g opacity="0.25">
+              {/* TL — 2 leaves, spread apart */}
+              <g transform="translate(-5,0) rotate(-28)">
+                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+              </g>
+              <g transform="translate(55,-8) rotate(-6)">
+                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+              </g>
+              {/* TR — 2 leaves, spread apart */}
+              <g transform="translate(1205,0) rotate(208)">
+                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+              </g>
+              <g transform="translate(1145,-8) rotate(186)">
+                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+              </g>
+              {/* BL — 2 leaves, spread apart */}
+              <g transform="translate(-5,600) rotate(152)">
+                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+              </g>
+              <g transform="translate(55,608) rotate(174)">
+                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+              </g>
+              {/* BR — 2 leaves, spread apart */}
+              <g transform="translate(1205,600) rotate(-28)">
+                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+              </g>
+              <g transform="translate(1145,608) rotate(-6)">
+                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+              </g>
+              {/* CENTER scattered — 4 leaves, well spaced, no overlap */}
+              <g transform="translate(280,300) rotate(20)">
+                <path fill="none" stroke="#8B1A1A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+              </g>
+              <g transform="translate(920,300) rotate(-20)">
+                <path fill="none" stroke="#6B1414" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+              </g>
+              <g transform="translate(580,150) rotate(35)">
+                <path fill="none" stroke="#8B1A1A" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+              </g>
+              <g transform="translate(620,450) rotate(-35)">
+                <path fill="none" stroke="#6B1414" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
+                <line stroke="#6B1414" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div className="container-custom relative z-10">
           <div className="text-center mb-14 reveal">
-            <div className="ornament mb-3"><span className="text-accent text-sm">+</span></div>
+            <div className="ornament mb-3"><span className="text-accent text-sm">✦</span></div>
             <h2 className="section-title">What Our Families Say</h2>
             <p className="section-subtitle">Real experiences from real people</p>
           </div>
@@ -298,7 +665,161 @@ export default function HomePage() {
       {/* CTA */}
       <section className="py-20 bg-cream">
         <div className="container-custom">
-          <div className="relative rounded-lg overflow-hidden shadow-warm-lg reveal" style={{ background: 'linear-gradient(135deg, #6B1414 0%, #8B1A1A 50%, #A8883A 100%)' }}>
+          <div className="relative rounded-lg overflow-hidden shadow-warm-lg reveal" style={{ background: 'linear-gradient(135deg, #6B1414 0%, #6B1414 50%, #A8883A 100%)' }}>
+            {/* Animated golden design */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 500">
+                <defs>
+                  <radialGradient id="rg1_cta" cx="15%" cy="15%" r="45%">
+                    <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.22"/>
+                    <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
+                  </radialGradient>
+                  <radialGradient id="rg2_cta" cx="85%" cy="85%" r="45%">
+                    <stop offset="0%" stopColor="#E0BE7A" stopOpacity="0.18"/>
+                    <stop offset="100%" stopColor="#E0BE7A" stopOpacity="0"/>
+                  </radialGradient>
+                  <radialGradient id="rg3_cta" cx="85%" cy="15%" r="35%">
+                    <stop offset="0%" stopColor="#A8883A" stopOpacity="0.12"/>
+                    <stop offset="100%" stopColor="#A8883A" stopOpacity="0"/>
+                  </radialGradient>
+                </defs>
+                {/* Glow blobs */}
+                <rect width="100%" height="100%" fill={`url(#rg1_cta)`}/>
+                <rect width="100%" height="100%" fill={`url(#rg2_cta)`}/>
+                <rect width="100%" height="100%" fill={`url(#rg3_cta)`}/>
+                {/* Top border */}
+                <line x1="0" y1="1" x2="100%" y2="1" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5"/>
+                <line x1="0" y1="4" x2="100%" y2="4" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3"/>
+                {/* Bottom border */}
+                <line x1="0" y1="99%" x2="100%" y2="99%" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5"/>
+                <line x1="0" y1="96%" x2="100%" y2="96%" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3"/>
+                {/* TL corner arcs */}
+                <g opacity="0.45">
+                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
+                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
+                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
+                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
+                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+                </g>
+                {/* TR corner arcs */}
+                <g opacity="0.45" transform="translate(100%,0) scale(-1,1)">
+                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
+                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
+                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
+                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
+                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+                </g>
+                {/* BL corner arcs */}
+                <g opacity="0.45" transform="translate(0,100%) scale(1,-1)">
+                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
+                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
+                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
+                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
+                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+                </g>
+                {/* BR corner arcs */}
+                <g opacity="0.45" transform="translate(100%,100%) scale(-1,-1)">
+                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
+                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
+                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
+                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
+                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+                </g>
+                {/* Animated floating dots */}
+                <circle cx="20%" cy="25%" r="2" fill="#C9A84C" fillOpacity="0.25">
+                  <animate attributeName="cy" values="25%;22%;25%" dur="4s" repeatCount="indefinite"/>
+                  <animate attributeName="fillOpacity" values="0.25;0.5;0.25" dur="4s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="80%" cy="70%" r="1.5" fill="#E0BE7A" fillOpacity="0.2">
+                  <animate attributeName="cy" values="70%;67%;70%" dur="5s" repeatCount="indefinite"/>
+                  <animate attributeName="fillOpacity" values="0.2;0.45;0.2" dur="5s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="50%" cy="15%" r="1.5" fill="#C9A84C" fillOpacity="0.2">
+                  <animate attributeName="cy" values="15%;12%;15%" dur="3.5s" repeatCount="indefinite"/>
+                  <animate attributeName="fillOpacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="75%" cy="30%" r="1" fill="#E0BE7A" fillOpacity="0.18">
+                  <animate attributeName="cy" values="30%;27%;30%" dur="6s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="25%" cy="75%" r="1" fill="#C9A84C" fillOpacity="0.18">
+                  <animate attributeName="cy" values="75%;72%;75%" dur="4.5s" repeatCount="indefinite"/>
+                </circle>
+                {/* Animated shimmer line */}
+                <line x1="-100%" y1="50%" x2="0%" y2="50%" stroke="#C9A84C" strokeWidth="0.5" strokeOpacity="0.3">
+                  <animate attributeName="x1" values="-100%;200%" dur="6s" repeatCount="indefinite"/>
+                  <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite"/>
+                </line>
+                {/* Center rotating diamond */}
+                <g opacity="0.08" transform="translate(50%,50%)">
+                  <rect x="-90" y="-90" width="180" height="180" fill="none" stroke="#C9A84C" strokeWidth="0.8" transform="rotate(45)">
+                    <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite"/>
+                  </rect>
+                  <rect x="-60" y="-60" width="120" height="120" fill="none" stroke="#E0BE7A" strokeWidth="0.5" transform="rotate(45)">
+                    <animateTransform attributeName="transform" type="rotate" from="45" to="-315" dur="20s" repeatCount="indefinite"/>
+                  </rect>
+                </g>
+                {/* Corner leaves */}
+                <g opacity="0.35">
+                  {/* TL — 2 leaves, spread apart */}
+                  <g transform="translate(-5,0) rotate(-28)">
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                  </g>
+                  <g transform="translate(55,-8) rotate(-6)">
+                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                  </g>
+                  {/* TR — 2 leaves, spread apart */}
+                  <g transform="translate(1205,0) rotate(208)">
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                  </g>
+                  <g transform="translate(1145,-8) rotate(186)">
+                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                  </g>
+                  {/* BL — 2 leaves, spread apart */}
+                  <g transform="translate(-5,500) rotate(152)">
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                  </g>
+                  <g transform="translate(55,508) rotate(174)">
+                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                  </g>
+                  {/* BR — 2 leaves, spread apart */}
+                  <g transform="translate(1205,500) rotate(-28)">
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                  </g>
+                  <g transform="translate(1145,508) rotate(-6)">
+                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                  </g>
+                  {/* CENTER scattered — 4 leaves, well spaced, no overlap */}
+                  <g transform="translate(280,250) rotate(20)">
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+                  </g>
+                  <g transform="translate(920,250) rotate(-20)">
+                    <path fill="none" stroke="#C9A84C" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+                  </g>
+                  <g transform="translate(580,125) rotate(35)">
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+                  </g>
+                  <g transform="translate(620,375) rotate(-35)">
+                    <path fill="none" stroke="#C9A84C" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
+                    <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+                  </g>
+                </g>
+              </svg>
+            </div>
             <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #E0BE7A, transparent)' }} />
             <div className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #E0BE7A, transparent)' }} />
             <div className="relative z-10 p-12 md:p-16 text-center">

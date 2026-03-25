@@ -11,7 +11,7 @@ const settingsSchema = new mongoose.Schema(
     storeName: { type: String, default: 'Annakshetram' },
     tagline: { type: String, default: 'Satvikam Jeevanam, Shuddham Bhojanam' },
     whatsappNumber: { type: String, default: '919035735818' },
-    contactEmail: { type: String, default: 'contact@annakshetram.com' },
+    contactEmail: { type: String, default: 'info@annakshetram.com' },
     contactPhone: { type: String, default: '+91 9035735818' },
     address: { type: String, default: 'Karnataka, India' },
     facebookUrl: { type: String, default: '' },

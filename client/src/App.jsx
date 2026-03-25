@@ -36,7 +36,7 @@ export default function App() {
             borderRadius: '12px',
             fontFamily: 'Inter, sans-serif',
           },
-          success: { iconTheme: { primary: '#8B1A1A', secondary: '#FDF8F0' } },
+          success: { iconTheme: { primary: '#6B1414', secondary: '#FDF8F0' } },
         }}
       />
       <Routes>

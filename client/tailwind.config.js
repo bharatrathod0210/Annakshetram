@@ -6,7 +6,7 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#8B1A1A',
+          DEFAULT: '#6B1414',
           light: '#C0392B',
           dark: '#6B1414',
           foreground: '#FDF8F0',
@@ -36,7 +36,7 @@ export default {
       },
       backgroundImage: {
         'hero-pattern': "url('/hero-bg.png')",
-        'gradient-maroon': 'linear-gradient(135deg, #8B1A1A 0%, #C0392B 100%)',
+        'gradient-maroon': 'linear-gradient(135deg, #6B1414 0%, #C0392B 100%)',
         'gradient-gold': 'linear-gradient(135deg, #C9A84C 0%, #E0BE7A 100%)',
         'gradient-hero': 'linear-gradient(135deg, rgba(107,20,20,0.92) 0%, rgba(43,6,6,0.88) 60%, rgba(139,26,26,0.80) 100%)',
       },
@@ -59,6 +59,7 @@ export default {
         'shimmer': 'shimmer 2s linear infinite',
         'scale-in': 'scaleIn 0.5s ease-out',
         'spin-slow': 'spin 8s linear infinite',
+        'shimmer-sweep': 'shimmerSweep 1.6s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
@@ -68,6 +69,7 @@ export default {
         float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-12px)' } },
         pulseGold: { '0%, 100%': { boxShadow: '0 0 20px rgba(201,168,76,0.3)' }, '50%': { boxShadow: '0 0 40px rgba(201,168,76,0.6)' } },
         shimmer: { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
+        shimmerSweep: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(100%)' } },
         scaleIn: { '0%': { transform: 'scale(0.9)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '1' } },
       },
     },

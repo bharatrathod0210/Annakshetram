@@ -29,7 +29,7 @@ const runSeed = async () => {
       storeName: 'Annakshetram',
       tagline: 'Satvikam Jeevanam, Shuddham Bhojanam',
       whatsappNumber: '919035735818',
-      contactEmail: 'contact@annakshetram.com',
+      contactEmail: 'info@annakshetram.com',
       contactPhone: '+91 9035735818',
       address: 'Karnataka, India',
     });

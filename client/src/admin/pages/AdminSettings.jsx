@@ -72,7 +72,7 @@ export default function AdminSettings() {
           <h2 className="font-semibold text-gray-900 mb-4 text-base font-heading">Contact Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Field label="WhatsApp Number (with country code)" name="whatsappNumber" placeholder="919035735818" />
-            <Field label="Contact Email" name="contactEmail" type="email" placeholder="contact@annakshetram.com" />
+            <Field label="Contact Email" name="contactEmail" type="email" placeholder="info@annakshetram.com" />
             <Field label="Phone" name="contactPhone" placeholder="+91 9035735818" />
             <Field label="Location/Address" name="address" placeholder="Karnataka, India" />
           </div>
