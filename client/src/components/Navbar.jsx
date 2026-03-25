@@ -33,6 +33,13 @@ export default function Navbar() {
     { to: '/contact', label: 'Contact' },
   ];
 
+  const handleNavClick = (to) => {
+    if (to === '/' && location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    setMenuOpen(false);
+  };
+
   const isHome = location.pathname === '/';
   const isActive = (path) => location.pathname === path;
   const isTransparent = isHome && !scrolled;
@@ -70,6 +77,7 @@ export default function Navbar() {
               <Link
                 key={link.to}
                 to={link.to}
+                onClick={() => handleNavClick(link.to)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive(link.to)
                     ? isTransparent
                       ? 'bg-white/25 text-white font-semibold'
@@ -186,7 +194,7 @@ export default function Navbar() {
               <Link
                 key={link.to}
                 to={link.to}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => handleNavClick(link.to)}
                 className={`block px-4 py-3 rounded-lg text-sm font-medium mb-1 transition-all ${isActive(link.to)
                     ? isTransparent
                       ? 'bg-white/20 text-white font-semibold'

@@ -42,6 +42,8 @@ const useAuthStore = create(
         set({ user: null, token: null });
       },
 
+      updateUser: (updatedUser) => set({ user: updatedUser }),
+
       isAuthenticated: () => !!get().token,
       isAdmin: () => get().user?.role === 'admin',
     }),
