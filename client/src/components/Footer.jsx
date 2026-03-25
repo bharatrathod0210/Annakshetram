@@ -1,10 +1,22 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import logo from '../assets/English.png';
-
+import api from '../lib/api';
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [totalProducts, setTotalProducts] = useState(0);
+
+  useEffect(() => {
+    api.get('/categories').then(r => setCategories(r.data.data.categories)).catch(() => {});
+    api.get('/products?limit=5').then(r => {
+      setProducts(r.data.data.products);
+      setTotalProducts(r.data.data.total);
+    }).catch(() => {});
+  }, []);
   return (
     <footer className="bg-primary text-cream relative overflow-hidden">
       {/* Animated golden design */}
@@ -165,7 +177,7 @@ export default function Footer() {
       <div className="h-1 bg-gradient-gold relative z-10" />
 
       <div className="container-custom py-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
@@ -191,17 +203,48 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Categories */}
+          {/* Categories — dynamic from admin */}
+          <div>
+            <h3 className="font-heading text-lg font-semibold text-accent mb-4">Categories</h3>
+            <ul className="space-y-2">
+              {categories.length > 0 ? categories.map(cat => (
+                <li key={cat.categoryId}>
+                  <Link to={`/products?category=${cat.categoryId}`} className="text-cream/70 hover:text-accent transition-colors text-sm flex items-center gap-1 group">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent/50 group-hover:bg-accent transition-colors flex-shrink-0" />
+                    <span className="truncate">{cat.name}</span>
+                  </Link>
+                </li>
+              )) : [...Array(4)].map((_, i) => (
+                <li key={i}><div className="h-4 bg-cream/10 rounded animate-pulse w-3/4" /></li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Our Products — dynamic from admin, max 5 */}
           <div>
             <h3 className="font-heading text-lg font-semibold text-accent mb-4">Our Products</h3>
             <ul className="space-y-2">
-              {['Rice & Grains', 'Flours & Millets', 'Oils & Ghee', 'Spices & Masalas', 'Snacks & Sweets'].map(cat => (
-                <li key={cat}>
-                  <Link to={`/products?search=${cat}`} className="text-cream/70 hover:text-accent transition-colors text-sm flex items-center gap-1 group">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent/50 group-hover:bg-accent transition-colors" />
-                    {cat}
-                  </Link>
-                </li>
+              {products.length > 0 ? (
+                <>
+                  {products.map(p => (
+                    <li key={p.productId}>
+                      <Link to={`/products/${p.productId}`} className="text-cream/70 hover:text-accent transition-colors text-sm flex items-center gap-1 group">
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent/50 group-hover:bg-accent transition-colors flex-shrink-0" />
+                        <span className="truncate">{p.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                  {totalProducts > 5 && (
+                    <li>
+                      <Link to="/products" className="text-accent hover:text-accent-light transition-colors text-sm flex items-center gap-1 group font-semibold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-accent group-hover:bg-accent-light transition-colors flex-shrink-0" />
+                        More →
+                      </Link>
+                    </li>
+                  )}
+                </>
+              ) : [...Array(4)].map((_, i) => (
+                <li key={i}><div className="h-4 bg-cream/10 rounded animate-pulse w-3/4" /></li>
               ))}
             </ul>
           </div>

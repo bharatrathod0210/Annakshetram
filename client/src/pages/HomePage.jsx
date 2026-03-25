@@ -168,7 +168,7 @@ export default function HomePage() {
                 <div className="w-5 h-5 rounded-full bg-accent/30 flex items-center justify-center">
                   <Leaf className="w-3 h-3 text-accent" />
                 </div>
-                <span className="text-accent text-xs font-semibold tracking-widest uppercase">Satvik Certified · 100% Organic</span>
+                <span className="text-accent text-xs font-semibold tracking-widest uppercase">Shuddham Bhojanam • Satvikam Jeevanam</span>
                 <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               </div>
 
@@ -273,7 +273,7 @@ export default function HomePage() {
               {/* Two mini cards */}
               <div className="flex gap-3 w-full">
                 {[
-                  { emoji: '🌾', title: 'Ragi Products', sub: 'Calcium-Rich', delay: '1s' },
+                  { emoji: '🧂', title: 'Ready to use masala powder', delay: '1s' },
                   { emoji: '🏆', title: 'Premium Grade', sub: 'Certified Pure', delay: '2s' },
                 ].map(({ emoji, title, sub, delay }) => (
                   <div key={title} className="flex-1 rounded-xl p-4 flex items-center gap-3 animate-float-slow"
@@ -313,7 +313,7 @@ export default function HomePage() {
 
               {/* Trust badges row */}
               <div className="flex gap-2 w-full">
-                {[['🌱', 'No Chemicals'], ['🫙', 'No Preservatives'], ['✅', 'Lab Tested']].map(([icon, label]) => (
+                {[['🌱', 'No Chemicals'], ['🫙', 'No Preservatives'], ['✅', 'Health mixes']].map(([icon, label]) => (
                   <div key={label} className="flex-1 rounded-lg py-2.5 px-2 flex flex-col items-center gap-1"
                     style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(201,168,76,0.15)' }}>
                     <span className="text-base">{icon}</span>
