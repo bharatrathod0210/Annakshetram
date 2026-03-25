@@ -186,7 +186,7 @@ export default function AboutPage() {
         <div className="container-custom max-w-3xl mx-auto">
           <div className="text-center mb-10">
             <div className="text-[#E0BE7A] text-2xl mb-2">✦</div>
-            <h2 className="font-heading text-3xl font-bold text-[#6B1414]">It began at our dining table</h2>
+            <h2 className="font-heading text-3xl font-bold text-[#6B1414]">It began after our dining table!</h2>
           </div>
 
           <div className="space-y-5 text-[#4A3728] leading-relaxed text-[15px]">
