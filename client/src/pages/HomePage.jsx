@@ -61,80 +61,276 @@ export default function HomePage() {
         className="relative min-h-screen flex items-center overflow-hidden"
         style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-dark/75 via-primary/65 to-[#2B0606]/70" />
+        {/* Deep cinematic overlay — multi-layer */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1a0505]/90 via-[#6B1414]/70 to-[#0d0202]/85" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0202]/60 via-transparent to-transparent" />
+
+        {/* Animated SVG mandala / geometric ring — center-right */}
+        <div className="absolute right-[-6%] top-1/2 -translate-y-1/2 w-[680px] h-[680px] pointer-events-none opacity-20 hidden lg:block">
+          <svg viewBox="0 0 680 680" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+            <defs>
+              <radialGradient id="mandalaGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.6"/>
+                <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
+              </radialGradient>
+            </defs>
+            <circle cx="340" cy="340" r="330" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.5"/>
+            <circle cx="340" cy="340" r="290" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.35"/>
+            <circle cx="340" cy="340" r="240" stroke="#C9A84C" strokeWidth="0.8" strokeOpacity="0.4"/>
+            <circle cx="340" cy="340" r="180" stroke="#E0BE7A" strokeWidth="0.5" strokeOpacity="0.3"/>
+            <circle cx="340" cy="340" r="120" stroke="#C9A84C" strokeWidth="1" strokeOpacity="0.5"/>
+            <circle cx="340" cy="340" r="60" stroke="#E0BE7A" strokeWidth="0.8" strokeOpacity="0.4"/>
+            {/* Rotating outer ring of petals */}
+            <g style={{ transformOrigin: '340px 340px' }}>
+              <animateTransform attributeName="transform" type="rotate" from="0 340 340" to="360 340 340" dur="60s" repeatCount="indefinite"/>
+              {[...Array(12)].map((_, i) => {
+                const angle = (i * 30) * Math.PI / 180;
+                const x = 340 + 290 * Math.cos(angle);
+                const y = 340 + 290 * Math.sin(angle);
+                return <circle key={i} cx={x} cy={y} r="4" fill="#C9A84C" fillOpacity="0.6"/>;
+              })}
+              {[...Array(24)].map((_, i) => {
+                const angle = (i * 15) * Math.PI / 180;
+                const x = 340 + 240 * Math.cos(angle);
+                const y = 340 + 240 * Math.sin(angle);
+                return <circle key={i} cx={x} cy={y} r="2" fill="#E0BE7A" fillOpacity="0.4"/>;
+              })}
+            </g>
+            {/* Counter-rotating inner spokes */}
+            <g style={{ transformOrigin: '340px 340px' }}>
+              <animateTransform attributeName="transform" type="rotate" from="0 340 340" to="-360 340 340" dur="40s" repeatCount="indefinite"/>
+              {[...Array(8)].map((_, i) => {
+                const angle = (i * 45) * Math.PI / 180;
+                const x2 = 340 + 170 * Math.cos(angle);
+                const y2 = 340 + 170 * Math.sin(angle);
+                return <line key={i} x1="340" y1="340" x2={x2} y2={y2} stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.35"/>;
+              })}
+            </g>
+            {/* Pulsing center */}
+            <circle cx="340" cy="340" r="20" fill="url(#mandalaGlow)">
+              <animate attributeName="r" values="18;26;18" dur="3s" repeatCount="indefinite"/>
+              <animate attributeName="fillOpacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="340" cy="340" r="8" fill="#C9A84C" fillOpacity="0.8"/>
+          </svg>
+        </div>
+
+        {/* Glowing orbs */}
+        <div className="absolute top-[15%] left-[8%] w-72 h-72 rounded-full pointer-events-none animate-float-slow"
+          style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%)' }} />
+        <div className="absolute bottom-[10%] right-[5%] w-96 h-96 rounded-full pointer-events-none animate-float"
+          style={{ background: 'radial-gradient(circle, rgba(107,20,20,0.25) 0%, transparent 70%)' }} />
+        <div className="absolute top-[50%] left-[40%] w-48 h-48 rounded-full pointer-events-none animate-float-slow"
+          style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%)', animationDelay: '2s' }} />
+
+        {/* Floating gold particles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(8)].map((_, i) => (
-            <div key={i} className="particle" style={{ width: `${8 + i * 4}px`, height: `${8 + i * 4}px`, top: `${10 + i * 10}%`, left: `${5 + i * 11}%`, animationDelay: `${i * 0.8}s`, animationDuration: `${5 + i}s` }} />
+          {[
+            { w: 3, h: 3, top: '12%', left: '18%', delay: '0s', dur: '6s' },
+            { w: 5, h: 5, top: '28%', left: '72%', delay: '1.2s', dur: '8s' },
+            { w: 2, h: 2, top: '55%', left: '9%', delay: '0.5s', dur: '5s' },
+            { w: 4, h: 4, top: '70%', left: '55%', delay: '2s', dur: '7s' },
+            { w: 3, h: 3, top: '40%', left: '85%', delay: '1.8s', dur: '6.5s' },
+            { w: 6, h: 6, top: '82%', left: '30%', delay: '0.8s', dur: '9s' },
+            { w: 2, h: 2, top: '20%', left: '45%', delay: '3s', dur: '5.5s' },
+            { w: 4, h: 4, top: '65%', left: '78%', delay: '1.5s', dur: '7.5s' },
+          ].map((p, i) => (
+            <div key={i} className="absolute rounded-full"
+              style={{
+                width: p.w, height: p.h, top: p.top, left: p.left,
+                background: 'radial-gradient(circle, rgba(201,168,76,0.9), rgba(224,190,122,0.3))',
+                animation: `float ${p.dur} ease-in-out infinite`,
+                animationDelay: p.delay,
+                boxShadow: '0 0 6px rgba(201,168,76,0.6)',
+              }} />
           ))}
         </div>
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-accent/10 blur-3xl animate-float-slow pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-primary-light/15 blur-3xl animate-float pointer-events-none" />
 
-        <div className="container-custom relative z-10 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* Thin gold horizontal line accent */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
+
+        <div className="container-custom relative z-10 py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-12 xl:gap-20 items-center">
+
+            {/* LEFT — Content */}
             <div className="animate-fade-in-up">
-              <div className="inline-flex items-center gap-2 bg-accent/15 text-accent border border-accent/40 rounded-lg px-5 py-2 text-sm font-semibold mb-8 hover-glow cursor-default">
-                <Leaf className="w-4 h-4" /><span>Satvik Certified - 100% Organic</span>
+
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2.5 mb-8"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.06))',
+                  border: '1px solid rgba(201,168,76,0.45)',
+                  borderRadius: '50px',
+                  padding: '8px 20px',
+                  backdropFilter: 'blur(8px)',
+                }}>
+                <div className="w-5 h-5 rounded-full bg-accent/30 flex items-center justify-center">
+                  <Leaf className="w-3 h-3 text-accent" />
+                </div>
+                <span className="text-accent text-xs font-semibold tracking-widest uppercase">Satvik Certified · 100% Organic</span>
+                <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               </div>
-              <h1 className="font-heading font-bold text-cream leading-tight mb-6">
-                <span className="block text-5xl md:text-6xl lg:text-7xl">Pure. Natural.</span>
-                <span className="block text-5xl md:text-6xl lg:text-7xl text-gradient-gold">Satvik.</span>
+
+              {/* Headline */}
+              <h1 className="font-heading font-bold text-cream leading-[1.05] mb-6">
+                <span className="block text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5.2rem] tracking-tight">
+                  Pure. Natural.
+                </span>
+                <span className="block text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5.2rem] tracking-tight text-gradient-gold relative">
+                  Satvik.
+                </span>
               </h1>
-              <p className="text-cream/80 text-lg md:text-xl mb-10 leading-relaxed max-w-xl">
-                Satvikam Jeevanam, Shuddham Bhojanam - embrace the ancient wisdom of pure, wholesome eating that nourishes body and soul.
+
+              {/* Sanskrit tagline */}
+              <div className="flex items-center gap-3 mb-5">
+                <div className="h-px flex-1 max-w-[40px]" style={{ background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.5))' }} />
+                <p className="text-accent/70 text-xs tracking-[0.2em] uppercase font-medium">सात्विकं जीवनम् · शुद्धं भोजनम्</p>
+                <div className="h-px flex-1 max-w-[40px]" style={{ background: 'linear-gradient(90deg, rgba(201,168,76,0.5), transparent)' }} />
+              </div>
+
+              <p className="text-cream/75 text-lg md:text-xl mb-10 leading-relaxed max-w-lg">
+                Embrace the ancient wisdom of pure, wholesome eating — grown without chemicals, crafted without compromise, delivered with love.
               </p>
+
+              {/* CTA Buttons */}
               <div className="flex flex-wrap gap-4 mb-12">
-                <Link to="/products" className="btn-gold flex items-center gap-2 text-base px-8 py-4">
-                  <ShoppingBag className="w-5 h-5" /> Shop Now
+                <Link to="/products"
+                  className="group relative overflow-hidden flex items-center gap-2.5 text-primary-dark font-bold px-8 py-4 rounded-xl text-base transition-all duration-300"
+                  style={{
+                    background: 'linear-gradient(135deg, #C9A84C 0%, #E0BE7A 50%, #C9A84C 100%)',
+                    backgroundSize: '200% 100%',
+                    boxShadow: '0 4px 24px rgba(201,168,76,0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
+                  }}>
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                  <ShoppingBag className="w-5 h-5 relative z-10" />
+                  <span className="relative z-10">Shop Now</span>
                 </Link>
+
                 <a href={whatsappHref} target="_blank" rel="noreferrer"
-                  className="wa-pulse bg-[#25D366] hover:bg-[#128C7E] text-white font-bold px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 text-base">
-                  <MessageCircle className="w-5 h-5" /> Order on WhatsApp
+                  className="wa-pulse group flex items-center gap-2.5 text-white font-bold px-8 py-4 rounded-xl text-base transition-all duration-300"
+                  style={{
+                    background: 'linear-gradient(135deg, #25D366, #128C7E)',
+                    boxShadow: '0 4px 20px rgba(37,211,102,0.35)',
+                  }}>
+                  <MessageCircle className="w-5 h-5" />
+                  <span>Order on WhatsApp</span>
                 </a>
-                <Link to="/about" className="border-2 border-cream/40 text-cream hover:border-accent hover:text-accent font-semibold px-8 py-4 rounded-lg transition-all duration-300 flex items-center gap-2">
-                  Our Story <ChevronRight className="w-4 h-4" />
+
+                <Link to="/about"
+                  className="group flex items-center gap-2 text-cream font-semibold px-7 py-4 rounded-xl text-base transition-all duration-300"
+                  style={{
+                    border: '1px solid rgba(253,248,240,0.25)',
+                    background: 'rgba(253,248,240,0.05)',
+                    backdropFilter: 'blur(8px)',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.6)'; e.currentTarget.style.color = '#C9A84C'; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(253,248,240,0.25)'; e.currentTarget.style.color = '#FDF8F0'; }}>
+                  Our Story <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
-              <div className="flex items-center gap-8">
-                {[['500+', 'Happy Families'], ['100%', 'Organic'], ['0', 'Preservatives']].map(([num, label]) => (
-                  <div key={label} className="text-center">
-                    <p className="font-heading text-3xl font-bold text-gradient-gold">{num}</p>
-                    <p className="text-cream/60 text-xs mt-1">{label}</p>
+
+              {/* Stats row */}
+              <div className="flex items-center gap-6 sm:gap-10">
+                {[['500+', 'Happy Families'], ['100%', 'Organic'], ['0', 'Preservatives']].map(([num, label], i) => (
+                  <div key={label} className="flex flex-col items-center sm:items-start">
+                    <p className="font-heading text-3xl sm:text-4xl font-bold text-gradient-gold leading-none">{num}</p>
+                    <p className="text-cream/50 text-[11px] mt-1.5 tracking-wide uppercase">{label}</p>
+                    {i < 2 && <div className="hidden sm:block absolute" />}
                   </div>
                 ))}
               </div>
             </div>
 
             <div className="hidden lg:flex flex-col items-center gap-4 animate-fade-in">
-              <div className="glass rounded-lg p-8 text-center animate-float shadow-glow-lg border border-accent/30">
-                <div className="text-7xl mb-4">🌿</div>
-                <p className="font-heading text-2xl font-bold text-cream">Annakshetram</p>
-                <p className="text-accent text-sm mt-1">Farm to Table - Since 2019</p>
-              </div>
-              <div className="flex gap-4">
-                <div className="glass rounded-lg p-4 flex items-center gap-3 animate-float-slow" style={{ animationDelay: '1s' }}>
-                  <span className="text-3xl">🌾</span>
-                  <div><p className="font-semibold text-cream text-sm">Ragi Products</p><p className="text-accent/80 text-xs">Calcium-Rich</p></div>
+              <div className="relative w-full rounded-2xl overflow-hidden animate-float"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))',
+                  border: '1px solid rgba(201,168,76,0.35)',
+                  backdropFilter: 'blur(16px)',
+                  boxShadow: '0 8px 48px rgba(0,0,0,0.4), 0 0 60px rgba(201,168,76,0.15), inset 0 1px 0 rgba(255,255,255,0.15)',
+                  padding: '32px',
+                }}>
+                {/* Top accent line */}
+                <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+                <div className="text-center">
+                  <div className="relative inline-block mb-4">
+                    <div className="text-7xl">🌿</div>
+                    <div className="absolute inset-0 rounded-full blur-xl opacity-40"
+                      style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.6), transparent)' }} />
+                  </div>
+                  <p className="font-heading text-2xl font-bold text-cream tracking-wide">Annakshetram</p>
+                  <div className="flex items-center justify-center gap-2 mt-2">
+                    <div className="h-px w-8 bg-accent/40" />
+                    <p className="text-accent text-xs tracking-widest uppercase">Farm to Table</p>
+                    <div className="h-px w-8 bg-accent/40" />
+                  </div>
                 </div>
-                <div className="glass rounded-lg p-4 flex items-center gap-3 animate-float-slow" style={{ animationDelay: '2s' }}>
-                  <span className="text-3xl">🏆</span>
-                  <div><p className="font-semibold text-cream text-sm">Premium Grade</p></div>
-                </div>
+                {/* Bottom accent line */}
+                <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
               </div>
-              <div className="glass rounded-lg p-4 flex items-center gap-4 animate-float" style={{ animationDelay: '0.5s' }}>
-                <div className="w-10 h-10 rounded-full bg-[#25D366] flex items-center justify-center">
+
+              {/* Two mini cards */}
+              <div className="flex gap-3 w-full">
+                {[
+                  { emoji: '🌾', title: 'Ragi Products', sub: 'Calcium-Rich', delay: '1s' },
+                  { emoji: '🏆', title: 'Premium Grade', sub: 'Certified Pure', delay: '2s' },
+                ].map(({ emoji, title, sub, delay }) => (
+                  <div key={title} className="flex-1 rounded-xl p-4 flex items-center gap-3 animate-float-slow"
+                    style={{
+                      animationDelay: delay,
+                      background: 'rgba(255,255,255,0.07)',
+                      border: '1px solid rgba(201,168,76,0.2)',
+                      backdropFilter: 'blur(12px)',
+                    }}>
+                    <span className="text-2xl">{emoji}</span>
+                    <div>
+                      <p className="font-semibold text-cream text-xs leading-tight">{title}</p>
+                      <p className="text-accent/70 text-[10px] mt-0.5">{sub}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* WhatsApp card */}
+              <div className="w-full rounded-xl p-4 flex items-center gap-4 animate-float"
+                style={{
+                  animationDelay: '0.5s',
+                  background: 'linear-gradient(135deg, rgba(37,211,102,0.12), rgba(18,140,126,0.08))',
+                  border: '1px solid rgba(37,211,102,0.3)',
+                  backdropFilter: 'blur(12px)',
+                }}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)', boxShadow: '0 0 16px rgba(37,211,102,0.4)' }}>
                   <MessageCircle className="w-5 h-5 text-white" />
                 </div>
-                <div><p className="font-semibold text-cream text-sm">Order in Seconds</p><p className="text-accent/80 text-xs">Direct WhatsApp Ordering</p></div>
+                <div>
+                  <p className="font-semibold text-cream text-sm">Order in Seconds</p>
+                  <p className="text-[#25D366]/80 text-xs mt-0.5">Direct WhatsApp Ordering</p>
+                </div>
+                <div className="ml-auto w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
+              </div>
+
+              {/* Trust badges row */}
+              <div className="flex gap-2 w-full">
+                {[['🌱', 'No Chemicals'], ['🫙', 'No Preservatives'], ['✅', 'Lab Tested']].map(([icon, label]) => (
+                  <div key={label} className="flex-1 rounded-lg py-2.5 px-2 flex flex-col items-center gap-1"
+                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(201,168,76,0.15)' }}>
+                    <span className="text-base">{icon}</span>
+                    <p className="text-cream/60 text-[9px] text-center leading-tight">{label}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-          <p className="text-cream/50 text-xs tracking-widest uppercase">Scroll</p>
-          <div className="w-5 h-8 border-2 border-cream/30 rounded-lg flex items-start justify-center pt-1">
-            <div className="w-1 h-2 bg-accent rounded-full animate-pulse" />
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+          <p className="text-cream/40 text-[10px] tracking-[0.3em] uppercase">Scroll</p>
+          <div className="w-5 h-8 rounded-full flex items-start justify-center pt-1.5"
+            style={{ border: '1px solid rgba(201,168,76,0.35)' }}>
+            <div className="w-1 h-2 bg-accent rounded-full animate-bounce" />
           </div>
         </div>
       </section>

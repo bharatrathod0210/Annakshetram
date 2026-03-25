@@ -36,7 +36,7 @@
     @apply w-full px-4 py-3 rounded-lg border border-border bg-white text-text-primary placeholder-text-light focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200;
   }
   .container-custom {
-    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
   .section-title {
     @apply font-heading text-3xl md:text-4xl font-bold text-primary mb-3;
