@@ -4,12 +4,11 @@ const generateId = require('../utils/generateId');
 const reviewSchema = new mongoose.Schema(
   {
     reviewId: { type: String, default: () => generateId('review'), unique: true, index: true },
-    token: { type: String, unique: true, index: true }, // private link token
     name: { type: String, required: true, trim: true },
-    location: { type: String, trim: true },
-    rating: { type: Number, min: 1, max: 5, default: 5 },
-    text: { type: String, trim: true, default: '' },
-    isApproved: { type: Boolean, default: true },
+    location: { type: String, trim: true, default: '' },
+    rating: { type: Number, required: true, min: 1, max: 5 },
+    text: { type: String, required: true, trim: true },
+    isApproved: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }

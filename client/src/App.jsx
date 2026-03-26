@@ -56,6 +56,9 @@ export default function App() {
           <Route path="review/:token" element={<ReviewPage />} />
         </Route>
 
+        {/* Standalone review page — no navbar/footer */}
+        <Route path="/review" element={<ReviewPage />} />
+
         {/* Admin routes */}
         <Route
           path="/admin"
