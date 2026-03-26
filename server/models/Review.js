@@ -7,8 +7,8 @@ const reviewSchema = new mongoose.Schema(
     token: { type: String, unique: true, index: true }, // private link token
     name: { type: String, required: true, trim: true },
     location: { type: String, trim: true },
-    rating: { type: Number, required: true, min: 1, max: 5 },
-    text: { type: String, required: true, trim: true },
+    rating: { type: Number, min: 1, max: 5, default: 5 },
+    text: { type: String, trim: true, default: '' },
     isApproved: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
   },
