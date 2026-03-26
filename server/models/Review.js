@@ -8,7 +8,7 @@ const reviewSchema = new mongoose.Schema(
     location: { type: String, trim: true, default: '' },
     rating: { type: Number, required: true, min: 1, max: 5 },
     text: { type: String, required: true, trim: true },
-    isApproved: { type: Boolean, default: false },
+    isApproved: { type: Boolean, default: true },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
