@@ -45,11 +45,11 @@ export default function HomePage() {
     { icon: Truck, title: 'Fresh Delivery', desc: 'Direct from farm to your doorstep, always fresh.' },
   ];
 
-  const testimonials = [
-    { name: 'Priya R.', text: 'The Ragi Malt is truly exceptional — light, nutritious, and filling. My whole family loves it!', rating: 5, location: 'Bangalore' },
-    { name: 'Suresh M.', text: 'Godhi Hurihittu tastes exactly like what my grandmother used to make. Absolutely divine.', rating: 5, location: 'Mysore' },
-    { name: 'Kavitha N.', text: 'The Kids Protein Mix is a blessing. My children love it and it keeps them energized all day!', rating: 5, location: 'Hubli' },
-  ];
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    api.get('/reviews').then(r => setReviews(r.data.data.reviews)).catch(() => {});
+  }, []);
 
   const whatsappHref = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent("Hello Annakshetram! I'd like to place an order.")}`;
   const categoryEmojis = ['🌾', '🌿', '🫙', '🌶️', '🍯'];
@@ -185,7 +185,7 @@ export default function HomePage() {
               {/* Sanskrit tagline */}
               <div className="flex items-center gap-3 mb-5">
                 <div className="h-px flex-1 max-w-[40px]" style={{ background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.5))' }} />
-                <p className="text-accent/70 text-xs tracking-[0.2em] uppercase font-medium">सात्विकं जीवनम् · शुद्धं भोजनम्</p>
+                <p className="text-accent/70 text-xs tracking-[0.2em] uppercase font-medium">शुद्धं भोजनम् · सात्विकं जीवनम्</p>
                 <div className="h-px flex-1 max-w-[40px]" style={{ background: 'linear-gradient(90deg, rgba(201,168,76,0.5), transparent)' }} />
               </div>
 
@@ -837,8 +837,10 @@ export default function HomePage() {
             <p className="section-subtitle">Real experiences from real people</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <div key={t.name} className="card p-6 hover:-translate-y-2 transition-all duration-300 reveal" style={{ transitionDelay: `${i * 120}ms` }}>
+            {reviews.length === 0 ? (
+              <div className="md:col-span-3 text-center py-10 text-text-light text-sm italic">No reviews yet. Be the first!</div>
+            ) : reviews.map((t, i) => (
+              <div key={t.reviewId} className="card p-6 hover:-translate-y-2 transition-all duration-300 reveal" style={{ transitionDelay: `${i * 120}ms` }}>
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-4 h-4 text-accent" fill="currentColor" />)}
                 </div>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import {
-  LayoutDashboard, Package, Tag, Image, Users, Settings, LogOut, Menu, X, ChevronRight, ChevronLeft
+  LayoutDashboard, Package, Tag, Image, Users, Settings, LogOut, Menu, X, ChevronRight, ChevronLeft, Star
 } from 'lucide-react';
 import useAuthStore from '../store/useAuthStore';
 import logo from '../assets/English.png';
@@ -11,6 +11,7 @@ const navItems = [
   { to: '/admin/products', label: 'Products', icon: Package },
   { to: '/admin/categories', label: 'Categories', icon: Tag },
   { to: '/admin/banners', label: 'Banners', icon: Image },
+  { to: '/admin/reviews', label: 'Reviews', icon: Star },
   { to: '/admin/users', label: 'Users', icon: Users },
   { to: '/admin/settings', label: 'Settings', icon: Settings },
 ];

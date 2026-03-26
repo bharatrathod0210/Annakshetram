@@ -13,6 +13,7 @@ import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
+import ReviewPage from './pages/ReviewPage';
 
 // Admin Pages
 import AdminLayout from './admin/AdminLayout';
@@ -22,6 +23,7 @@ import AdminCategories from './admin/pages/AdminCategories';
 import AdminBanners from './admin/pages/AdminBanners';
 import AdminUsers from './admin/pages/AdminUsers';
 import AdminSettings from './admin/pages/AdminSettings';
+import AdminReviews from './admin/pages/AdminReviews';
 
 export default function App() {
   return (
@@ -51,6 +53,7 @@ export default function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="review/:token" element={<ReviewPage />} />
         </Route>
 
         {/* Admin routes */}
@@ -62,6 +65,7 @@ export default function App() {
           <Route path="products" element={<AdminProducts />} />
           <Route path="categories" element={<AdminCategories />} />
           <Route path="banners" element={<AdminBanners />} />
+          <Route path="reviews" element={<AdminReviews />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
