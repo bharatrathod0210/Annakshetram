@@ -50,9 +50,21 @@ export default function ProductDetailPage() {
   };
 
   const handleWhatsApp = () => {
+    if (!isAuthenticated()) {
+      toast.error('Please login to place an order');
+      navigate(`/login?redirect=/products/${slug}`);
+      return;
+    }
+    const { user } = useAuthStore.getState();
+    if (!user?.address?.line1) {
+      toast.error('Please add a delivery address first');
+      navigate('/profile');
+      return;
+    }
     const url = generateWhatsAppMessage(
       [{ name: product.name, unit: product.unit, price: product.price, quantity }],
-      settings.whatsappNumber
+      settings.whatsappNumber,
+      user.address
     );
     window.open(url, '_blank');
   };

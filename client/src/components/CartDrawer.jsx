@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { X, ShoppingCart, Plus, Minus, Trash2, MessageCircle, MapPin, Pencil, Check, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import useCartStore from '../store/useCartStore';
 import useSettingsStore from '../store/useSettingsStore';
 import useAuthStore from '../store/useAuthStore';
@@ -21,7 +22,8 @@ const emptyAddr = { fullName: '', phone: '', line1: '', line2: '', city: '', sta
 export default function CartDrawer() {
   const { items, isOpen, setOpen, updateQuantity, removeItem, getTotal } = useCartStore();
   const { settings } = useSettingsStore();
-  const { user, updateUser } = useAuthStore();
+  const { user, updateUser, isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
 
   const [step, setStep] = useState('cart'); // cart | address
   const [addrForm, setAddrForm] = useState(emptyAddr);
@@ -53,6 +55,12 @@ export default function CartDrawer() {
 
   const handleWhatsApp = () => {
     if (items.length === 0) return;
+    if (!isAuthenticated()) {
+      toast.error('Please login to place an order');
+      setOpen(false);
+      navigate('/login');
+      return;
+    }
     if (!savedAddr) {
       toast.error('Please add a delivery address first');
       setAddrForm(emptyAddr);

@@ -32,9 +32,21 @@ export default function ProductCard({ product }) {
   const handleWhatsAppOrder = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!isAuthenticated()) {
+      toast.error('Please login to place an order');
+      navigate(`/login?redirect=/products/${product.slug}`);
+      return;
+    }
+    const { user } = useAuthStore.getState();
+    if (!user?.address?.line1) {
+      toast.error('Please add a delivery address first');
+      navigate('/profile');
+      return;
+    }
     const url = generateWhatsAppMessage(
       [{ name: product.name, unit: product.unit, price: product.price, quantity: 1 }],
-      settings.whatsappNumber
+      settings.whatsappNumber,
+      user.address
     );
     window.open(url, '_blank');
   };
