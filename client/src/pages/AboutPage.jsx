@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 export default function AboutPage() {
   const values = [
     { icon: Leaf, title: 'Time-Tested Recipes', desc: 'Rooted in recipes passed down through generations, straight from our home kitchen.' },
-    { icon: Shield, title: 'Clean & Honest Ingredients', desc: 'No shortcuts, no fillers — every ingredient is chosen with care and transparency.' },
+    { icon: Shield, title: 'Clean & Honest Ingredients', desc: 'No shortcuts, no fillers â€” every ingredient is chosen with care and transparency.' },
     { icon: Award, title: 'Traditional Roasting Methods', desc: 'Slow-roasted the old way, preserving the natural aroma, taste, and nutrition.' },
-    { icon: Heart, title: 'Satvik Principles', desc: 'No onion, no garlic — pure satvik food prepared with devotion and mindfulness.' },
+    { icon: Heart, title: 'Satvik Principles', desc: 'No onion, no garlic â€” pure satvik food prepared with devotion and mindfulness.' },
     { icon: Sprout, title: 'Nourishment for Body & Mind', desc: 'Food that feeds not just the body, but brings calm, clarity, and energy to daily life.' },
   ];
 
@@ -110,7 +110,7 @@ export default function AboutPage() {
             </g>
             {/* Corner leaves */}
             <g opacity="0.35">
-              {/* TL — 2 leaves, spread apart */}
+              {/* TL â€” 2 leaves, spread apart */}
               <g transform="translate(-5,0) rotate(-28)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -120,7 +120,7 @@ export default function AboutPage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* TR — 2 leaves, spread apart */}
+              {/* TR â€” 2 leaves, spread apart */}
               <g transform="translate(1205,0) rotate(208)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -130,7 +130,7 @@ export default function AboutPage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* BL — 2 leaves, spread apart */}
+              {/* BL â€” 2 leaves, spread apart */}
               <g transform="translate(-5,600) rotate(152)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -140,7 +140,7 @@ export default function AboutPage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* BR — 2 leaves, spread apart */}
+              {/* BR â€” 2 leaves, spread apart */}
               <g transform="translate(1205,600) rotate(-28)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -150,7 +150,7 @@ export default function AboutPage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* CENTER scattered — 4 leaves, well spaced, no overlap */}
+              {/* CENTER scattered â€” 4 leaves, well spaced, no overlap */}
               <g transform="translate(280,300) rotate(20)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
@@ -185,13 +185,13 @@ export default function AboutPage() {
       <section className="py-16 bg-white">
         <div className="container-custom max-w-3xl mx-auto">
           <div className="text-center mb-10">
-            <div className="text-[#E0BE7A] text-2xl mb-2">✦</div>
+            <div className="text-[#E0BE7A] text-2xl mb-2">âœ¦</div>
             <h2 className="font-heading text-3xl font-bold text-[#6B1414]">It began at our dining table!</h2>
           </div>
 
           <div className="space-y-5 text-[#4A3728] leading-relaxed text-[15px]">
             <p>
-              Annakshetram began not in a factory or an office — it began at our dining table.
+              Annakshetram began not in a factory or an office â€” it began at our dining table.
             </p>
             <p>
               One day, during a casual conversation at home, my husband suggested, with a playful seriousness,{' '}
@@ -206,7 +206,7 @@ export default function AboutPage() {
             </div>
 
             <p>
-              Soon after, my sister — who has always been a big admirer of my cooking — encouraged me again. With both of them believing in me more than I believed in myself, I finally decided to try.
+              Soon after, my sister â€” who has always been a big admirer of my cooking â€” encouraged me again. With both of them believing in me more than I believed in myself, I finally decided to try.
             </p>
             <p>
               I prepared a few batches and distributed samples to friends and well-wishers, not knowing what to expect.
@@ -216,12 +216,12 @@ export default function AboutPage() {
               <Quote className="w-6 h-6 text-[#E0BE7A] mx-auto mb-2" />
               <p className="text-[#6B1414] font-semibold text-base">The response was overwhelming.</p>
               <p className="text-[#4A3728] text-sm mt-1">
-                People didn't just appreciate the taste — they appreciated the homely flavor, traditional authenticity, and purity they had been missing in everyday food.
+                People didn't just appreciate the taste â€” they appreciated the homely flavor, traditional authenticity, and purity they had been missing in everyday food.
               </p>
             </div>
 
             <p>
-              As the demand slowly increased, my mother stepped into the kitchen with me and helped prepare the first larger batches. Together, we worked just the way food has always been prepared in our homes — with patience, care, and devotion.
+              As the demand slowly increased, my mother stepped into the kitchen with me and helped prepare the first larger batches. Together, we worked just the way food has always been prepared in our homes â€” with patience, care, and devotion.
             </p>
 
             <div className="border-l-4 border-[#6B1414] pl-5 py-2">
@@ -229,14 +229,14 @@ export default function AboutPage() {
             </div>
 
             <p>
-              What started as a simple suggestion across the dining table slowly grew into a heartfelt effort to share satvik, traditional, clean food with more families — just the way it is prepared in our homes.
+              What started as a simple suggestion across the dining table slowly grew into a heartfelt effort to share satvik, traditional, clean food with more families â€” just the way it is prepared in our homes.
             </p>
 
             <div className="bg-gradient-to-r from-[#6B1414] to-[#6B1414] rounded-lg p-6 text-center text-white">
               <p className="font-heading text-lg font-semibold leading-relaxed">
                 "To serve food with sincerity, nourishment, and devotion."
               </p>
-              <p className="text-white/70 text-sm mt-2">— The intention behind every Annakshetram product</p>
+              <p className="text-white/70 text-sm mt-2">The intention behind every Annakshetram product</p>
             </div>
           </div>
         </div>
@@ -246,7 +246,7 @@ export default function AboutPage() {
       <section className="py-16 bg-[#FDF8F0]">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <div className="text-[#E0BE7A] text-2xl mb-2">✦</div>
+            <div className="text-[#E0BE7A] text-2xl mb-2"></div>
             <h2 className="font-heading text-3xl font-bold text-[#6B1414] mb-3">Our products are rooted in</h2>
             <p className="text-[#6B5744] max-w-lg mx-auto text-sm">
               Every preparation carries the warmth of a home kitchen and the strength of ancestral wisdom.
@@ -262,11 +262,11 @@ export default function AboutPage() {
                 <p className="text-[#6B5744] text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
-            {/* 6th card — belief statement */}
+            {/* 6th card â€” belief statement */}
             <div className="bg-[#6B1414] rounded-lg p-6 flex flex-col justify-center">
               <p className="text-[#E0BE7A] font-heading text-base font-semibold mb-2">We believe...</p>
               <p className="text-white/85 text-sm leading-relaxed">
-                When food is prepared with purity, it becomes more than nutrition — it becomes prasadam-like energy for daily life.
+                When food is prepared with purity, it becomes more than nutrition â€” it becomes prasadam-like energy for daily life.
               </p>
             </div>
           </div>
@@ -276,7 +276,7 @@ export default function AboutPage() {
       {/* Closing Statement */}
       <section className="py-16 bg-white">
         <div className="container-custom max-w-2xl mx-auto text-center">
-          <div className="text-[#E0BE7A] text-2xl mb-6">✦</div>
+          <div className="text-[#E0BE7A] text-2xl mb-6"></div>
           <h2 className="font-heading text-2xl font-bold text-[#6B1414] mb-4">Annakshetram is not just a brand.</h2>
           <div className="space-y-3 text-[#4A3728] text-base leading-relaxed">
             <p>It is a return to mindful eating.</p>

@@ -120,7 +120,7 @@ export default function ContactPage() {
             </g>
             {/* Corner leaves */}
             <g opacity="0.35">
-              {/* TL — 2 leaves, spread apart */}
+              {/* TL to 2 leaves, spread apart */}
               <g transform="translate(-5,0) rotate(-28)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -130,7 +130,7 @@ export default function ContactPage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* TR — 2 leaves, spread apart */}
+              {/* TR to 2 leaves, spread apart */}
               <g transform="translate(1205,0) rotate(208)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -140,7 +140,7 @@ export default function ContactPage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* BL — 2 leaves, spread apart */}
+              {/* BL to 2 leaves, spread apart */}
               <g transform="translate(-5,600) rotate(152)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -150,7 +150,7 @@ export default function ContactPage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* BR — 2 leaves, spread apart */}
+              {/* BR to 2 leaves, spread apart */}
               <g transform="translate(1205,600) rotate(-28)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -160,7 +160,7 @@ export default function ContactPage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* CENTER scattered — 4 leaves, well spaced, no overlap */}
+              {/* CENTER scattered to 4 leaves, well spaced, no overlap */}
               <g transform="translate(280,300) rotate(20)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
@@ -245,7 +245,7 @@ export default function ContactPage() {
               <div className="card p-5">
                 <h3 className="font-semibold text-primary mb-2">Business Hours</h3>
                 <ul className="space-y-1 text-sm text-text-secondary">
-                  <li className="flex justify-between"><span>Monday — Saturday</span><span className="text-primary font-medium">9:00 AM – 7:00 PM</span></li>
+                  <li className="flex justify-between"><span>Monday to Saturday</span><span className="text-primary font-medium">9:00 AM to 7:00 PM</span></li>
                   <li className="flex justify-between"><span>Sunday</span><span className="text-text-light">9:00 AM - 1:00PM</span></li>
                 </ul>
               </div>

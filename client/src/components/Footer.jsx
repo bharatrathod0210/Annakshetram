@@ -113,7 +113,7 @@ export default function Footer() {
           </g>
           {/* Corner leaves */}
           <g opacity="0.35">
-            {/* TL — 2 leaves, spread apart */}
+            {/* TL â€” 2 leaves, spread apart */}
             <g transform="translate(-5,0) rotate(-28)">
               <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
               <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -123,7 +123,7 @@ export default function Footer() {
               <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
               <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
             </g>
-            {/* TR — 2 leaves, spread apart */}
+            {/* TR â€” 2 leaves, spread apart */}
             <g transform="translate(1205,0) rotate(208)">
               <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
               <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -133,7 +133,7 @@ export default function Footer() {
               <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
               <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
             </g>
-            {/* BL — 2 leaves, spread apart */}
+            {/* BL â€” 2 leaves, spread apart */}
             <g transform="translate(-5,400) rotate(152)">
               <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
               <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -143,7 +143,7 @@ export default function Footer() {
               <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
               <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
             </g>
-            {/* BR — 2 leaves, spread apart */}
+            {/* BR â€” 2 leaves, spread apart */}
             <g transform="translate(1205,400) rotate(-28)">
               <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
               <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -153,7 +153,7 @@ export default function Footer() {
               <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
               <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
             </g>
-            {/* CENTER scattered — 4 leaves, well spaced, no overlap */}
+            {/* CENTER scattered â€” 4 leaves, well spaced, no overlap */}
             <g transform="translate(280,200) rotate(20)">
               <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
               <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
@@ -203,7 +203,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Categories — dynamic from admin */}
+          {/* Categories â€” dynamic from admin */}
           <div>
             <h3 className="font-heading text-lg font-semibold text-accent mb-4">Categories</h3>
             <ul className="space-y-2">
@@ -220,7 +220,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Our Products — dynamic from admin, max 5 */}
+          {/* Our Products â€” dynamic from admin, max 5 */}
           <div>
             <h3 className="font-heading text-lg font-semibold text-accent mb-4">Our Products</h3>
             <ul className="space-y-2">
@@ -238,7 +238,7 @@ export default function Footer() {
                     <li>
                       <Link to="/products" className="text-accent hover:text-accent-light transition-colors text-sm flex items-center gap-1 group font-semibold">
                         <span className="w-1.5 h-1.5 rounded-full bg-accent group-hover:bg-accent-light transition-colors flex-shrink-0" />
-                        More →
+                        More â†’
                       </Link>
                     </li>
                   )}
@@ -274,7 +274,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-cream/10 mt-10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-cream/50 text-sm">© {year} Annakshetram. All rights reserved.</p>
+          <p className="text-cream/50 text-sm">Â© {year} Annakshetram. All rights reserved.</p>
           <div className="flex items-center gap-1 text-cream/40 text-xs">
             <logo className="w-3 h-3 text-accent/60" />
             <span>100% Natural • Zero Preservatives • Satvik Certified</span>

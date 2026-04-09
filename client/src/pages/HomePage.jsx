@@ -52,7 +52,7 @@ export default function HomePage() {
   }, []);
 
   const whatsappHref = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent("Hello Annakshetram! I'd like to place an order.")}`;
-  const categoryEmojis = ['??', '??', '??', '???', '??'];
+  const categoryEmojis = ['üåæ', 'üåø', 'ü´ô', 'üå∂Ô∏è', 'üçØ'];
 
   return (
     <div>
@@ -61,11 +61,11 @@ export default function HomePage() {
         className="relative min-h-screen flex items-center overflow-hidden"
         style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        {/* Deep cinematic overlay ó multi-layer */}
+        {/* Deep cinematic overlay ‚Äî multi-layer */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#1a0505]/90 via-[#6B1414]/70 to-[#0d0202]/85" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0d0202]/60 via-transparent to-transparent" />
 
-        {/* Animated SVG mandala / geometric ring ó center-right */}
+        {/* Animated SVG mandala / geometric ring ‚Äî center-right */}
         <div className="absolute right-[-6%] top-1/2 -translate-y-1/2 w-[680px] h-[680px] pointer-events-none opacity-20 hidden lg:block">
           <svg viewBox="0 0 680 680" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
             <defs>
@@ -153,7 +153,7 @@ export default function HomePage() {
         <div className="container-custom relative z-10 py-24">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-12 xl:gap-20 items-center">
 
-            {/* LEFT ó Content */}
+            {/* LEFT ‚Äî Content */}
             <div className="animate-fade-in-up">
 
               {/* Badge */}
@@ -168,7 +168,7 @@ export default function HomePage() {
                 <div className="w-5 h-5 rounded-full bg-accent/30 flex items-center justify-center">
                   <Leaf className="w-3 h-3 text-accent" />
                 </div>
-                <span className="text-accent text-xs font-semibold tracking-widest uppercase">Shuddham Bhojanam ï Satvikam Jeevanam</span>
+                <span className="text-accent text-xs font-semibold tracking-widest uppercase">Shuddham Bhojanam ‚Ä¢ Satvikam Jeevanam</span>
                 <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               </div>
 
@@ -185,12 +185,12 @@ export default function HomePage() {
               {/* Sanskrit tagline */}
               <div className="flex items-center gap-3 mb-5">
                 <div className="h-px flex-1 max-w-[40px]" style={{ background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.5))' }} />
-                <p className="text-accent/70 text-xs tracking-[0.2em] uppercase font-medium">?????? ?????? ∑ ???????? ??????</p>
+                <p className="text-accent/70 text-xs tracking-[0.2em] uppercase font-medium">Shuddham Bhojanam ‚Ä¢ Satvikam Jeevanam</p>
                 <div className="h-px flex-1 max-w-[40px]" style={{ background: 'linear-gradient(90deg, rgba(201,168,76,0.5), transparent)' }} />
               </div>
 
               <p className="text-cream/75 text-lg md:text-xl mb-10 leading-relaxed max-w-lg">
-                Embrace the ancient wisdom of pure, wholesome eating ó grown without chemicals, crafted without compromise, delivered with love.
+                Embrace the ancient wisdom of pure, wholesome eating ‚Äî grown without chemicals, crafted without compromise, delivered with love.
               </p>
 
               {/* CTA Buttons */}
@@ -255,7 +255,7 @@ export default function HomePage() {
                 <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
                 <div className="text-center">
                   <div className="relative inline-block mb-4">
-                    <div className="text-7xl">??</div>
+                    <div className="text-7xl">üåø</div>
                     <div className="absolute inset-0 rounded-full blur-xl opacity-40"
                       style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.6), transparent)' }} />
                   </div>
@@ -273,8 +273,8 @@ export default function HomePage() {
               {/* Two mini cards */}
               <div className="flex gap-3 w-full">
                 {[
-                  { emoji: '??', title: 'Ready to use masala powder', delay: '1s' },
-                  { emoji: '??', title: 'Premium Grade', sub: 'Certified Pure', delay: '2s' },
+                  { emoji: 'üßÇ', title: 'Ready to use masala powder', delay: '1s' },
+                  { emoji: 'üèÜ', title: 'Premium Grade', sub: 'Certified Pure', delay: '2s' },
                 ].map(({ emoji, title, sub, delay }) => (
                   <div key={title} className="flex-1 rounded-xl p-4 flex items-center gap-3 animate-float-slow"
                     style={{
@@ -359,7 +359,7 @@ export default function HomePage() {
         <section className="py-20 bg-cream relative overflow-hidden">
           <div className="container-custom relative z-10">
             <div className="text-center mb-14 reveal">
-              <div className="ornament mb-3"><span className="text-accent text-sm">?</span></div>
+              <div className="ornament mb-3"><span className="text-accent text-sm">‚ú¶</span></div>
               <h2 className="section-title">Shop by Category</h2>
               <p className="section-subtitle">Discover our range of pure, traditional products</p>
             </div>
@@ -408,7 +408,7 @@ export default function HomePage() {
         <section className="py-20 bg-white">
           <div className="container-custom">
             <div className="text-center mb-14 reveal">
-              <div className="ornament mb-3"><span className="text-accent text-sm">?</span></div>
+              <div className="ornament mb-3"><span className="text-accent text-sm">‚ú¶</span></div>
               <h2 className="section-title">Our Bestsellers</h2>
               <p className="section-subtitle">Loved by hundreds of families across India</p>
             </div>
@@ -552,7 +552,7 @@ export default function HomePage() {
             </g>
             {/* Corner leaves */}
             <g opacity="0.35">
-              {/* TL ó 2 leaves, spread apart */}
+              {/* TL ‚Äî 2 leaves, spread apart */}
               <g transform="translate(-5,0) rotate(-28)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -562,7 +562,7 @@ export default function HomePage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* TR ó 2 leaves, spread apart */}
+              {/* TR ‚Äî 2 leaves, spread apart */}
               <g transform="translate(1205,0) rotate(208)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -572,7 +572,7 @@ export default function HomePage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* BL ó 2 leaves, spread apart */}
+              {/* BL ‚Äî 2 leaves, spread apart */}
               <g transform="translate(-5,600) rotate(152)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -582,7 +582,7 @@ export default function HomePage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* BR ó 2 leaves, spread apart */}
+              {/* BR ‚Äî 2 leaves, spread apart */}
               <g transform="translate(1205,600) rotate(-28)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -592,7 +592,7 @@ export default function HomePage() {
                 <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* CENTER scattered ó 4 leaves, well spaced, no overlap */}
+              {/* CENTER scattered ‚Äî 4 leaves, well spaced, no overlap */}
               <g transform="translate(280,300) rotate(20)">
                 <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
                 <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
@@ -617,7 +617,7 @@ export default function HomePage() {
 
         <div className="container-custom relative z-10">
           <div className="text-center mb-14 reveal">
-            <div className="ornament mb-3"><span className="text-accent text-sm">?</span></div>
+            <div className="ornament mb-3"><span className="text-accent text-sm">‚ú¶</span></div>
             <h2 className="font-heading text-4xl md:text-5xl font-bold text-cream mb-3">
               Why Choose <span className="text-gradient-gold">Annakshetram?</span>
             </h2>
@@ -628,10 +628,10 @@ export default function HomePage() {
             {/* Left - Feature Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 reveal">
               {[
-                ['??', 'Farmer Direct', 'We work directly with organic farmers, ensuring fair prices and fresh produce.'],
-                ['??', 'Chemical Free', 'Zero pesticides, zero chemicals ó grown the way nature intended.'],
-                ['?', 'Eco Packaging', 'Sustainable, minimal packaging that respects our planet.'],
-                ['??', 'Health First', 'No artificial additives, colors, or preservatives - ever.'],
+                ['üå±', 'Farmer Direct', 'We work directly with organic farmers, ensuring fair prices and fresh produce.'],
+                ['üåø', 'Chemical Free', 'Zero pesticides, zero chemicals ‚Äî grown the way nature intended.'],
+                ['‚ôªÔ∏è', 'Eco Packaging', 'Sustainable, minimal packaging that respects our planet.'],
+                ['üíö', 'Health First', 'No artificial additives, colors, or preservatives - ever.'],
               ].map(([emoji, title, desc]) => (
                 <div key={title} className="rounded-xl p-5 border border-white/10 hover:border-accent/50 hover:-translate-y-1 transition-all duration-300 group" style={{ background: 'rgba(255,255,255,0.06)' }}>
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3 text-xl" style={{ background: 'rgba(201,168,76,0.15)' }}>{emoji}</div>
@@ -644,29 +644,29 @@ export default function HomePage() {
             {/* Right - Stats */}
             <div className="flex flex-col gap-4 reveal">
               <div className="rounded-xl p-6 border border-white/10 flex items-center gap-5" style={{ background: 'rgba(255,255,255,0.06)' }}>
-                <div className="text-4xl">??</div>
+                <div className="text-4xl">üåø</div>
                 <div>
                   <p className="font-heading text-4xl font-bold text-gradient-gold">100%</p>
-                  <p className="text-cream/65 text-sm mt-0.5">Organic Certified ó every single product</p>
+                  <p className="text-cream/65 text-sm mt-0.5">Organic Certified ‚Äî every single product</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="rounded-xl p-5 border border-white/10 text-center" style={{ background: 'rgba(255,255,255,0.06)' }}>
-                  <p className="text-3xl mb-2">??</p>
+                  <p className="text-3xl mb-2">‚≠ê</p>
                   <p className="font-heading text-3xl font-bold text-gradient-gold">5+</p>
                   <p className="text-cream/60 text-xs mt-1">Years of Trust</p>
                 </div>
                 <div className="rounded-xl p-5 border border-white/10 text-center" style={{ background: 'rgba(255,255,255,0.06)' }}>
-                  <p className="text-3xl mb-2">????????</p>
+                  <p className="text-3xl mb-2">üè†</p>
                   <p className="font-heading text-3xl font-bold text-gradient-gold">500+</p>
                   <p className="text-cream/60 text-xs mt-1">Families Served</p>
                 </div>
               </div>
               <div className="rounded-xl p-6 border border-accent/30 flex items-center gap-5" style={{ background: 'rgba(201,168,76,0.08)' }}>
-                <div className="text-4xl">??</div>
+                <div className="text-4xl">üõ°Ô∏è</div>
                 <div>
                   <p className="font-heading text-4xl font-bold text-gradient-gold">0</p>
-                  <p className="text-cream/65 text-sm mt-0.5">Preservatives ó pure as nature</p>
+                  <p className="text-cream/65 text-sm mt-0.5">Preservatives ‚Äî pure as nature</p>
                 </div>
               </div>
             </div>
@@ -770,7 +770,7 @@ export default function HomePage() {
             </g>
             {/* Corner leaves */}
             <g opacity="0.25">
-              {/* TL ó 2 leaves, spread apart */}
+              {/* TL ‚Äî 2 leaves, spread apart */}
               <g transform="translate(-5,0) rotate(-28)">
                 <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -780,7 +780,7 @@ export default function HomePage() {
                 <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* TR ó 2 leaves, spread apart */}
+              {/* TR ‚Äî 2 leaves, spread apart */}
               <g transform="translate(1205,0) rotate(208)">
                 <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -790,7 +790,7 @@ export default function HomePage() {
                 <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* BL ó 2 leaves, spread apart */}
+              {/* BL ‚Äî 2 leaves, spread apart */}
               <g transform="translate(-5,600) rotate(152)">
                 <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -800,7 +800,7 @@ export default function HomePage() {
                 <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* BR ó 2 leaves, spread apart */}
+              {/* BR ‚Äî 2 leaves, spread apart */}
               <g transform="translate(1205,600) rotate(-28)">
                 <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                 <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -810,7 +810,7 @@ export default function HomePage() {
                 <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                 <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
               </g>
-              {/* CENTER scattered ó 4 leaves, well spaced, no overlap */}
+              {/* CENTER scattered ‚Äî 4 leaves, well spaced, no overlap */}
               <g transform="translate(280,300) rotate(20)">
                 <path fill="none" stroke="#8B1A1A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
                 <line stroke="#6B1414" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
@@ -832,7 +832,7 @@ export default function HomePage() {
         </div>
         <div className="container-custom relative z-10">
           <div className="text-center mb-14 reveal">
-            <div className="ornament mb-3"><span className="text-accent text-sm">?</span></div>
+            <div className="ornament mb-3"><span className="text-accent text-sm">‚ú¶</span></div>
             <h2 className="section-title">What Our Families Say</h2>
             <p className="section-subtitle">Real experiences from real people</p>
           </div>
@@ -978,7 +978,7 @@ export default function HomePage() {
                 </g>
                 {/* Corner leaves */}
                 <g opacity="0.35">
-                  {/* TL ó 2 leaves, spread apart */}
+                  {/* TL ‚Äî 2 leaves, spread apart */}
                   <g transform="translate(-5,0) rotate(-28)">
                     <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                     <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -988,7 +988,7 @@ export default function HomePage() {
                     <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                     <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
                   </g>
-                  {/* TR ó 2 leaves, spread apart */}
+                  {/* TR ‚Äî 2 leaves, spread apart */}
                   <g transform="translate(1205,0) rotate(208)">
                     <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                     <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -998,7 +998,7 @@ export default function HomePage() {
                     <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                     <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
                   </g>
-                  {/* BL ó 2 leaves, spread apart */}
+                  {/* BL ‚Äî 2 leaves, spread apart */}
                   <g transform="translate(-5,500) rotate(152)">
                     <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                     <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -1008,7 +1008,7 @@ export default function HomePage() {
                     <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                     <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
                   </g>
-                  {/* BR ó 2 leaves, spread apart */}
+                  {/* BR ‚Äî 2 leaves, spread apart */}
                   <g transform="translate(1205,500) rotate(-28)">
                     <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
                     <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
@@ -1018,7 +1018,7 @@ export default function HomePage() {
                     <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
                     <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
                   </g>
-                  {/* CENTER scattered ó 4 leaves, well spaced, no overlap */}
+                  {/* CENTER scattered ‚Äî 4 leaves, well spaced, no overlap */}
                   <g transform="translate(280,250) rotate(20)">
                     <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
                     <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
