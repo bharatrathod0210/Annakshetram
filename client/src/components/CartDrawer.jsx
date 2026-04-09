@@ -53,6 +53,12 @@ export default function CartDrawer() {
 
   const handleWhatsApp = () => {
     if (items.length === 0) return;
+    if (!savedAddr) {
+      toast.error('Please add a delivery address first');
+      setAddrForm(emptyAddr);
+      setStep('address');
+      return;
+    }
     const url = generateWhatsAppMessage(items, settings.whatsappNumber, savedAddr);
     window.open(url, '_blank');
   };
