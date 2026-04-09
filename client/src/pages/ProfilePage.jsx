@@ -1,9 +1,17 @@
 import { useState } from 'react';
-import { User, Phone, Mail, Lock, ShieldCheck, LogOut, Save, Eye, EyeOff } from 'lucide-react';
+import { User, Phone, Mail, Lock, ShieldCheck, LogOut, Save, Eye, EyeOff, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import useAuthStore from '../store/useAuthStore';
 import api from '../lib/api';
+
+const STATES = [
+  'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat',
+  'Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh',
+  'Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab',
+  'Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh',
+  'Uttarakhand','West Bengal','Delhi','Jammu & Kashmir','Ladakh',
+];
 
 export default function ProfilePage() {
   const { user, logout, updateUser } = useAuthStore();
@@ -11,9 +19,19 @@ export default function ProfilePage() {
 
   const [profileForm, setProfileForm] = useState({ name: user?.name || '', phone: user?.phone || '' });
   const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
+  const [addrForm, setAddrForm] = useState({
+    fullName: user?.address?.fullName || '',
+    phone: user?.address?.phone || '',
+    line1: user?.address?.line1 || '',
+    line2: user?.address?.line2 || '',
+    city: user?.address?.city || '',
+    state: user?.address?.state || '',
+    pincode: user?.address?.pincode || '',
+  });
   const [showPw, setShowPw] = useState({ current: false, new: false, confirm: false });
   const [profileLoading, setProfileLoading] = useState(false);
   const [pwLoading, setPwLoading] = useState(false);
+  const [addrLoading, setAddrLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
 
   const handleProfileSave = async (e) => {
@@ -28,6 +46,23 @@ export default function ProfilePage() {
       toast.error(err.response?.data?.message || 'Update failed');
     } finally {
       setProfileLoading(false);
+    }
+  };
+
+  const handleAddressSave = async (e) => {
+    e.preventDefault();
+    const { fullName, phone, line1, city, state, pincode } = addrForm;
+    if (!fullName || !phone || !line1 || !city || !state || !pincode)
+      return toast.error('Please fill all required fields');
+    setAddrLoading(true);
+    try {
+      const res = await api.put('/auth/address', addrForm);
+      updateUser(res.data.data.user);
+      toast.success('Address saved');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to save address');
+    } finally {
+      setAddrLoading(false);
     }
   };
 
@@ -54,6 +89,7 @@ export default function ProfilePage() {
 
   const tabs = [
     { id: 'profile', label: 'Profile', icon: User },
+    { id: 'address', label: 'Address', icon: MapPin },
     { id: 'security', label: 'Security', icon: Lock },
   ];
 
@@ -178,9 +214,70 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* Security Tab */}
-        {activeTab === 'security' && (
+        {/* Address Tab */}
+        {activeTab === 'address' && (
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <h2 className="text-gray-800 font-semibold text-base mb-5 flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-primary" /> Delivery Address
+            </h2>
+            <form onSubmit={handleAddressSave} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                  <input value={addrForm.fullName} onChange={e => setAddrForm({ ...addrForm, fullName: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    placeholder="Recipient name" required />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                  <input value={addrForm.phone} onChange={e => setAddrForm({ ...addrForm, phone: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    placeholder="+91 XXXXX XXXXX" required />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 1 *</label>
+                  <input value={addrForm.line1} onChange={e => setAddrForm({ ...addrForm, line1: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    placeholder="House no, Street, Area" required />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Address Line 2</label>
+                  <input value={addrForm.line2} onChange={e => setAddrForm({ ...addrForm, line2: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    placeholder="Landmark (optional)" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">City *</label>
+                  <input value={addrForm.city} onChange={e => setAddrForm({ ...addrForm, city: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    placeholder="City" required />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Pincode *</label>
+                  <input value={addrForm.pincode} onChange={e => setAddrForm({ ...addrForm, pincode: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                    placeholder="560001" required />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">State *</label>
+                  <select value={addrForm.state} onChange={e => setAddrForm({ ...addrForm, state: e.target.value })}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white" required>
+                    <option value="">Select state</option>
+                    {STATES.map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+              </div>
+              <button type="submit" disabled={addrLoading}
+                className="flex items-center gap-2 bg-primary text-cream px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-60">
+                <Save className="w-4 h-4" />
+                {addrLoading ? 'Saving...' : 'Save Address'}
+              </button>
+            </form>
+          </div>
+        )}
+
+        {/* Security Tab */}
+        {activeTab === 'security' && (          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <h2 className="text-gray-800 font-semibold text-base mb-5 flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-primary" /> Change Password
             </h2>

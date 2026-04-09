@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ShoppingCart, Menu, X, User, LogOut, LayoutDashboard } from 'lucide-react';
+import { ShoppingCart, Menu, X, User, LogOut, LayoutDashboard, Star } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import useAuthStore from '../store/useAuthStore';
 import useCartStore from '../store/useCartStore';
@@ -145,6 +145,13 @@ export default function Navbar() {
                       className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#5C4A3A] hover:bg-[#F3EDE3]"
                     >
                       <User className="w-4 h-4" /> Profile
+                    </Link>
+                    <Link
+                      to="/reviews"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#5C4A3A] hover:bg-[#F3EDE3]"
+                    >
+                      <Star className="w-4 h-4" /> Reviews
                     </Link>
                     <hr className="my-1 border-[#E5D5C0]" />
                     <button

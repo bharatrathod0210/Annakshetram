@@ -38,7 +38,10 @@ const login = async (req, res) => {
     if (!email || !password)
       return res.status(400).json({ success: false, message: 'Please provide email and password' });
 
-    const user = await User.findOne({ email: email.toLowerCase(), isDeleted: false });
+    const user = await User.findOne({
+      $or: [{ email: email.toLowerCase() }, { phone: email }],
+      isDeleted: false,
+    });
     if (!user) return res.status(401).json({ success: false, message: 'Invalid email or password' });
 
     const isMatch = await bcrypt.compare(password, user.passwordHash);
@@ -76,6 +79,24 @@ const updateProfile = async (req, res) => {
   }
 };
 
+// @desc  Save delivery address
+// @route PUT /api/auth/address
+const saveAddress = async (req, res) => {
+  try {
+    const { fullName, phone, line1, line2, city, state, pincode } = req.body;
+    if (!fullName || !phone || !line1 || !city || !state || !pincode)
+      return res.status(400).json({ success: false, message: 'All required address fields must be filled' });
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { address: { fullName, phone, line1, line2: line2 || '', city, state, pincode } },
+      { new: true }
+    );
+    res.json({ success: true, message: 'Address saved', data: { user } });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 // @desc  Change password
 // @route PUT /api/auth/change-password
 const changePassword = async (req, res) => {
@@ -92,4 +113,4 @@ const changePassword = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getMe, updateProfile, changePassword };
+module.exports = { register, login, getMe, updateProfile, saveAddress, changePassword };

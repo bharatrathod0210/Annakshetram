@@ -836,27 +836,47 @@ export default function HomePage() {
             <h2 className="section-title">What Our Families Say</h2>
             <p className="section-subtitle">Real experiences from real people</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {reviews.length === 0 ? (
-              <div className="md:col-span-3 text-center py-10 text-text-light text-sm italic">No reviews yet. Be the first!</div>
-            ) : reviews.map((t, i) => (
-              <div key={t.reviewId} className="card p-6 hover:-translate-y-2 transition-all duration-300 reveal" style={{ transitionDelay: `${i * 120}ms` }}>
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-4 h-4 text-accent" fill="currentColor" />)}
-                </div>
-                <p className="text-text-secondary text-sm leading-relaxed mb-5 italic">"{t.text}"</p>
-                <div className="flex items-center gap-3 border-t border-border pt-4">
-                  <div className="w-10 h-10 bg-gradient-maroon rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-white font-bold text-sm">{t.name[0]}</span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-text-primary text-sm">{t.name}</p>
-                    <p className="text-text-light text-xs">{t.location}</p>
-                  </div>
+
+          {reviews.length === 0 ? (
+            <div className="text-center py-10 text-text-light text-sm italic">No reviews yet. Be the first!</div>
+          ) : (
+            <>
+              {/* Marquee */}
+              <div className="overflow-hidden relative">
+                {/* fade edges */}
+                <div className="absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none" style={{ background: 'linear-gradient(to right, #f5ede0, transparent)' }} />
+                <div className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none" style={{ background: 'linear-gradient(to left, #f5ede0, transparent)' }} />
+                <div className="flex animate-marquee gap-6 w-max">
+                  {[...reviews, ...reviews].map((t, i) => (
+                    <div key={i} className="w-80 flex-shrink-0 bg-white rounded-xl border border-border shadow-card p-6">
+                      <div className="flex items-center gap-1 mb-3">
+                        {[...Array(5)].map((_, s) => (
+                          <Star key={s} className={`w-4 h-4 ${s < t.rating ? 'text-accent' : 'text-gray-200'}`} fill="currentColor" />
+                        ))}
+                      </div>
+                      <p className="text-text-secondary text-sm leading-relaxed mb-5 italic line-clamp-3">"{t.text}"</p>
+                      <div className="flex items-center gap-3 border-t border-border pt-4">
+                        <div className="w-9 h-9 bg-gradient-maroon rounded-full flex items-center justify-center flex-shrink-0">
+                          <span className="text-white font-bold text-sm">{t.name[0]}</span>
+                        </div>
+                        <div>
+                          <p className="font-semibold text-text-primary text-sm">{t.name}</p>
+                          {t.location && <p className="text-text-light text-xs">{t.location}</p>}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+
+              {/* View All button */}
+              <div className="text-center mt-10">
+                <Link to="/reviews" className="btn-outline inline-flex items-center gap-2">
+                  View All Reviews <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </section>
 

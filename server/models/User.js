@@ -13,13 +13,21 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     passwordHash: { type: String, required: true },
     phone: { type: String, trim: true },
+    address: {
+      fullName: { type: String, trim: true, default: '' },
+      phone: { type: String, trim: true, default: '' },
+      line1: { type: String, trim: true, default: '' },
+      line2: { type: String, trim: true, default: '' },
+      city: { type: String, trim: true, default: '' },
+      state: { type: String, trim: true, default: '' },
+      pincode: { type: String, trim: true, default: '' },
+    },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
-// Virtual to hide sensitive fields
 userSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.passwordHash;
