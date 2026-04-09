@@ -22,7 +22,7 @@ export default function HomePage() {
         ]);
         setFeaturedProducts(productRes.data.data.products);
         setCategories(catRes.data.data.categories);
-      } catch {}
+      } catch { }
       finally { setLoading(false); }
     };
     fetchData();
@@ -48,7 +48,7 @@ export default function HomePage() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    api.get('/reviews').then(r => setReviews(r.data.data.reviews)).catch(() => {});
+    api.get('/reviews').then(r => setReviews(r.data.data.reviews)).catch(() => { });
   }, []);
 
   const whatsappHref = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent("Hello Annakshetram! I'd like to place an order.")}`;
@@ -61,263 +61,149 @@ export default function HomePage() {
         className="relative min-h-screen flex items-center overflow-hidden"
         style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        {/* Deep cinematic overlay — multi-layer */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1a0505]/90 via-[#6B1414]/70 to-[#0d0202]/85" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0202]/60 via-transparent to-transparent" />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0d0202]/75 via-[#3a0a0a]/50 to-[#1a0505]/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+        {/* Center + corners light */}
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 55% 55% at 50% 50%, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.4) 100%)' }} />
 
-        {/* Animated SVG mandala / geometric ring — center-right */}
-        <div className="absolute right-[-6%] top-1/2 -translate-y-1/2 w-[680px] h-[680px] pointer-events-none opacity-20 hidden lg:block">
-          <svg viewBox="0 0 680 680" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-            <defs>
-              <radialGradient id="mandalaGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.6"/>
-                <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
-              </radialGradient>
-            </defs>
-            <circle cx="340" cy="340" r="330" stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.5"/>
-            <circle cx="340" cy="340" r="290" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.35"/>
-            <circle cx="340" cy="340" r="240" stroke="#C9A84C" strokeWidth="0.8" strokeOpacity="0.4"/>
-            <circle cx="340" cy="340" r="180" stroke="#E0BE7A" strokeWidth="0.5" strokeOpacity="0.3"/>
-            <circle cx="340" cy="340" r="120" stroke="#C9A84C" strokeWidth="1" strokeOpacity="0.5"/>
-            <circle cx="340" cy="340" r="60" stroke="#E0BE7A" strokeWidth="0.8" strokeOpacity="0.4"/>
-            {/* Rotating outer ring of petals */}
-            <g style={{ transformOrigin: '340px 340px' }}>
-              <animateTransform attributeName="transform" type="rotate" from="0 340 340" to="360 340 340" dur="60s" repeatCount="indefinite"/>
-              {[...Array(12)].map((_, i) => {
-                const angle = (i * 30) * Math.PI / 180;
-                const x = 340 + 290 * Math.cos(angle);
-                const y = 340 + 290 * Math.sin(angle);
-                return <circle key={i} cx={x} cy={y} r="4" fill="#C9A84C" fillOpacity="0.6"/>;
-              })}
-              {[...Array(24)].map((_, i) => {
-                const angle = (i * 15) * Math.PI / 180;
-                const x = 340 + 240 * Math.cos(angle);
-                const y = 340 + 240 * Math.sin(angle);
-                return <circle key={i} cx={x} cy={y} r="2" fill="#E0BE7A" fillOpacity="0.4"/>;
-              })}
-            </g>
-            {/* Counter-rotating inner spokes */}
-            <g style={{ transformOrigin: '340px 340px' }}>
-              <animateTransform attributeName="transform" type="rotate" from="0 340 340" to="-360 340 340" dur="40s" repeatCount="indefinite"/>
-              {[...Array(8)].map((_, i) => {
-                const angle = (i * 45) * Math.PI / 180;
-                const x2 = 340 + 170 * Math.cos(angle);
-                const y2 = 340 + 170 * Math.sin(angle);
-                return <line key={i} x1="340" y1="340" x2={x2} y2={y2} stroke="#C9A84C" strokeWidth="0.6" strokeOpacity="0.35"/>;
-              })}
-            </g>
-            {/* Pulsing center */}
-            <circle cx="340" cy="340" r="20" fill="url(#mandalaGlow)">
-              <animate attributeName="r" values="18;26;18" dur="3s" repeatCount="indefinite"/>
-              <animate attributeName="fillOpacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="340" cy="340" r="8" fill="#C9A84C" fillOpacity="0.8"/>
-          </svg>
-        </div>
+        {/* Subtle gold top line */}
+        <div className="absolute top-0 left-0 right-0 h-[2px]"
+          style={{ background: 'linear-gradient(90deg, transparent 0%, #C9A84C 30%, #E0BE7A 50%, #C9A84C 70%, transparent 100%)' }} />
 
-        {/* Glowing orbs */}
-        <div className="absolute top-[15%] left-[8%] w-72 h-72 rounded-full pointer-events-none animate-float-slow"
-          style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%)' }} />
-        <div className="absolute bottom-[10%] right-[5%] w-96 h-96 rounded-full pointer-events-none animate-float"
-          style={{ background: 'radial-gradient(circle, rgba(107,20,20,0.25) 0%, transparent 70%)' }} />
-        <div className="absolute top-[50%] left-[40%] w-48 h-48 rounded-full pointer-events-none animate-float-slow"
-          style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%)', animationDelay: '2s' }} />
+        {/* Soft glow orbs */}
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none opacity-20"
+          style={{ background: 'radial-gradient(circle, #6B1414 0%, transparent 70%)', filter: 'blur(60px)' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none opacity-15"
+          style={{ background: 'radial-gradient(circle, #C9A84C 0%, transparent 70%)', filter: 'blur(80px)' }} />
 
-        {/* Floating gold particles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[
-            { w: 3, h: 3, top: '12%', left: '18%', delay: '0s', dur: '6s' },
-            { w: 5, h: 5, top: '28%', left: '72%', delay: '1.2s', dur: '8s' },
-            { w: 2, h: 2, top: '55%', left: '9%', delay: '0.5s', dur: '5s' },
-            { w: 4, h: 4, top: '70%', left: '55%', delay: '2s', dur: '7s' },
-            { w: 3, h: 3, top: '40%', left: '85%', delay: '1.8s', dur: '6.5s' },
-            { w: 6, h: 6, top: '82%', left: '30%', delay: '0.8s', dur: '9s' },
-            { w: 2, h: 2, top: '20%', left: '45%', delay: '3s', dur: '5.5s' },
-            { w: 4, h: 4, top: '65%', left: '78%', delay: '1.5s', dur: '7.5s' },
-          ].map((p, i) => (
-            <div key={i} className="absolute rounded-full"
-              style={{
-                width: p.w, height: p.h, top: p.top, left: p.left,
-                background: 'radial-gradient(circle, rgba(201,168,76,0.9), rgba(224,190,122,0.3))',
-                animation: `float ${p.dur} ease-in-out infinite`,
-                animationDelay: p.delay,
-                boxShadow: '0 0 6px rgba(201,168,76,0.6)',
-              }} />
-          ))}
-        </div>
+        <div className="container-custom relative z-10 py-20 lg:py-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-screen">
 
-        {/* Thin gold horizontal line accent */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-
-        <div className="container-custom relative z-10 py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-12 xl:gap-20 items-center">
-
-            {/* LEFT — Content */}
-            <div className="animate-fade-in-up">
-
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2.5 mb-8"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.06))',
-                  border: '1px solid rgba(201,168,76,0.45)',
-                  borderRadius: '50px',
-                  padding: '8px 20px',
-                  backdropFilter: 'blur(8px)',
-                }}>
-                <div className="w-5 h-5 rounded-full bg-accent/30 flex items-center justify-center">
-                  <Leaf className="w-3 h-3 text-accent" />
-                </div>
-                <span className="text-accent text-xs font-semibold tracking-widest uppercase">Shuddham Bhojanam • Satvikam Jeevanam</span>
+            {/* LEFT */}
+            <div className="animate-fade-in-up pt-20 lg:pt-0">
+              <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full"
+                style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.3)' }}>
                 <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                <span className="text-accent text-xs font-medium tracking-[0.15em] uppercase">
+                  Shuddham Bhojanam • Satvikam Jeevanam</span>
               </div>
 
-              {/* Headline */}
-              <h1 className="font-heading font-bold text-cream leading-[1.05] mb-6">
-                <span className="block text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5.2rem] tracking-tight">
-                  Pure. Natural.
-                </span>
-                <span className="block text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5.2rem] tracking-tight text-gradient-gold relative">
-                  Satvik.
-                </span>
+              <h1 className="font-heading font-bold text-cream mb-6" style={{ lineHeight: '1.08' }}>
+                <span className="block text-5xl md:text-6xl xl:text-7xl tracking-tight">Pure.</span>
+                <span className="block text-5xl md:text-6xl xl:text-7xl tracking-tight">Natural.</span>
+                <span className="block text-5xl md:text-6xl xl:text-7xl tracking-tight text-gradient-gold">Satvik.</span>
               </h1>
 
-              {/* Sanskrit tagline */}
-              <div className="flex items-center gap-3 mb-5">
-                <div className="h-px flex-1 max-w-[40px]" style={{ background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.5))' }} />
-                <p className="text-accent/70 text-xs tracking-[0.2em] uppercase font-medium">Shuddham Bhojanam • Satvikam Jeevanam</p>
-                <div className="h-px flex-1 max-w-[40px]" style={{ background: 'linear-gradient(90deg, rgba(201,168,76,0.5), transparent)' }} />
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-px w-12 bg-accent/50" />
+                <span className="text-accent/60 text-xs tracking-[0.25em] uppercase font-light">शुद्धं भोजनम् • सात्विकं जीवनम्</span>
               </div>
 
-              <p className="text-cream/75 text-lg md:text-xl mb-10 leading-relaxed max-w-lg">
-                Embrace the ancient wisdom of pure, wholesome eating — grown without chemicals, crafted without compromise, delivered with love.
+              <p className="text-cream/65 text-base md:text-lg leading-relaxed mb-10 max-w-md font-light">
+                Ancient wisdom, modern purity. Grown without chemicals, crafted without compromise — straight from our kitchen to yours.
               </p>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 mb-12">
+              <div className="flex flex-wrap gap-3 mb-12">
                 <Link to="/products"
-                  className="group relative overflow-hidden flex items-center gap-2.5 text-primary-dark font-bold px-8 py-4 rounded-xl text-base transition-all duration-300"
-                  style={{
-                    background: 'linear-gradient(135deg, #C9A84C 0%, #E0BE7A 50%, #C9A84C 100%)',
-                    backgroundSize: '200% 100%',
-                    boxShadow: '0 4px 24px rgba(201,168,76,0.45), inset 0 1px 0 rgba(255,255,255,0.3)',
-                  }}>
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                  <ShoppingBag className="w-5 h-5 relative z-10" />
-                  <span className="relative z-10">Shop Now</span>
+                  className="group flex items-center gap-2.5 font-semibold px-7 py-3.5 rounded-xl text-sm transition-all duration-300 hover:-translate-y-0.5"
+                  style={{ background: 'linear-gradient(135deg, #C9A84C, #A8883A)', color: '#1A0A00', boxShadow: '0 4px 20px rgba(201,168,76,0.35)' }}>
+                  <ShoppingBag className="w-4 h-4" /> Shop Now
                 </Link>
-
                 <a href={whatsappHref} target="_blank" rel="noreferrer"
-                  className="wa-pulse group flex items-center gap-2.5 text-white font-bold px-8 py-4 rounded-xl text-base transition-all duration-300"
-                  style={{
-                    background: 'linear-gradient(135deg, #25D366, #128C7E)',
-                    boxShadow: '0 4px 20px rgba(37,211,102,0.35)',
-                  }}>
-                  <MessageCircle className="w-5 h-5" />
-                  <span>Order on WhatsApp</span>
+                  className="flex items-center gap-2.5 font-semibold px-7 py-3.5 rounded-xl text-sm text-white transition-all duration-300 hover:-translate-y-0.5"
+                  style={{ background: 'linear-gradient(135deg, #25D366, #1aad54)', boxShadow: '0 4px 16px rgba(37,211,102,0.3)' }}>
+                  <MessageCircle className="w-4 h-4" /> Order on WhatsApp
                 </a>
-
                 <Link to="/about"
-                  className="group flex items-center gap-2 text-cream font-semibold px-7 py-4 rounded-xl text-base transition-all duration-300"
-                  style={{
-                    border: '1px solid rgba(253,248,240,0.25)',
-                    background: 'rgba(253,248,240,0.05)',
-                    backdropFilter: 'blur(8px)',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(201,168,76,0.6)'; e.currentTarget.style.color = '#C9A84C'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(253,248,240,0.25)'; e.currentTarget.style.color = '#FDF8F0'; }}>
-                  Our Story <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  className="flex items-center gap-2 font-medium px-6 py-3.5 rounded-xl text-sm text-cream/70 hover:text-cream transition-all duration-300"
+                  style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>
+                  Our Story <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
 
-              {/* Stats row */}
-              <div className="flex items-center gap-6 sm:gap-10">
-                {[['500+', 'Happy Families'], ['100%', 'Organic'], ['0', 'Preservatives']].map(([num, label], i) => (
-                  <div key={label} className="flex flex-col items-center sm:items-start">
-                    <p className="font-heading text-3xl sm:text-4xl font-bold text-gradient-gold leading-none">{num}</p>
-                    <p className="text-cream/50 text-[11px] mt-1.5 tracking-wide uppercase">{label}</p>
-                    {i < 2 && <div className="hidden sm:block absolute" />}
+              <div className="flex items-center gap-8">
+                {[['500+', 'Families'], ['100%', 'Organic'], ['0', 'Preservatives']].map(([num, label], i) => (
+                  <div key={label} className={`flex flex-col ${i > 0 ? 'pl-8 border-l border-white/10' : ''}`}>
+                    <span className="font-heading text-2xl font-bold text-gradient-gold">{num}</span>
+                    <span className="text-cream/40 text-xs mt-0.5 tracking-wide">{label}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="hidden lg:flex flex-col items-center gap-4 animate-fade-in">
-              <div className="relative w-full rounded-2xl overflow-hidden animate-float"
+            {/* RIGHT */}
+            <div className="hidden lg:flex flex-col gap-4 animate-fade-in">
+              <div className="relative rounded-2xl p-8 overflow-hidden animate-float"
                 style={{
-                  background: 'linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04))',
-                  border: '1px solid rgba(201,168,76,0.35)',
-                  backdropFilter: 'blur(16px)',
-                  boxShadow: '0 8px 48px rgba(0,0,0,0.4), 0 0 60px rgba(201,168,76,0.15), inset 0 1px 0 rgba(255,255,255,0.15)',
-                  padding: '32px',
+                  background: 'linear-gradient(145deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)',
+                  border: '1px solid rgba(201,168,76,0.2)',
+                  backdropFilter: 'blur(20px)',
+                  boxShadow: '0 24px 64px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
                 }}>
-                {/* Top accent line */}
-                <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
-                <div className="text-center">
-                  <div className="relative inline-block mb-4">
-                    <div className="text-7xl">🌿</div>
-                    <div className="absolute inset-0 rounded-full blur-xl opacity-40"
-                      style={{ background: 'radial-gradient(circle, rgba(201,168,76,0.6), transparent)' }} />
+                <div className="absolute top-0 left-0 right-0 h-px"
+                  style={{ background: 'linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent)' }} />
+
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'rgba(201,168,76,0.15)', border: '1px solid rgba(201,168,76,0.2)' }}>
+                    <Leaf className="w-6 h-6 text-accent" />
                   </div>
-                  <p className="font-heading text-2xl font-bold text-cream tracking-wide">Annakshetram</p>
-                  <div className="flex items-center justify-center gap-2 mt-2">
-                    <div className="h-px w-8 bg-accent/40" />
-                    <p className="text-accent text-xs tracking-widest uppercase">Farm to Table</p>
-                    <div className="h-px w-8 bg-accent/40" />
+                  <div>
+                    <p className="font-heading font-bold text-cream text-lg">Annakshetram</p>
+                    <p className="text-accent/70 text-xs tracking-widest uppercase">Farm to Table</p>
+                  </div>
+                  <div className="ml-auto flex items-center gap-1.5 px-3 py-1 rounded-full"
+                    style={{ background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.2)' }}>
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-cream/60 text-xs">Live</span>
                   </div>
                 </div>
-                {/* Bottom accent line */}
-                <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-              </div>
 
-              {/* Two mini cards */}
-              <div className="flex gap-3 w-full">
-                {[
-                  { emoji: '🧂', title: 'Ready to use masala powder', delay: '1s' },
-                  { emoji: '🏆', title: 'Premium Grade', sub: 'Certified Pure', delay: '2s' },
-                ].map(({ emoji, title, sub, delay }) => (
-                  <div key={title} className="flex-1 rounded-xl p-4 flex items-center gap-3 animate-float-slow"
-                    style={{
-                      animationDelay: delay,
-                      background: 'rgba(255,255,255,0.07)',
-                      border: '1px solid rgba(201,168,76,0.2)',
-                      backdropFilter: 'blur(12px)',
-                    }}>
-                    <span className="text-2xl">{emoji}</span>
-                    <div>
-                      <p className="font-semibold text-cream text-xs leading-tight">{title}</p>
-                      <p className="text-accent/70 text-[10px] mt-0.5">{sub}</p>
+                <div className="grid grid-cols-3 gap-3 mb-6">
+                  {[
+                    { icon: Shield, label: 'Ready to use masala powder', val: '100%' },
+                    { icon: Award, label: 'Organic', val: '100%' },
+                    { icon: Truck, label: 'Fresh', val: 'Daily' },
+                  ].map(({ icon: Icon, label, val }) => (
+                    <div key={label} className="rounded-xl p-3 text-center"
+                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                      <Icon className="w-4 h-4 text-accent mx-auto mb-1.5" />
+                      <p className="font-bold text-cream text-sm">{val}</p>
+                      <p className="text-cream/40 text-[10px] mt-0.5">{label}</p>
                     </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-3 p-3 rounded-xl"
+                  style={{ background: 'rgba(37,211,102,0.08)', border: '1px solid rgba(37,211,102,0.2)' }}>
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'linear-gradient(135deg, #25D366, #1aad54)' }}>
+                    <MessageCircle className="w-4 h-4 text-white" />
                   </div>
-                ))}
+                  <div className="flex-1">
+                    <p className="text-cream text-xs font-medium">Order in seconds via WhatsApp</p>
+                    <p className="text-green-400/70 text-[10px]">Instant confirmation</p>
+                  </div>
+                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                </div>
               </div>
 
-              {/* WhatsApp card */}
-              <div className="w-full rounded-xl p-4 flex items-center gap-4 animate-float"
-                style={{
-                  animationDelay: '0.5s',
-                  background: 'linear-gradient(135deg, rgba(37,211,102,0.12), rgba(18,140,126,0.08))',
-                  border: '1px solid rgba(37,211,102,0.3)',
-                  backdropFilter: 'blur(12px)',
-                }}>
-                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'linear-gradient(135deg, #25D366, #128C7E)', boxShadow: '0 0 16px rgba(37,211,102,0.4)' }}>
-                  <MessageCircle className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <p className="font-semibold text-cream text-sm">Order in Seconds</p>
-                  <p className="text-[#25D366]/80 text-xs mt-0.5">Direct WhatsApp Ordering</p>
-                </div>
-                <div className="ml-auto w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
-              </div>
-
-              {/* Trust badges row */}
-              <div className="flex gap-2 w-full">
-                {[['??', 'No Chemicals'], ['??', 'No Preservatives'], ['?', 'Health mixes']].map(([icon, label]) => (
-                  <div key={label} className="flex-1 rounded-lg py-2.5 px-2 flex flex-col items-center gap-1"
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(201,168,76,0.15)' }}>
-                    <span className="text-base">{icon}</span>
-                    <p className="text-cream/60 text-[9px] text-center leading-tight">{label}</p>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { icon: Leaf, title: 'Pure Satvik Food', desc: 'Prepared with devotion' },
+                  { icon: Award, title: 'Traditional Recipe', desc: 'Generations of taste' },
+                ].map(({ icon: Icon, title, desc }) => (
+                  <div key={title} className="rounded-xl p-4 flex items-center gap-3"
+                    style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(201,168,76,0.15)', backdropFilter: 'blur(12px)' }}>
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'rgba(201,168,76,0.12)' }}>
+                      <Icon className="w-4 h-4 text-accent" />
+                    </div>
+                    <div>
+                      <p className="text-cream text-xs font-semibold">{title}</p>
+                      <p className="text-cream/40 text-[10px] mt-0.5">{desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -327,10 +213,9 @@ export default function HomePage() {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-          <p className="text-cream/40 text-[10px] tracking-[0.3em] uppercase">Scroll</p>
           <div className="w-5 h-8 rounded-full flex items-start justify-center pt-1.5"
-            style={{ border: '1px solid rgba(201,168,76,0.35)' }}>
-            <div className="w-1 h-2 bg-accent rounded-full animate-bounce" />
+            style={{ border: '1px solid rgba(201,168,76,0.3)' }}>
+            <div className="w-1 h-2 bg-accent/60 rounded-full animate-bounce" />
           </div>
         </div>
       </section>
@@ -422,7 +307,7 @@ export default function HomePage() {
                       {/* Leaf icon placeholder */}
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-                          <svg className="w-7 h-7 text-primary/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3C7 3 3 7.5 3 12c0 2.5 1 4.8 2.7 6.4C7.2 19.8 9.5 21 12 21s4.8-1.2 6.3-2.6C20 16.8 21 14.5 21 12c0-4.5-4-9-9-9z"/></svg>
+                          <svg className="w-7 h-7 text-primary/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3C7 3 3 7.5 3 12c0 2.5 1 4.8 2.7 6.4C7.2 19.8 9.5 21 12 21s4.8-1.2 6.3-2.6C20 16.8 21 14.5 21 12c0-4.5-4-9-9-9z" /></svg>
                         </div>
                       </div>
                       {/* Badge skeleton */}
@@ -463,151 +348,151 @@ export default function HomePage() {
           <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 600">
             <defs>
               <radialGradient id="rg1_wh" cx="15%" cy="15%" r="45%">
-                <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.22"/>
-                <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
+                <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.22" />
+                <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
               </radialGradient>
               <radialGradient id="rg2_wh" cx="85%" cy="85%" r="45%">
-                <stop offset="0%" stopColor="#E0BE7A" stopOpacity="0.18"/>
-                <stop offset="100%" stopColor="#E0BE7A" stopOpacity="0"/>
+                <stop offset="0%" stopColor="#E0BE7A" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="#E0BE7A" stopOpacity="0" />
               </radialGradient>
               <radialGradient id="rg3_wh" cx="85%" cy="15%" r="35%">
-                <stop offset="0%" stopColor="#A8883A" stopOpacity="0.12"/>
-                <stop offset="100%" stopColor="#A8883A" stopOpacity="0"/>
+                <stop offset="0%" stopColor="#A8883A" stopOpacity="0.12" />
+                <stop offset="100%" stopColor="#A8883A" stopOpacity="0" />
               </radialGradient>
             </defs>
             {/* Glow blobs */}
-            <rect width="100%" height="100%" fill={`url(#rg1_wh)`}/>
-            <rect width="100%" height="100%" fill={`url(#rg2_wh)`}/>
-            <rect width="100%" height="100%" fill={`url(#rg3_wh)`}/>
+            <rect width="100%" height="100%" fill={`url(#rg1_wh)`} />
+            <rect width="100%" height="100%" fill={`url(#rg2_wh)`} />
+            <rect width="100%" height="100%" fill={`url(#rg3_wh)`} />
             {/* Top border */}
-            <line x1="0" y1="1" x2="100%" y2="1" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5"/>
-            <line x1="0" y1="4" x2="100%" y2="4" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3"/>
+            <line x1="0" y1="1" x2="100%" y2="1" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5" />
+            <line x1="0" y1="4" x2="100%" y2="4" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3" />
             {/* Bottom border */}
-            <line x1="0" y1="99%" x2="100%" y2="99%" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5"/>
-            <line x1="0" y1="96%" x2="100%" y2="96%" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3"/>
+            <line x1="0" y1="99%" x2="100%" y2="99%" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5" />
+            <line x1="0" y1="96%" x2="100%" y2="96%" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3" />
             {/* TL corner arcs */}
             <g opacity="0.45">
-              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
-              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
-              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
-              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
-              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2" />
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7" />
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4" />
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1" />
+              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5" />
             </g>
             {/* TR corner arcs */}
             <g opacity="0.45" transform="translate(100%,0) scale(-1,1)">
-              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
-              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
-              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
-              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
-              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2" />
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7" />
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4" />
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1" />
+              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5" />
             </g>
             {/* BL corner arcs */}
             <g opacity="0.45" transform="translate(0,100%) scale(1,-1)">
-              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
-              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
-              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
-              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
-              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2" />
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7" />
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4" />
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1" />
+              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5" />
             </g>
             {/* BR corner arcs */}
             <g opacity="0.45" transform="translate(100%,100%) scale(-1,-1)">
-              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
-              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
-              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
-              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
-              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2" />
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7" />
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4" />
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1" />
+              <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5" />
             </g>
             {/* Animated floating dots */}
             <circle cx="20%" cy="25%" r="2" fill="#C9A84C" fillOpacity="0.25">
-              <animate attributeName="cy" values="25%;22%;25%" dur="4s" repeatCount="indefinite"/>
-              <animate attributeName="fillOpacity" values="0.25;0.5;0.25" dur="4s" repeatCount="indefinite"/>
+              <animate attributeName="cy" values="25%;22%;25%" dur="4s" repeatCount="indefinite" />
+              <animate attributeName="fillOpacity" values="0.25;0.5;0.25" dur="4s" repeatCount="indefinite" />
             </circle>
             <circle cx="80%" cy="70%" r="1.5" fill="#E0BE7A" fillOpacity="0.2">
-              <animate attributeName="cy" values="70%;67%;70%" dur="5s" repeatCount="indefinite"/>
-              <animate attributeName="fillOpacity" values="0.2;0.45;0.2" dur="5s" repeatCount="indefinite"/>
+              <animate attributeName="cy" values="70%;67%;70%" dur="5s" repeatCount="indefinite" />
+              <animate attributeName="fillOpacity" values="0.2;0.45;0.2" dur="5s" repeatCount="indefinite" />
             </circle>
             <circle cx="50%" cy="15%" r="1.5" fill="#C9A84C" fillOpacity="0.2">
-              <animate attributeName="cy" values="15%;12%;15%" dur="3.5s" repeatCount="indefinite"/>
-              <animate attributeName="fillOpacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite"/>
+              <animate attributeName="cy" values="15%;12%;15%" dur="3.5s" repeatCount="indefinite" />
+              <animate attributeName="fillOpacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite" />
             </circle>
             <circle cx="75%" cy="30%" r="1" fill="#E0BE7A" fillOpacity="0.18">
-              <animate attributeName="cy" values="30%;27%;30%" dur="6s" repeatCount="indefinite"/>
+              <animate attributeName="cy" values="30%;27%;30%" dur="6s" repeatCount="indefinite" />
             </circle>
             <circle cx="25%" cy="75%" r="1" fill="#C9A84C" fillOpacity="0.18">
-              <animate attributeName="cy" values="75%;72%;75%" dur="4.5s" repeatCount="indefinite"/>
+              <animate attributeName="cy" values="75%;72%;75%" dur="4.5s" repeatCount="indefinite" />
             </circle>
             {/* Animated shimmer line */}
             <line x1="-100%" y1="50%" x2="0%" y2="50%" stroke="#C9A84C" strokeWidth="0.5" strokeOpacity="0.3">
-              <animate attributeName="x1" values="-100%;200%" dur="6s" repeatCount="indefinite"/>
-              <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite"/>
+              <animate attributeName="x1" values="-100%;200%" dur="6s" repeatCount="indefinite" />
+              <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite" />
             </line>
             {/* Center rotating diamond */}
             <g opacity="0.08" transform="translate(50%,50%)">
               <rect x="-90" y="-90" width="180" height="180" fill="none" stroke="#C9A84C" strokeWidth="0.8" transform="rotate(45)">
-                <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite"/>
+                <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite" />
               </rect>
               <rect x="-60" y="-60" width="120" height="120" fill="none" stroke="#E0BE7A" strokeWidth="0.5" transform="rotate(45)">
-                <animateTransform attributeName="transform" type="rotate" from="45" to="-315" dur="20s" repeatCount="indefinite"/>
+                <animateTransform attributeName="transform" type="rotate" from="45" to="-315" dur="20s" repeatCount="indefinite" />
               </rect>
             </g>
             {/* Corner leaves */}
             <g opacity="0.35">
               {/* TL — 2 leaves, spread apart */}
               <g transform="translate(-5,0) rotate(-28)">
-                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
               </g>
               <g transform="translate(55,-8) rotate(-6)">
-                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
               </g>
               {/* TR — 2 leaves, spread apart */}
               <g transform="translate(1205,0) rotate(208)">
-                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
               </g>
               <g transform="translate(1145,-8) rotate(186)">
-                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
               </g>
               {/* BL — 2 leaves, spread apart */}
               <g transform="translate(-5,600) rotate(152)">
-                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
               </g>
               <g transform="translate(55,608) rotate(174)">
-                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
               </g>
               {/* BR — 2 leaves, spread apart */}
               <g transform="translate(1205,600) rotate(-28)">
-                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
               </g>
               <g transform="translate(1145,608) rotate(-6)">
-                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
               </g>
               {/* CENTER scattered — 4 leaves, well spaced, no overlap */}
               <g transform="translate(280,300) rotate(20)">
-                <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+                <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26" />
               </g>
               <g transform="translate(920,300) rotate(-20)">
-                <path fill="none" stroke="#C9A84C" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+                <path fill="none" stroke="#C9A84C" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26" />
               </g>
               <g transform="translate(580,150) rotate(35)">
-                <path fill="none" stroke="#E0BE7A" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+                <path fill="none" stroke="#E0BE7A" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22" />
               </g>
               <g transform="translate(620,450) rotate(-35)">
-                <path fill="none" stroke="#C9A84C" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
-                <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+                <path fill="none" stroke="#C9A84C" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z" />
+                <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22" />
               </g>
             </g>
           </svg>
@@ -681,151 +566,151 @@ export default function HomePage() {
           <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 600">
             <defs>
               <radialGradient id="rg1_tm" cx="15%" cy="15%" r="45%">
-                <stop offset="0%" stopColor="#8B1A1A" stopOpacity="0.154"/>
-                <stop offset="100%" stopColor="#8B1A1A" stopOpacity="0"/>
+                <stop offset="0%" stopColor="#8B1A1A" stopOpacity="0.154" />
+                <stop offset="100%" stopColor="#8B1A1A" stopOpacity="0" />
               </radialGradient>
               <radialGradient id="rg2_tm" cx="85%" cy="85%" r="45%">
-                <stop offset="0%" stopColor="#6B1414" stopOpacity="0.126"/>
-                <stop offset="100%" stopColor="#6B1414" stopOpacity="0"/>
+                <stop offset="0%" stopColor="#6B1414" stopOpacity="0.126" />
+                <stop offset="100%" stopColor="#6B1414" stopOpacity="0" />
               </radialGradient>
               <radialGradient id="rg3_tm" cx="85%" cy="15%" r="35%">
-                <stop offset="0%" stopColor="#8B1A1A" stopOpacity="0.084"/>
-                <stop offset="100%" stopColor="#8B1A1A" stopOpacity="0"/>
+                <stop offset="0%" stopColor="#8B1A1A" stopOpacity="0.084" />
+                <stop offset="100%" stopColor="#8B1A1A" stopOpacity="0" />
               </radialGradient>
             </defs>
             {/* Glow blobs */}
-            <rect width="100%" height="100%" fill={`url(#rg1_tm)`}/>
-            <rect width="100%" height="100%" fill={`url(#rg2_tm)`}/>
-            <rect width="100%" height="100%" fill={`url(#rg3_tm)`}/>
+            <rect width="100%" height="100%" fill={`url(#rg1_tm)`} />
+            <rect width="100%" height="100%" fill={`url(#rg2_tm)`} />
+            <rect width="100%" height="100%" fill={`url(#rg3_tm)`} />
             {/* Top border */}
-            <line x1="0" y1="1" x2="100%" y2="1" stroke="#8B1A1A" strokeWidth="1.5" strokeOpacity="0.5"/>
-            <line x1="0" y1="4" x2="100%" y2="4" stroke="#6B1414" strokeWidth="0.4" strokeOpacity="0.3"/>
+            <line x1="0" y1="1" x2="100%" y2="1" stroke="#8B1A1A" strokeWidth="1.5" strokeOpacity="0.5" />
+            <line x1="0" y1="4" x2="100%" y2="4" stroke="#6B1414" strokeWidth="0.4" strokeOpacity="0.3" />
             {/* Bottom border */}
-            <line x1="0" y1="99%" x2="100%" y2="99%" stroke="#8B1A1A" strokeWidth="1.5" strokeOpacity="0.5"/>
-            <line x1="0" y1="96%" x2="100%" y2="96%" stroke="#6B1414" strokeWidth="0.4" strokeOpacity="0.3"/>
+            <line x1="0" y1="99%" x2="100%" y2="99%" stroke="#8B1A1A" strokeWidth="1.5" strokeOpacity="0.5" />
+            <line x1="0" y1="96%" x2="100%" y2="96%" stroke="#6B1414" strokeWidth="0.4" strokeOpacity="0.3" />
             {/* TL corner arcs */}
             <g opacity="0.45">
-              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
-              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
-              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
-              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1"/>
-              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2" />
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7" />
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4" />
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1" />
+              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5" />
             </g>
             {/* TR corner arcs */}
             <g opacity="0.45" transform="translate(100%,0) scale(-1,1)">
-              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
-              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
-              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
-              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1"/>
-              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2" />
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7" />
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4" />
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1" />
+              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5" />
             </g>
             {/* BL corner arcs */}
             <g opacity="0.45" transform="translate(0,100%) scale(1,-1)">
-              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
-              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
-              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
-              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1"/>
-              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2" />
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7" />
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4" />
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1" />
+              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5" />
             </g>
             {/* BR corner arcs */}
             <g opacity="0.45" transform="translate(100%,100%) scale(-1,-1)">
-              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
-              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
-              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
-              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1"/>
-              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
+              <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2" />
+              <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7" />
+              <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4" />
+              <circle cx="0" cy="0" r="5" fill="none" stroke="#8B1A1A" strokeWidth="1" />
+              <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5" />
             </g>
             {/* Animated floating dots */}
             <circle cx="20%" cy="25%" r="2" fill="#8B1A1A" fillOpacity="0.25">
-              <animate attributeName="cy" values="25%;22%;25%" dur="4s" repeatCount="indefinite"/>
-              <animate attributeName="fillOpacity" values="0.25;0.5;0.25" dur="4s" repeatCount="indefinite"/>
+              <animate attributeName="cy" values="25%;22%;25%" dur="4s" repeatCount="indefinite" />
+              <animate attributeName="fillOpacity" values="0.25;0.5;0.25" dur="4s" repeatCount="indefinite" />
             </circle>
             <circle cx="80%" cy="70%" r="1.5" fill="#6B1414" fillOpacity="0.2">
-              <animate attributeName="cy" values="70%;67%;70%" dur="5s" repeatCount="indefinite"/>
-              <animate attributeName="fillOpacity" values="0.2;0.45;0.2" dur="5s" repeatCount="indefinite"/>
+              <animate attributeName="cy" values="70%;67%;70%" dur="5s" repeatCount="indefinite" />
+              <animate attributeName="fillOpacity" values="0.2;0.45;0.2" dur="5s" repeatCount="indefinite" />
             </circle>
             <circle cx="50%" cy="15%" r="1.5" fill="#8B1A1A" fillOpacity="0.2">
-              <animate attributeName="cy" values="15%;12%;15%" dur="3.5s" repeatCount="indefinite"/>
-              <animate attributeName="fillOpacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite"/>
+              <animate attributeName="cy" values="15%;12%;15%" dur="3.5s" repeatCount="indefinite" />
+              <animate attributeName="fillOpacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite" />
             </circle>
             <circle cx="75%" cy="30%" r="1" fill="#6B1414" fillOpacity="0.18">
-              <animate attributeName="cy" values="30%;27%;30%" dur="6s" repeatCount="indefinite"/>
+              <animate attributeName="cy" values="30%;27%;30%" dur="6s" repeatCount="indefinite" />
             </circle>
             <circle cx="25%" cy="75%" r="1" fill="#8B1A1A" fillOpacity="0.18">
-              <animate attributeName="cy" values="75%;72%;75%" dur="4.5s" repeatCount="indefinite"/>
+              <animate attributeName="cy" values="75%;72%;75%" dur="4.5s" repeatCount="indefinite" />
             </circle>
             {/* Animated shimmer line */}
             <line x1="-100%" y1="50%" x2="0%" y2="50%" stroke="#8B1A1A" strokeWidth="0.5" strokeOpacity="0.3">
-              <animate attributeName="x1" values="-100%;200%" dur="6s" repeatCount="indefinite"/>
-              <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite"/>
+              <animate attributeName="x1" values="-100%;200%" dur="6s" repeatCount="indefinite" />
+              <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite" />
             </line>
             {/* Center rotating diamond */}
             <g opacity="0.08" transform="translate(50%,50%)">
               <rect x="-90" y="-90" width="180" height="180" fill="none" stroke="#8B1A1A" strokeWidth="0.8" transform="rotate(45)">
-                <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite"/>
+                <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite" />
               </rect>
               <rect x="-60" y="-60" width="120" height="120" fill="none" stroke="#6B1414" strokeWidth="0.5" transform="rotate(45)">
-                <animateTransform attributeName="transform" type="rotate" from="45" to="-315" dur="20s" repeatCount="indefinite"/>
+                <animateTransform attributeName="transform" type="rotate" from="45" to="-315" dur="20s" repeatCount="indefinite" />
               </rect>
             </g>
             {/* Corner leaves */}
             <g opacity="0.25">
               {/* TL — 2 leaves, spread apart */}
               <g transform="translate(-5,0) rotate(-28)">
-                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
               </g>
               <g transform="translate(55,-8) rotate(-6)">
-                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
               </g>
               {/* TR — 2 leaves, spread apart */}
               <g transform="translate(1205,0) rotate(208)">
-                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
               </g>
               <g transform="translate(1145,-8) rotate(186)">
-                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
               </g>
               {/* BL — 2 leaves, spread apart */}
               <g transform="translate(-5,600) rotate(152)">
-                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
               </g>
               <g transform="translate(55,608) rotate(174)">
-                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
               </g>
               {/* BR — 2 leaves, spread apart */}
               <g transform="translate(1205,600) rotate(-28)">
-                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                <path fill="none" stroke="#8B1A1A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                <line stroke="#6B1414" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
               </g>
               <g transform="translate(1145,608) rotate(-6)">
-                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                <path fill="none" stroke="#6B1414" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
               </g>
               {/* CENTER scattered — 4 leaves, well spaced, no overlap */}
               <g transform="translate(280,300) rotate(20)">
-                <path fill="none" stroke="#8B1A1A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+                <path fill="none" stroke="#8B1A1A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26" />
               </g>
               <g transform="translate(920,300) rotate(-20)">
-                <path fill="none" stroke="#6B1414" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+                <path fill="none" stroke="#6B1414" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26" />
               </g>
               <g transform="translate(580,150) rotate(35)">
-                <path fill="none" stroke="#8B1A1A" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+                <path fill="none" stroke="#8B1A1A" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22" />
               </g>
               <g transform="translate(620,450) rotate(-35)">
-                <path fill="none" stroke="#6B1414" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
-                <line stroke="#6B1414" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+                <path fill="none" stroke="#6B1414" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z" />
+                <line stroke="#6B1414" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22" />
               </g>
             </g>
           </svg>
@@ -889,151 +774,151 @@ export default function HomePage() {
               <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 500">
                 <defs>
                   <radialGradient id="rg1_cta" cx="15%" cy="15%" r="45%">
-                    <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.22"/>
-                    <stop offset="100%" stopColor="#C9A84C" stopOpacity="0"/>
+                    <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.22" />
+                    <stop offset="100%" stopColor="#C9A84C" stopOpacity="0" />
                   </radialGradient>
                   <radialGradient id="rg2_cta" cx="85%" cy="85%" r="45%">
-                    <stop offset="0%" stopColor="#E0BE7A" stopOpacity="0.18"/>
-                    <stop offset="100%" stopColor="#E0BE7A" stopOpacity="0"/>
+                    <stop offset="0%" stopColor="#E0BE7A" stopOpacity="0.18" />
+                    <stop offset="100%" stopColor="#E0BE7A" stopOpacity="0" />
                   </radialGradient>
                   <radialGradient id="rg3_cta" cx="85%" cy="15%" r="35%">
-                    <stop offset="0%" stopColor="#A8883A" stopOpacity="0.12"/>
-                    <stop offset="100%" stopColor="#A8883A" stopOpacity="0"/>
+                    <stop offset="0%" stopColor="#A8883A" stopOpacity="0.12" />
+                    <stop offset="100%" stopColor="#A8883A" stopOpacity="0" />
                   </radialGradient>
                 </defs>
                 {/* Glow blobs */}
-                <rect width="100%" height="100%" fill={`url(#rg1_cta)`}/>
-                <rect width="100%" height="100%" fill={`url(#rg2_cta)`}/>
-                <rect width="100%" height="100%" fill={`url(#rg3_cta)`}/>
+                <rect width="100%" height="100%" fill={`url(#rg1_cta)`} />
+                <rect width="100%" height="100%" fill={`url(#rg2_cta)`} />
+                <rect width="100%" height="100%" fill={`url(#rg3_cta)`} />
                 {/* Top border */}
-                <line x1="0" y1="1" x2="100%" y2="1" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5"/>
-                <line x1="0" y1="4" x2="100%" y2="4" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3"/>
+                <line x1="0" y1="1" x2="100%" y2="1" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5" />
+                <line x1="0" y1="4" x2="100%" y2="4" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3" />
                 {/* Bottom border */}
-                <line x1="0" y1="99%" x2="100%" y2="99%" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5"/>
-                <line x1="0" y1="96%" x2="100%" y2="96%" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3"/>
+                <line x1="0" y1="99%" x2="100%" y2="99%" stroke="#C9A84C" strokeWidth="1.5" strokeOpacity="0.5" />
+                <line x1="0" y1="96%" x2="100%" y2="96%" stroke="#E0BE7A" strokeWidth="0.4" strokeOpacity="0.3" />
                 {/* TL corner arcs */}
                 <g opacity="0.45">
-                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
-                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
-                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
-                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
-                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2" />
+                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7" />
+                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4" />
+                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1" />
+                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5" />
                 </g>
                 {/* TR corner arcs */}
                 <g opacity="0.45" transform="translate(100%,0) scale(-1,1)">
-                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
-                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
-                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
-                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
-                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2" />
+                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7" />
+                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4" />
+                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1" />
+                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5" />
                 </g>
                 {/* BL corner arcs */}
                 <g opacity="0.45" transform="translate(0,100%) scale(1,-1)">
-                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
-                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
-                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
-                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
-                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2" />
+                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7" />
+                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4" />
+                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1" />
+                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5" />
                 </g>
                 {/* BR corner arcs */}
                 <g opacity="0.45" transform="translate(100%,100%) scale(-1,-1)">
-                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
-                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
-                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
-                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1"/>
-                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
+                  <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2" />
+                  <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7" />
+                  <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4" />
+                  <circle cx="0" cy="0" r="5" fill="none" stroke="#C9A84C" strokeWidth="1" />
+                  <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5" />
                 </g>
                 {/* Animated floating dots */}
                 <circle cx="20%" cy="25%" r="2" fill="#C9A84C" fillOpacity="0.25">
-                  <animate attributeName="cy" values="25%;22%;25%" dur="4s" repeatCount="indefinite"/>
-                  <animate attributeName="fillOpacity" values="0.25;0.5;0.25" dur="4s" repeatCount="indefinite"/>
+                  <animate attributeName="cy" values="25%;22%;25%" dur="4s" repeatCount="indefinite" />
+                  <animate attributeName="fillOpacity" values="0.25;0.5;0.25" dur="4s" repeatCount="indefinite" />
                 </circle>
                 <circle cx="80%" cy="70%" r="1.5" fill="#E0BE7A" fillOpacity="0.2">
-                  <animate attributeName="cy" values="70%;67%;70%" dur="5s" repeatCount="indefinite"/>
-                  <animate attributeName="fillOpacity" values="0.2;0.45;0.2" dur="5s" repeatCount="indefinite"/>
+                  <animate attributeName="cy" values="70%;67%;70%" dur="5s" repeatCount="indefinite" />
+                  <animate attributeName="fillOpacity" values="0.2;0.45;0.2" dur="5s" repeatCount="indefinite" />
                 </circle>
                 <circle cx="50%" cy="15%" r="1.5" fill="#C9A84C" fillOpacity="0.2">
-                  <animate attributeName="cy" values="15%;12%;15%" dur="3.5s" repeatCount="indefinite"/>
-                  <animate attributeName="fillOpacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite"/>
+                  <animate attributeName="cy" values="15%;12%;15%" dur="3.5s" repeatCount="indefinite" />
+                  <animate attributeName="fillOpacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite" />
                 </circle>
                 <circle cx="75%" cy="30%" r="1" fill="#E0BE7A" fillOpacity="0.18">
-                  <animate attributeName="cy" values="30%;27%;30%" dur="6s" repeatCount="indefinite"/>
+                  <animate attributeName="cy" values="30%;27%;30%" dur="6s" repeatCount="indefinite" />
                 </circle>
                 <circle cx="25%" cy="75%" r="1" fill="#C9A84C" fillOpacity="0.18">
-                  <animate attributeName="cy" values="75%;72%;75%" dur="4.5s" repeatCount="indefinite"/>
+                  <animate attributeName="cy" values="75%;72%;75%" dur="4.5s" repeatCount="indefinite" />
                 </circle>
                 {/* Animated shimmer line */}
                 <line x1="-100%" y1="50%" x2="0%" y2="50%" stroke="#C9A84C" strokeWidth="0.5" strokeOpacity="0.3">
-                  <animate attributeName="x1" values="-100%;200%" dur="6s" repeatCount="indefinite"/>
-                  <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite"/>
+                  <animate attributeName="x1" values="-100%;200%" dur="6s" repeatCount="indefinite" />
+                  <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite" />
                 </line>
                 {/* Center rotating diamond */}
                 <g opacity="0.08" transform="translate(50%,50%)">
                   <rect x="-90" y="-90" width="180" height="180" fill="none" stroke="#C9A84C" strokeWidth="0.8" transform="rotate(45)">
-                    <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite"/>
+                    <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite" />
                   </rect>
                   <rect x="-60" y="-60" width="120" height="120" fill="none" stroke="#E0BE7A" strokeWidth="0.5" transform="rotate(45)">
-                    <animateTransform attributeName="transform" type="rotate" from="45" to="-315" dur="20s" repeatCount="indefinite"/>
+                    <animateTransform attributeName="transform" type="rotate" from="45" to="-315" dur="20s" repeatCount="indefinite" />
                   </rect>
                 </g>
                 {/* Corner leaves */}
                 <g opacity="0.35">
                   {/* TL — 2 leaves, spread apart */}
                   <g transform="translate(-5,0) rotate(-28)">
-                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
                   </g>
                   <g transform="translate(55,-8) rotate(-6)">
-                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
                   </g>
                   {/* TR — 2 leaves, spread apart */}
                   <g transform="translate(1205,0) rotate(208)">
-                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
                   </g>
                   <g transform="translate(1145,-8) rotate(186)">
-                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
                   </g>
                   {/* BL — 2 leaves, spread apart */}
                   <g transform="translate(-5,500) rotate(152)">
-                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
                   </g>
                   <g transform="translate(55,508) rotate(174)">
-                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
                   </g>
                   {/* BR — 2 leaves, spread apart */}
                   <g transform="translate(1205,500) rotate(-28)">
-                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40"/>
-                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34"/>
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="1.5" d="M0,0 C8,-45 45,-68 60,-44 C45,-22 12,-5 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.7" x1="0" y1="0" x2="34" y2="-40" />
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="12" y1="-14" x2="42" y2="-34" />
                   </g>
                   <g transform="translate(1145,508) rotate(-6)">
-                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32"/>
+                    <path fill="none" stroke="#C9A84C" strokeWidth="1.2" d="M0,0 C6,-38 38,-56 50,-36 C38,-18 10,-4 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.6" x1="0" y1="0" x2="28" y2="-32" />
                   </g>
                   {/* CENTER scattered — 4 leaves, well spaced, no overlap */}
                   <g transform="translate(280,250) rotate(20)">
-                    <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26" />
                   </g>
                   <g transform="translate(920,250) rotate(-20)">
-                    <path fill="none" stroke="#C9A84C" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26"/>
+                    <path fill="none" stroke="#C9A84C" strokeWidth="1" d="M0,0 C5,-30 30,-45 40,-29 C30,-14 8,-3 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.5" x1="0" y1="0" x2="22" y2="-26" />
                   </g>
                   <g transform="translate(580,125) rotate(35)">
-                    <path fill="none" stroke="#E0BE7A" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+                    <path fill="none" stroke="#E0BE7A" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22" />
                   </g>
                   <g transform="translate(620,375) rotate(-35)">
-                    <path fill="none" stroke="#C9A84C" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z"/>
-                    <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22"/>
+                    <path fill="none" stroke="#C9A84C" strokeWidth="0.9" d="M0,0 C4,-26 26,-38 34,-24 C26,-12 7,-3 0,0Z" />
+                    <line stroke="#C9A84C" strokeWidth="0.4" x1="0" y1="0" x2="19" y2="-22" />
                   </g>
                 </g>
               </svg>
