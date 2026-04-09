@@ -105,7 +105,7 @@ const deleteProduct = async (req, res) => {
 // @route GET /api/products/admin/all
 const getAllProductsAdmin = async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const products = await Product.find({ isDeleted: false }).sort({ createdAt: -1 });
     res.json({ success: true, data: { products } });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

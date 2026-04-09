@@ -7,6 +7,17 @@ const getCart = async (req, res) => {
   try {
     let cart = await Cart.findOne({ userId: req.user.userId, isDeleted: false });
     if (!cart) cart = await Cart.create({ userId: req.user.userId, items: [] });
+
+    // Remove any deleted products from cart items
+    if (cart.items.length > 0) {
+      const productIds = cart.items.map(i => i.productId);
+      const activeProducts = await Product.find({ productId: { $in: productIds }, isDeleted: false }).select('productId');
+      const activeIds = new Set(activeProducts.map(p => p.productId));
+      const before = cart.items.length;
+      cart.items = cart.items.filter(i => activeIds.has(i.productId));
+      if (cart.items.length !== before) await cart.save();
+    }
+
     res.json({ success: true, data: { cart } });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
