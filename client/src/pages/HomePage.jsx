@@ -494,7 +494,7 @@ export default function HomePage() {
               <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
             </g>
             {/* TR corner arcs */}
-            <g opacity="0.45" transform="translate(1200,0) scale(-1,1)">
+            <g opacity="0.45" transform="translate(100%,0) scale(-1,1)">
               <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
               <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
               <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
@@ -502,7 +502,7 @@ export default function HomePage() {
               <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
             </g>
             {/* BL corner arcs */}
-            <g opacity="0.45" transform="translate(0,600) scale(1,-1)">
+            <g opacity="0.45" transform="translate(0,100%) scale(1,-1)">
               <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
               <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
               <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
@@ -510,7 +510,7 @@ export default function HomePage() {
               <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
             </g>
             {/* BR corner arcs */}
-            <g opacity="0.45" transform="translate(1200,600) scale(-1,-1)">
+            <g opacity="0.45" transform="translate(100%,100%) scale(-1,-1)">
               <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
               <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
               <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
@@ -542,7 +542,7 @@ export default function HomePage() {
               <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite"/>
             </line>
             {/* Center rotating diamond */}
-            <g opacity="0.08" transform="translate(600,300)">
+            <g opacity="0.08" transform="translate(50%,50%)">
               <rect x="-90" y="-90" width="180" height="180" fill="none" stroke="#C9A84C" strokeWidth="0.8" transform="rotate(45)">
                 <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite"/>
               </rect>
@@ -712,7 +712,7 @@ export default function HomePage() {
               <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
             </g>
             {/* TR corner arcs */}
-            <g opacity="0.45" transform="translate(1200,0) scale(-1,1)">
+            <g opacity="0.45" transform="translate(100%,0) scale(-1,1)">
               <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
               <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
               <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
@@ -720,7 +720,7 @@ export default function HomePage() {
               <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
             </g>
             {/* BL corner arcs */}
-            <g opacity="0.45" transform="translate(0,600) scale(1,-1)">
+            <g opacity="0.45" transform="translate(0,100%) scale(1,-1)">
               <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
               <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
               <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
@@ -728,7 +728,7 @@ export default function HomePage() {
               <circle cx="0" cy="0" r="2" fill="#8B1A1A" fillOpacity="0.5"/>
             </g>
             {/* BR corner arcs */}
-            <g opacity="0.45" transform="translate(1200,600) scale(-1,-1)">
+            <g opacity="0.45" transform="translate(100%,100%) scale(-1,-1)">
               <path d="M0,0 Q80,0 80,80" fill="none" stroke="#8B1A1A" strokeWidth="1.2"/>
               <path d="M0,0 Q52,0 52,52" fill="none" stroke="#6B1414" strokeWidth="0.7"/>
               <path d="M0,0 Q28,0 28,28" fill="none" stroke="#8B1A1A" strokeWidth="0.4"/>
@@ -760,7 +760,7 @@ export default function HomePage() {
               <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite"/>
             </line>
             {/* Center rotating diamond */}
-            <g opacity="0.08" transform="translate(600,300)">
+            <g opacity="0.08" transform="translate(50%,50%)">
               <rect x="-90" y="-90" width="180" height="180" fill="none" stroke="#8B1A1A" strokeWidth="0.8" transform="rotate(45)">
                 <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite"/>
               </rect>
@@ -920,7 +920,7 @@ export default function HomePage() {
                   <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
                 </g>
                 {/* TR corner arcs */}
-                <g opacity="0.45" transform="translate(1200,0) scale(-1,1)">
+                <g opacity="0.45" transform="translate(100%,0) scale(-1,1)">
                   <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
                   <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
                   <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
@@ -928,7 +928,7 @@ export default function HomePage() {
                   <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
                 </g>
                 {/* BL corner arcs */}
-                <g opacity="0.45" transform="translate(0,500) scale(1,-1)">
+                <g opacity="0.45" transform="translate(0,100%) scale(1,-1)">
                   <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
                   <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
                   <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
@@ -936,7 +936,7 @@ export default function HomePage() {
                   <circle cx="0" cy="0" r="2" fill="#C9A84C" fillOpacity="0.5"/>
                 </g>
                 {/* BR corner arcs */}
-                <g opacity="0.45" transform="translate(1200,500) scale(-1,-1)">
+                <g opacity="0.45" transform="translate(100%,100%) scale(-1,-1)">
                   <path d="M0,0 Q80,0 80,80" fill="none" stroke="#C9A84C" strokeWidth="1.2"/>
                   <path d="M0,0 Q52,0 52,52" fill="none" stroke="#E0BE7A" strokeWidth="0.7"/>
                   <path d="M0,0 Q28,0 28,28" fill="none" stroke="#C9A84C" strokeWidth="0.4"/>
@@ -968,7 +968,7 @@ export default function HomePage() {
                   <animate attributeName="x2" values="0%;300%" dur="6s" repeatCount="indefinite"/>
                 </line>
                 {/* Center rotating diamond */}
-                <g opacity="0.08" transform="translate(600,250)">
+                <g opacity="0.08" transform="translate(50%,50%)">
                   <rect x="-90" y="-90" width="180" height="180" fill="none" stroke="#C9A84C" strokeWidth="0.8" transform="rotate(45)">
                     <animateTransform attributeName="transform" type="rotate" from="45" to="405" dur="30s" repeatCount="indefinite"/>
                   </rect>
