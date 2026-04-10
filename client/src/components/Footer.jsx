@@ -274,7 +274,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-cream/10 mt-10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-cream/50 text-sm">Â© {year} Annakshetram. All rights reserved.</p>
+          <p className="text-cream/50 text-sm">&copy; {year} Annakshetram. All rights reserved.</p>
           <div className="flex items-center gap-1 text-cream/40 text-xs">
             <logo className="w-3 h-3 text-accent/60" />
             <span>100% Natural • Zero Preservatives • Satvik Certified</span>

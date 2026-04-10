@@ -24,7 +24,7 @@ export function generateWhatsAppMessage(items, whatsappNumber, address = null) {
     addressBlock = `\n\n📦 *Delivery Address*\n${address.fullName}\n📞 ${address.phone}\n${address.line1}${address.line2 ? ', ' + address.line2 : ''}\n${address.city}, ${address.state} - ${address.pincode}`;
   }
 
-  const message = `🌿 *Annakshetram Order Request*\n_Satvikam Jeevanam, Shuddham Bhojanam_\n\n${itemLines}\n\n*Total: ₹${total}*${addressBlock}\n\nPlease confirm my order and share payment details. 🙏`;
+  const message = `🌿 *Annakshetram Order Request*\n_Shuddham Bhojanam • Satvikam Jeevanam_\n\n${itemLines}\n\n*Total: ₹${total}*${addressBlock}\n\nPlease confirm my order and share payment details. 🙏`;
   const encoded = encodeURIComponent(message);
   return `https://wa.me/${whatsappNumber}?text=${encoded}`;
 }

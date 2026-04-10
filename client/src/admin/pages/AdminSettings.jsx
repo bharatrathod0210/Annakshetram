@@ -55,7 +55,7 @@ export default function AdminSettings() {
           <h2 className="font-semibold text-gray-900 mb-4 text-base font-heading">Store Information</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Field label="Store Name" name="storeName" placeholder="Annakshetram" />
-            <Field label="Tagline" name="tagline" placeholder="Satvikam Jeevanam..." />
+            <Field label="Tagline" name="tagline" placeholder="Shuddham Bhojanam • Satvikam Jeevanam" />
           </div>
           <div className="mt-4">
             <label className="text-sm font-medium text-gray-700 block mb-1">About Text</label>

@@ -4,7 +4,7 @@ import api from '../lib/api';
 const useSettingsStore = create((set) => ({
   settings: {
     storeName: 'Annakshetram',
-    tagline: 'Satvikam Jeevanam, Shuddham Bhojanam',
+    tagline: 'Shuddham Bhojanam • Satvikam Jeevanam',
     whatsappNumber: '919035735818',
     contactEmail: 'info@annakshetram.com',
     contactPhone: '+91 9035735818',
