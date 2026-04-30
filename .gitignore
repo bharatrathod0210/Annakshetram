@@ -94,10 +94,12 @@ client/.env
 client/.env.local
 client/.env.production
 client/.env.development
+client/.env.example
 server/.env
 server/.env.local
 server/.env.production
 server/.env.development
+server/.env.example
 !.env.example
 client/env
 server/env
