@@ -1,14 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Leaf, Shield, Award, Truck, ChevronRight, Star, MessageCircle } from 'lucide-react';
+import { ShoppingBag, Leaf, Shield, Award, Truck, ChevronRight, Star, ShoppingCart } from 'lucide-react';
 import api, { imgUrl } from '../lib/api';
-import useSettingsStore from '../store/useSettingsStore';
 import ProductCard from '../components/ProductCard';
 
 import heroBg from '../assets/hero-bg.png';
 
 export default function HomePage() {
-  const { settings } = useSettingsStore();
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,7 +49,6 @@ export default function HomePage() {
     api.get('/reviews').then(r => setReviews(r.data.data.reviews)).catch(() => { });
   }, []);
 
-  const whatsappHref = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent("Hello Annakshetram! I'd like to place an order.")}`;
   const categoryEmojis = ['🌾', '🌿', '🫙', '🌶️', '🍯'];
 
   return (
@@ -110,11 +107,6 @@ export default function HomePage() {
                   style={{ background: 'linear-gradient(135deg, #C9A84C, #A8883A)', color: '#1A0A00', boxShadow: '0 4px 20px rgba(201,168,76,0.35)' }}>
                   <ShoppingBag className="w-4 h-4" /> Shop Now
                 </Link>
-                <a href={whatsappHref} target="_blank" rel="noreferrer"
-                  className="flex items-center gap-2.5 font-semibold px-7 py-3.5 rounded-xl text-sm text-white transition-all duration-300 hover:-translate-y-0.5"
-                  style={{ background: 'linear-gradient(135deg, #25D366, #1aad54)', boxShadow: '0 4px 16px rgba(37,211,102,0.3)' }}>
-                  <MessageCircle className="w-4 h-4" /> Order on WhatsApp
-                </a>
                 <Link to="/about"
                   className="flex items-center gap-2 font-medium px-6 py-3.5 rounded-xl text-sm text-cream/70 hover:text-cream transition-all duration-300"
                   style={{ border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}>
@@ -176,14 +168,14 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex items-center gap-3 p-3 rounded-xl"
-                  style={{ background: 'rgba(37,211,102,0.08)', border: '1px solid rgba(37,211,102,0.2)' }}>
+                  style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)' }}>
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #25D366, #1aad54)' }}>
-                    <MessageCircle className="w-4 h-4 text-white" />
+                    style={{ background: 'linear-gradient(135deg, #10b981, #059669)' }}>
+                    <ShoppingCart className="w-4 h-4 text-white" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-cream text-xs font-medium">Order in seconds via WhatsApp</p>
-                    <p className="text-green-400/70 text-[10px]">Instant confirmation</p>
+                    <p className="text-cream text-xs font-medium">Secure Online Payment</p>
+                    <p className="text-green-400/70 text-[10px]">Fast & Safe Checkout</p>
                   </div>
                   <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
                 </div>
@@ -938,10 +930,6 @@ export default function HomePage() {
                 <Link to="/products" className="btn-gold flex items-center gap-2 px-10 py-4 text-base">
                   <ShoppingBag className="w-5 h-5" /> Shop Now
                 </Link>
-                <a href={whatsappHref} target="_blank" rel="noreferrer"
-                  className="wa-pulse bg-[#25D366] hover:bg-[#128C7E] text-white font-bold px-10 py-4 rounded-lg transition-all duration-300 flex items-center gap-2 text-base">
-                  <MessageCircle className="w-5 h-5" /> Order on WhatsApp
-                </a>
               </div>
             </div>
           </div>

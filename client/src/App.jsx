@@ -15,6 +15,9 @@ import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import ReviewPage from './pages/ReviewPage';
 import AllReviewsPage from './pages/AllReviewsPage';
+import CheckoutPage from './pages/CheckoutPage';
+import OrdersPage from './pages/OrdersPage';
+import OrderDetailPage from './pages/OrderDetailPage';
 
 // Admin Pages
 import AdminLayout from './admin/AdminLayout';
@@ -25,6 +28,8 @@ import AdminBanners from './admin/pages/AdminBanners';
 import AdminUsers from './admin/pages/AdminUsers';
 import AdminSettings from './admin/pages/AdminSettings';
 import AdminReviews from './admin/pages/AdminReviews';
+import AdminOrders from './admin/pages/AdminOrders';
+import AdminShipping from './admin/pages/AdminShipping';
 
 export default function App() {
   return (
@@ -54,6 +59,9 @@ export default function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+          <Route path="orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
+          <Route path="orders/:orderId" element={<ProtectedRoute><OrderDetailPage /></ProtectedRoute>} />
           <Route path="reviews" element={<AllReviewsPage />} />
           <Route path="review/:token" element={<ReviewPage />} />
         </Route>
@@ -70,8 +78,10 @@ export default function App() {
           <Route path="products" element={<AdminProducts />} />
           <Route path="categories" element={<AdminCategories />} />
           <Route path="banners" element={<AdminBanners />} />
+          <Route path="orders" element={<AdminOrders />} />
           <Route path="reviews" element={<AdminReviews />} />
           <Route path="users" element={<AdminUsers />} />
+          <Route path="shipping" element={<AdminShipping />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
       </Routes>

@@ -266,10 +266,6 @@ export default function Footer() {
                 info@annakshetram.com
               </li>
             </ul>
-            <div className="flex gap-3 mt-4">
-              <a href="#" className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/40 transition-colors" />
-              <a href="#" className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/40 transition-colors" />
-            </div>
           </div>
         </div>
 

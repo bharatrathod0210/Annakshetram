@@ -1,0 +1,246 @@
+/* Global Responsive Fixes for Annakshetram */
+
+/* Container responsive padding */
+.container-custom {
+  @apply px-4 sm:px-6 lg:px-8;
+}
+
+/* Responsive text sizes */
+.text-responsive-xs {
+  @apply text-xs sm:text-sm;
+}
+
+.text-responsive-sm {
+  @apply text-sm sm:text-base;
+}
+
+.text-responsive-base {
+  @apply text-base sm:text-lg;
+}
+
+.text-responsive-lg {
+  @apply text-lg sm:text-xl lg:text-2xl;
+}
+
+.text-responsive-xl {
+  @apply text-xl sm:text-2xl lg:text-3xl;
+}
+
+.text-responsive-2xl {
+  @apply text-2xl sm:text-3xl lg:text-4xl;
+}
+
+/* Responsive spacing */
+.section-py {
+  @apply py-12 sm:py-16 lg:py-20;
+}
+
+.section-px {
+  @apply px-4 sm:px-6 lg:px-8;
+}
+
+/* Responsive grid gaps */
+.grid-gap-responsive {
+  @apply gap-4 sm:gap-6 lg:gap-8;
+}
+
+/* Responsive card padding */
+.card-padding-responsive {
+  @apply p-4 sm:p-5 lg:p-6;
+}
+
+/* Responsive button sizes */
+.btn-responsive {
+  @apply px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-3;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Responsive table wrapper */
+.table-responsive {
+  @apply overflow-x-auto -mx-4 sm:mx-0;
+}
+
+.table-responsive table {
+  @apply min-w-full;
+}
+
+/* Mobile-friendly touch targets */
+@media (max-width: 640px) {
+  button, a, input[type="button"], input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Admin responsive fixes */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    @apply fixed inset-y-0 left-0 z-50 transform -translate-x-full transition-transform duration-300;
+  }
+  
+  .admin-sidebar.open {
+    @apply translate-x-0;
+  }
+}
+
+/* Order cards responsive */
+.order-card {
+  @apply flex flex-col sm:flex-row gap-4 sm:gap-6;
+}
+
+.order-card-actions {
+  @apply flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto;
+}
+
+/* Product card responsive */
+.product-card {
+  @apply flex flex-col;
+}
+
+.product-card-image {
+  @apply aspect-square w-full object-cover;
+}
+
+.product-card-content {
+  @apply p-3 sm:p-4 flex flex-col gap-2 sm:gap-3;
+}
+
+/* Form responsive */
+.form-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6;
+}
+
+.form-grid-full {
+  @apply col-span-1 sm:col-span-2;
+}
+
+/* Modal responsive */
+.modal-content {
+  @apply w-full max-w-lg mx-4 sm:mx-auto;
+}
+
+/* Navbar responsive */
+.nav-links {
+  @apply hidden md:flex items-center gap-1;
+}
+
+.mobile-menu {
+  @apply md:hidden;
+}
+
+/* Footer responsive */
+.footer-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8;
+}
+
+/* Checkout responsive */
+.checkout-grid {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8;
+}
+
+.checkout-main {
+  @apply lg:col-span-2;
+}
+
+.checkout-sidebar {
+  @apply lg:col-span-1;
+}
+
+/* Profile responsive */
+.profile-grid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+}
+
+.profile-sidebar {
+  @apply md:col-span-1;
+}
+
+.profile-main {
+  @apply md:col-span-2;
+}
+
+/* Responsive flex utilities */
+.flex-responsive {
+  @apply flex flex-col sm:flex-row;
+}
+
+.flex-responsive-reverse {
+  @apply flex flex-col-reverse sm:flex-row;
+}
+
+/* Text truncate with responsive lines */
+.line-clamp-responsive {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-responsive-2 {
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-responsive-3 {
+  -webkit-line-clamp: 3;
+}
+
+/* Responsive aspect ratios */
+.aspect-responsive-square {
+  @apply aspect-square;
+}
+
+.aspect-responsive-video {
+  @apply aspect-video;
+}
+
+/* Safe area for mobile notches */
+@supports (padding: max(0px)) {
+  .safe-area-top {
+    padding-top: max(env(safe-area-inset-top), 0px);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+}
+
+/* Prevent text selection on buttons */
+button, .btn {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary;
+}
+
+/* Remove default focus for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}

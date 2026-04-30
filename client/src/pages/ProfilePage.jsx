@@ -1,9 +1,14 @@
 import { useState } from 'react';
-import { User, Phone, Mail, Lock, ShieldCheck, LogOut, Save, Eye, EyeOff, MapPin } from 'lucide-react';
+import { User, Phone, Mail, Lock, ShieldCheck, LogOut, Save, Eye, EyeOff, MapPin, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import useAuthStore from '../store/useAuthStore';
 import api from '../lib/api';
+import { 
+  validateCityInState, 
+  validatePincode, 
+  validatePincodeForState 
+} from '../lib/indianCities';
 
 const STATES = [
   'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat',
@@ -33,6 +38,8 @@ export default function ProfilePage() {
   const [pwLoading, setPwLoading] = useState(false);
   const [addrLoading, setAddrLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
+  const [cityWarning, setCityWarning] = useState('');
+  const [pincodeWarning, setPincodeWarning] = useState('');
 
   const handleProfileSave = async (e) => {
     e.preventDefault();
@@ -54,15 +61,64 @@ export default function ProfilePage() {
     const { fullName, phone, line1, city, state, pincode } = addrForm;
     if (!fullName || !phone || !line1 || !city || !state || !pincode)
       return toast.error('Please fill all required fields');
+    
+    // Validate pincode format
+    if (!validatePincode(pincode)) {
+      return toast.error('Please enter a valid 6-digit pincode');
+    }
+    
+    // Validate city in state
+    if (!validateCityInState(city, state)) {
+      return toast.error(`"${city}" does not appear to be in ${state}. Please check your address.`);
+    }
+    
+    // Validate pincode for state
+    if (!validatePincodeForState(pincode, state)) {
+      return toast.error(`Pincode ${pincode} does not match ${state}. Please verify your address.`);
+    }
+    
     setAddrLoading(true);
     try {
       const res = await api.put('/auth/address', addrForm);
       updateUser(res.data.data.user);
       toast.success('Address saved');
+      setCityWarning('');
+      setPincodeWarning('');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to save address');
     } finally {
       setAddrLoading(false);
+    }
+  };
+
+  const handleAddressChange = (field, value) => {
+    setAddrForm({ ...addrForm, [field]: value });
+
+    // Validate city when it changes
+    if (field === 'city' && addrForm.state) {
+      const isValid = validateCityInState(value, addrForm.state);
+      if (value && !isValid) {
+        setCityWarning(`⚠️ "${value}" may not be in ${addrForm.state}. Please verify.`);
+      } else {
+        setCityWarning('');
+      }
+    }
+
+    // Validate pincode when it changes
+    if (field === 'pincode') {
+      if (value && !validatePincode(value)) {
+        setPincodeWarning('⚠️ Invalid pincode format. Must be 6 digits.');
+      } else if (value && addrForm.state && !validatePincodeForState(value, addrForm.state)) {
+        setPincodeWarning(`⚠️ This pincode may not belong to ${addrForm.state}. Please verify.`);
+      } else {
+        setPincodeWarning('');
+      }
+    }
+
+    // Clear warnings when state changes
+    if (field === 'state') {
+      setCityWarning('');
+      setPincodeWarning('');
     }
   };
 
@@ -248,20 +304,49 @@ export default function ProfilePage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">City *</label>
-                  <input value={addrForm.city} onChange={e => setAddrForm({ ...addrForm, city: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-                    placeholder="City" required />
+                  <input 
+                    value={addrForm.city} 
+                    onChange={e => handleAddressChange('city', e.target.value)}
+                    className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary ${
+                      cityWarning ? 'border-amber-400 bg-amber-50' : 'border-gray-200'
+                    }`}
+                    placeholder="City" 
+                    required 
+                  />
+                  {cityWarning && (
+                    <div className="mt-1.5 flex items-start gap-1.5 text-xs text-amber-700">
+                      <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+                      <span>{cityWarning}</span>
+                    </div>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Pincode *</label>
-                  <input value={addrForm.pincode} onChange={e => setAddrForm({ ...addrForm, pincode: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
-                    placeholder="560001" required />
+                  <input 
+                    value={addrForm.pincode} 
+                    onChange={e => handleAddressChange('pincode', e.target.value)}
+                    className={`w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary ${
+                      pincodeWarning ? 'border-amber-400 bg-amber-50' : 'border-gray-200'
+                    }`}
+                    placeholder="560001" 
+                    maxLength="6"
+                    required 
+                  />
+                  {pincodeWarning && (
+                    <div className="mt-1.5 flex items-start gap-1.5 text-xs text-amber-700">
+                      <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+                      <span>{pincodeWarning}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">State *</label>
-                  <select value={addrForm.state} onChange={e => setAddrForm({ ...addrForm, state: e.target.value })}
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white" required>
+                  <select 
+                    value={addrForm.state} 
+                    onChange={e => handleAddressChange('state', e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary bg-white" 
+                    required
+                  >
                     <option value="">Select state</option>
                     {STATES.map(s => <option key={s} value={s}>{s}</option>)}
                   </select>

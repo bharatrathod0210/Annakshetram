@@ -147,6 +147,13 @@ export default function Navbar() {
                       <User className="w-4 h-4" /> Profile
                     </Link>
                     <Link
+                      to="/orders"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#5C4A3A] hover:bg-[#F3EDE3]"
+                    >
+                      <ShoppingCart className="w-4 h-4" /> My Orders
+                    </Link>
+                    <Link
                       to="/reviews"
                       onClick={() => setUserMenuOpen(false)}
                       className="flex items-center gap-2 px-4 py-2.5 text-sm text-[#5C4A3A] hover:bg-[#F3EDE3]"

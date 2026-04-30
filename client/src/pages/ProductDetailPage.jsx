@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ShoppingCart, MessageCircle, Check, ChevronLeft, Minus, Plus, Leaf } from 'lucide-react';
+import { ShoppingCart, Check, ChevronLeft, Minus, Plus, Leaf } from 'lucide-react';
 import api, { BASE_URL, imgUrl } from '../lib/api';
 import useCartStore from '../store/useCartStore';
 import useAuthStore from '../store/useAuthStore';
-import useSettingsStore from '../store/useSettingsStore';
-import { formatPrice, generateWhatsAppMessage } from '../lib/utils';
+import { formatPrice } from '../lib/utils';
 import toast from 'react-hot-toast';
 
 export default function ProductDetailPage() {
@@ -19,7 +18,6 @@ export default function ProductDetailPage() {
 
   const { addToCart, isLoading: cartLoading } = useCartStore();
   const { isAuthenticated } = useAuthStore();
-  const { settings } = useSettingsStore();
 
   useEffect(() => {
     const fetch = async () => {
@@ -47,26 +45,6 @@ export default function ProductDetailPage() {
       setAdded(true);
       setTimeout(() => setAdded(false), 2500);
     }
-  };
-
-  const handleWhatsApp = () => {
-    if (!isAuthenticated()) {
-      toast.error('Please login to place an order');
-      navigate(`/login?redirect=/products/${slug}`);
-      return;
-    }
-    const { user } = useAuthStore.getState();
-    if (!user?.address?.line1) {
-      toast.error('Please add a delivery address first');
-      navigate('/profile');
-      return;
-    }
-    const url = generateWhatsAppMessage(
-      [{ name: product.name, unit: product.unit, price: product.price, quantity }],
-      settings.whatsappNumber,
-      user.address
-    );
-    window.open(url, '_blank');
   };
 
   if (loading) {
@@ -175,7 +153,7 @@ export default function ProductDetailPage() {
               <button
                 onClick={handleAddToCart}
                 disabled={product.stock === 0 || cartLoading}
-                className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-lg font-bold text-sm transition-all duration-200 ${
+                className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-lg font-bold text-sm transition-all duration-200 ${
                   added ? 'bg-green-600 text-white'
                   : product.stock === 0 ? 'bg-muted text-text-light cursor-not-allowed'
                   : 'bg-primary text-cream hover:bg-primary-light shadow-warm hover:shadow-md'
@@ -183,13 +161,6 @@ export default function ProductDetailPage() {
               >
                 {added ? <Check className="w-5 h-5" /> : <ShoppingCart className="w-5 h-5" />}
                 {added ? 'Added to Cart!' : product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-              </button>
-              <button
-                onClick={handleWhatsApp}
-                className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-lg font-bold text-sm bg-green-500 text-white hover:bg-green-600 transition-all shadow-md"
-              >
-                <MessageCircle className="w-5 h-5" />
-                Order via WhatsApp
               </button>
             </div>
 

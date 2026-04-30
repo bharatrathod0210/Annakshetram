@@ -225,32 +225,32 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <div className="container-custom py-8">
+      <div className="container-custom py-6 sm:py-8">
         {/* Search + Filter bar */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
           <form onSubmit={handleSearch} className="flex-1 relative">
-            <Search className="absolute left-3 top-3.5 w-4 h-4 text-text-light" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-light pointer-events-none" />
             <input
               type="text"
               name="search"
               defaultValue={currentSearch}
               placeholder="Search products..."
-              className="input-field pl-10"
+              className="input-field pl-10 w-full"
             />
           </form>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-2 px-4 py-3 rounded-lg border font-medium text-sm transition-all sm:hidden ${showFilters ? 'bg-primary text-cream border-primary' : 'border-border text-text-secondary hover:border-primary'}`}
+            className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg border font-medium text-sm transition-all sm:hidden ${showFilters ? 'bg-primary text-cream border-primary' : 'border-border text-text-secondary hover:border-primary'}`}
           >
             <SlidersHorizontal className="w-4 h-4" />
             Filters {currentCategory && <span className="bg-accent text-primary-dark rounded-lg w-5 h-5 text-xs flex items-center justify-center">1</span>}
           </button>
         </div>
 
-        <div className="flex gap-6">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
           {/* Sidebar Categories */}
-          <aside className={`${showFilters ? 'block' : 'hidden'} sm:block w-60 flex-shrink-0`}>
-            <div className="card p-4 sticky top-20">
+          <aside className={`${showFilters ? 'block' : 'hidden'} sm:block w-full sm:w-60 flex-shrink-0`}>
+            <div className="card p-4 sm:sticky sm:top-20">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-heading font-semibold text-primary">Categories</h3>
                 {hasFilters && (
@@ -285,7 +285,7 @@ export default function ProductsPage() {
           {/* Products Grid */}
           <div className="flex-1 min-w-0">
             {loading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {[...Array(6)].map((_, i) => (
                   <div key={i} className="card animate-pulse">
                     <div className="aspect-square bg-muted" />
@@ -298,20 +298,20 @@ export default function ProductsPage() {
                 ))}
               </div>
             ) : products.length === 0 ? (
-              <div className="text-center py-16">
-                <span className="text-5xl block mb-4">🌾</span>
-                <h3 className="font-heading text-xl font-semibold text-primary mb-2">No products found</h3>
-                <p className="text-text-secondary mb-4">Try different filters or search terms</p>
+              <div className="text-center py-12 sm:py-16 px-4">
+                <span className="text-4xl sm:text-5xl block mb-4">🌾</span>
+                <h3 className="font-heading text-lg sm:text-xl font-semibold text-primary mb-2">No products found</h3>
+                <p className="text-text-secondary text-sm sm:text-base mb-4">Try different filters or search terms</p>
                 <button onClick={clearFilters} className="btn-outline text-sm">Clear Filters</button>
               </div>
             ) : (
               <>
-                <div className="flex items-center justify-between mb-4">
-                  <p className="text-text-secondary text-sm">
+                <div className="flex items-center justify-between mb-4 px-1">
+                  <p className="text-text-secondary text-xs sm:text-sm">
                     Showing <span className="font-semibold text-primary">{products.length}</span> of <span className="font-semibold text-primary">{total}</span> products
                   </p>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {products.map(product => (
                     <ProductCard key={product.productId} product={product} />
                   ))}
@@ -319,7 +319,7 @@ export default function ProductsPage() {
 
                 {/* Pagination */}
                 {pages > 1 && (
-                  <div className="flex justify-center gap-2 mt-8">
+                  <div className="flex flex-wrap justify-center gap-2 mt-6 sm:mt-8 px-2">
                     {[...Array(pages)].map((_, i) => {
                       const pageNum = i + 1;
                       const params = new URLSearchParams(searchParams);
@@ -328,7 +328,7 @@ export default function ProductsPage() {
                         <button
                           key={pageNum}
                           onClick={() => setSearchParams(params)}
-                          className={`w-10 h-10 rounded-lg font-medium text-sm transition-all ${pageNum === currentPage ? 'bg-primary text-cream' : 'bg-white border border-border text-text-secondary hover:border-primary hover:text-primary'}`}
+                          className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg font-medium text-xs sm:text-sm transition-all ${pageNum === currentPage ? 'bg-primary text-cream' : 'bg-white border border-border text-text-secondary hover:border-primary hover:text-primary'}`}
                         >
                           {pageNum}
                         </button>

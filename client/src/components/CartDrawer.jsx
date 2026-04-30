@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { X, ShoppingCart, Plus, Minus, Trash2, MessageCircle, MapPin, Pencil, Check, ChevronRight } from 'lucide-react';
+import { X, ShoppingCart, Plus, Minus, Trash2, MapPin, Pencil, Check, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useCartStore from '../store/useCartStore';
-import useSettingsStore from '../store/useSettingsStore';
 import useAuthStore from '../store/useAuthStore';
-import { formatPrice, generateWhatsAppMessage } from '../lib/utils';
+import { formatPrice } from '../lib/utils';
 import { imgUrl } from '../lib/api';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
@@ -21,7 +20,6 @@ const emptyAddr = { fullName: '', phone: '', line1: '', line2: '', city: '', sta
 
 export default function CartDrawer() {
   const { items, isOpen, setOpen, updateQuantity, removeItem, getTotal } = useCartStore();
-  const { settings } = useSettingsStore();
   const { user, updateUser, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
 
@@ -51,24 +49,6 @@ export default function CartDrawer() {
       toast.error(err.response?.data?.message || 'Failed to save address');
     }
     setSaving(false);
-  };
-
-  const handleWhatsApp = () => {
-    if (items.length === 0) return;
-    if (!isAuthenticated()) {
-      toast.error('Please login to place an order');
-      setOpen(false);
-      navigate('/login');
-      return;
-    }
-    if (!savedAddr) {
-      toast.error('Please add a delivery address first');
-      setAddrForm(emptyAddr);
-      setStep('address');
-      return;
-    }
-    const url = generateWhatsAppMessage(items, settings.whatsappNumber, savedAddr);
-    window.open(url, '_blank');
   };
 
   if (!isOpen) return null;
@@ -237,13 +217,25 @@ export default function CartDrawer() {
                   <span className="font-semibold text-text-secondary">Total Amount</span>
                   <span className="font-heading text-2xl font-bold text-primary">{formatPrice(getTotal())}</span>
                 </div>
-                <button onClick={handleWhatsApp}
-                  className="w-full btn-gold flex items-center justify-center gap-2 py-3">
-                  <MessageCircle className="w-5 h-5" />
-                  Order via WhatsApp
+                
+                {/* Checkout Button */}
+                <button 
+                  onClick={() => {
+                    if (!isAuthenticated()) {
+                      toast.error('Please login to checkout');
+                      setOpen(false);
+                      navigate('/login');
+                      return;
+                    }
+                    setOpen(false);
+                    navigate('/checkout');
+                  }}
+                  className="w-full bg-green-600 text-white flex items-center justify-center gap-2 py-3 rounded-xl font-semibold hover:bg-green-700 transition-colors">
+                  <ShoppingCart className="w-5 h-5" />
+                  Proceed to Checkout
                 </button>
                 <p className="text-xs text-text-light text-center">
-                  📱 You'll be redirected to WhatsApp with your order details
+                  💳 Secure payment via Razorpay • Safe & Fast
                 </p>
               </div>
             )}
