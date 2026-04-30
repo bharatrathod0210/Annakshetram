@@ -15,7 +15,6 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-// Manual CORS headers — most reliable approach for cross-origin APIs
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   const allowed = [
@@ -25,6 +24,7 @@ app.use((req, res, next) => {
     'http://localhost:3000',
     'https://apiszen.com',
     'https://www.apiszen.com',
+    'https://annakshetram.onrender.com',
   ];
   if (!origin || allowed.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin || '*');

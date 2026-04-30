@@ -25,6 +25,8 @@ server/uploads/*
 # Logs
 # ===========================
 logs/
+server/logs/*
+!server/logs/.gitkeep
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -83,7 +85,19 @@ coverage/
 # Environment Variables
 # ===========================
 .env
-.env.*
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+client/.env
+client/.env.local
+client/.env.production
+client/.env.development
+server/.env
+server/.env.local
+server/.env.production
+server/.env.development
 !.env.example
 client/env
 server/env
