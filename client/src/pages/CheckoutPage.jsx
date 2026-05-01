@@ -203,7 +203,7 @@ const CheckoutPage = () => {
         currency: currency,
         name: 'Annakshetram',
         description: 'Shuddham Bhojanam • Satvikam Jeevanam',
-        image: '/logo.png',
+        image: `${import.meta.env.VITE_CLIENT_URL}/logo.png`,
         order_id: razorpayOrderId,
         prefill: {
           name: shippingAddress.fullName,

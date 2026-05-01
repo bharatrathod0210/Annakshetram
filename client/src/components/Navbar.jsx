@@ -223,7 +223,17 @@ export default function Navbar() {
             ))}
             {!isAuthenticated() && (
               <div className="flex gap-2 mt-4">
-                <Link to="/login" onClick={() => setMenuOpen(false)} className="btn-outline py-2 px-4 text-sm flex-1 text-center">Login</Link>
+                <Link
+                  to="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className={`py-2 px-4 text-sm flex-1 text-center rounded-lg font-semibold border-2 transition-all duration-200 ${
+                    isTransparent
+                      ? 'border-white text-white hover:bg-white hover:text-[#6B1414]'
+                      : 'border-[#6B1414] text-[#6B1414] bg-white hover:bg-[#6B1414] hover:text-white'
+                  }`}
+                >
+                  Login
+                </Link>
                 <Link to="/register" onClick={() => setMenuOpen(false)} className="btn-gold py-2 px-4 text-sm flex-1 text-center">Sign Up</Link>
               </div>
             )}

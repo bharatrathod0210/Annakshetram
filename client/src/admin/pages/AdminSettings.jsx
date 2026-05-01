@@ -3,6 +3,23 @@ import { Save } from 'lucide-react';
 import api from '../../lib/api';
 import toast from 'react-hot-toast';
 
+// Defined OUTSIDE component so React doesn't recreate it on every render
+// (which would cause input to lose focus after each keystroke)
+function Field({ label, name, type = 'text', placeholder = '', value, onChange }) {
+  return (
+    <div>
+      <label className="text-sm font-medium text-gray-700 block mb-1">{label}</label>
+      <input
+        type={type}
+        className="input-field"
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+}
+
 export default function AdminSettings() {
   const [form, setForm] = useState({
     storeName: '', tagline: '', whatsappNumber: '', contactEmail: '', contactPhone: '', address: '', facebookUrl: '', instagramUrl: '', aboutText: '',
@@ -13,10 +30,22 @@ export default function AdminSettings() {
   useEffect(() => {
     api.get('/admin/settings').then(res => {
       const s = res.data.data.settings;
-      setForm({ storeName: s.storeName || '', tagline: s.tagline || '', whatsappNumber: s.whatsappNumber || '', contactEmail: s.contactEmail || '', contactPhone: s.contactPhone || '', address: s.address || '', facebookUrl: s.facebookUrl || '', instagramUrl: s.instagramUrl || '', aboutText: s.aboutText || '' });
+      setForm({
+        storeName: s.storeName || '',
+        tagline: s.tagline || '',
+        whatsappNumber: s.whatsappNumber || '',
+        contactEmail: s.contactEmail || '',
+        contactPhone: s.contactPhone || '',
+        address: s.address || '',
+        facebookUrl: s.facebookUrl || '',
+        instagramUrl: s.instagramUrl || '',
+        aboutText: s.aboutText || '',
+      });
       setLoading(false);
     });
   }, []);
+
+  const handleChange = (name) => (e) => setForm(prev => ({ ...prev, [name]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,19 +56,6 @@ export default function AdminSettings() {
     } catch { toast.error('Error saving settings'); }
     setSaving(false);
   };
-
-  const Field = ({ label, name, type = 'text', placeholder = '' }) => (
-    <div>
-      <label className="text-sm font-medium text-gray-700 block mb-1">{label}</label>
-      <input
-        type={type}
-        className="input-field"
-        value={form[name]}
-        onChange={e => setForm({ ...form, [name]: e.target.value })}
-        placeholder={placeholder}
-      />
-    </div>
-  );
 
   if (loading) return <div className="animate-pulse h-96 bg-white rounded-lg" />;
 
@@ -54,15 +70,15 @@ export default function AdminSettings() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
           <h2 className="font-semibold text-gray-900 mb-4 text-base font-heading">Store Information</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Store Name" name="storeName" placeholder="Annakshetram" />
-            <Field label="Tagline" name="tagline" placeholder="Shuddham Bhojanam • Satvikam Jeevanam" />
+            <Field label="Store Name" name="storeName" placeholder="Annakshetram" value={form.storeName} onChange={handleChange('storeName')} />
+            <Field label="Tagline" name="tagline" placeholder="Shuddham Bhojanam • Satvikam Jeevanam" value={form.tagline} onChange={handleChange('tagline')} />
           </div>
           <div className="mt-4">
             <label className="text-sm font-medium text-gray-700 block mb-1">About Text</label>
             <textarea
               className="input-field resize-none h-28"
               value={form.aboutText}
-              onChange={e => setForm({ ...form, aboutText: e.target.value })}
+              onChange={handleChange('aboutText')}
               placeholder="Brief description of your store..."
             />
           </div>
@@ -71,18 +87,18 @@ export default function AdminSettings() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
           <h2 className="font-semibold text-gray-900 mb-4 text-base font-heading">Contact Details</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Field label="WhatsApp Number (with country code)" name="whatsappNumber" placeholder="919035735818" />
-            <Field label="Contact Email" name="contactEmail" type="email" placeholder="info@annakshetram.com" />
-            <Field label="Phone" name="contactPhone" placeholder="+91 9035735818" />
-            <Field label="Location/Address" name="address" placeholder="Karnataka, India" />
+            <Field label="WhatsApp Number (with country code)" name="whatsappNumber" placeholder="919035735818" value={form.whatsappNumber} onChange={handleChange('whatsappNumber')} />
+            <Field label="Contact Email" name="contactEmail" type="email" placeholder="info@annakshetram.com" value={form.contactEmail} onChange={handleChange('contactEmail')} />
+            <Field label="Phone" name="contactPhone" placeholder="+91 9035735818" value={form.contactPhone} onChange={handleChange('contactPhone')} />
+            <Field label="Location/Address" name="address" placeholder="Karnataka, India" value={form.address} onChange={handleChange('address')} />
           </div>
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
           <h2 className="font-semibold text-gray-900 mb-4 text-base font-heading">Social Media</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Facebook URL" name="facebookUrl" placeholder="https://facebook.com/..." />
-            <Field label="Instagram URL" name="instagramUrl" placeholder="https://instagram.com/..." />
+            <Field label="Facebook URL" name="facebookUrl" placeholder="https://facebook.com/..." value={form.facebookUrl} onChange={handleChange('facebookUrl')} />
+            <Field label="Instagram URL" name="instagramUrl" placeholder="https://instagram.com/..." value={form.instagramUrl} onChange={handleChange('instagramUrl')} />
           </div>
         </div>
 
