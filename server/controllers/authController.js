@@ -79,7 +79,6 @@ const updateProfile = async (req, res) => {
   }
 };
 
-// @desc  Save delivery address
 // @route PUT /api/auth/address
 const saveAddress = async (req, res) => {
   try {
