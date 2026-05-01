@@ -59,9 +59,11 @@ const generateOrderPDF = (order, res) => {
     danger:     '#dc2626',
   };
 
-  // Check if logo exists
-  const logoPath = path.join(__dirname, '../uploads/logo.png');
-  const hasLogo = fs.existsSync(logoPath);
+  // Check if logo exists — prefer assets/ (committed to git), fallback to uploads/
+  const logoPathAssets  = path.join(__dirname, '../assets/logo.png');
+  const logoPathUploads = path.join(__dirname, '../uploads/logo.png');
+  const logoPath = fs.existsSync(logoPathAssets) ? logoPathAssets : logoPathUploads;
+  const hasLogo  = fs.existsSync(logoPath);
 
   let y = 0;
 
