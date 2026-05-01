@@ -34,9 +34,9 @@ const paymentLogSchema = new mongoose.Schema({
   
   // User Details
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    type: String,
+    required: true,
+    index: true
   },
   
   userEmail: String,

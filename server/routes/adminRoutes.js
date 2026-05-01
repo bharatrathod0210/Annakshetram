@@ -39,12 +39,12 @@ router.put('/orders/:orderId/seen', protect, adminOnly, markOrderAsSeen);
 router.post('/orders/:orderId/refund', protect, adminOnly, refundOrder);
 router.delete('/orders/:orderId', protect, adminOnly, deleteOrder);
 
-// Payment logs
-router.get('/payment-logs', protect, adminOnly, getPaymentLogs);
+// Payment logs — specific routes MUST come before /:id to avoid param conflicts
 router.get('/payment-logs/stats', protect, adminOnly, getPaymentStats);
 router.get('/payment-logs/files', protect, adminOnly, getLogFiles);
 router.get('/payment-logs/files/:date', protect, adminOnly, downloadLogFile);
 router.get('/payment-logs/order/:orderId', protect, adminOnly, getOrderPaymentLogs);
+router.get('/payment-logs', protect, adminOnly, getPaymentLogs);
 router.get('/payment-logs/:id', protect, adminOnly, getPaymentLogDetails);
 
 module.exports = router;

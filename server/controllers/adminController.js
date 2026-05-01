@@ -6,6 +6,7 @@ const Product = require('../models/Product');
 const Category = require('../models/Category');
 const Order = require('../models/Order');
 const { generateOrderPDF } = require('../utils/pdfGenerator');
+const PaymentLogger = require('../utils/paymentLogger');
 
 // --- BANNER CONTROLLERS ---
 const getBanners = async (req, res) => {
@@ -408,6 +409,25 @@ const refundOrder = async (req, res) => {
     });
     
     await order.save();
+
+    // Log refund to PaymentLog collection
+    await PaymentLogger.logRefund({
+      orderId: order.orderId,
+      razorpayOrderId: order.razorpayOrderId,
+      razorpayPaymentId: order.razorpayPaymentId,
+      amount: order.subtotal,
+      userId: order.userId,
+      userEmail: order.userDetails.email,
+      userName: order.userDetails.name,
+      success: true,
+      reason: 'Admin initiated refund',
+      refundId: refund.id,
+      refundAmount: order.subtotal,
+      refundStatus: refund.status,
+      refundReason: 'Admin initiated refund',
+      refundedAt: new Date(),
+      responseData: refund,
+    });
     
     res.json({ 
       success: true, 
