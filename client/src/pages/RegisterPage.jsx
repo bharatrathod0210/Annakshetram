@@ -34,7 +34,16 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-cream flex items-center justify-center py-12 px-4">
       <div className="card p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <img src={logo} alt="Annakshetram" className="h-28 w-auto object-contain mx-auto mb-4 rounded-lg" />
+          <Link
+            to="/"
+            className="inline-flex flex-col items-center gap-3 hover:opacity-90 transition-opacity"
+          >
+            <img
+              src={logo}
+              alt="Annakshetram"
+              className="h-20 w-auto object-contain rounded-lg"
+            />
+          </Link>
           <h1 className="font-heading text-3xl font-bold text-primary">Join Annakshetram</h1>
           <p className="text-text-secondary mt-1">Create your account and start your satvik journey</p>
         </div>

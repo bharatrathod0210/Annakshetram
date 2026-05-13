@@ -57,8 +57,6 @@ export default function App() {
           <Route path="products/:slug" element={<ProductDetailPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="contact" element={<ContactPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
           <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
           <Route path="orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
@@ -69,6 +67,10 @@ export default function App() {
 
         {/* Standalone review page — no navbar/footer */}
         <Route path="/review" element={<ReviewPage />} />
+
+        {/* Standalone auth pages — no navbar/footer */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         {/* Admin routes */}
         <Route
