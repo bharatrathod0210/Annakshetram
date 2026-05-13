@@ -1,6 +1,25 @@
 require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
 const connectDB = require('./config/db');
+const { errorHandler } = require('./middleware/errorMiddleware');
+const { requestLogger } = require('./middleware/requestLogger');
+const { logger } = require('./utils/logger');
+
+const DEFAULT_ORIGINS = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
+  'http://localhost:3000',
+  'https://apiszen.com',
+  'https://www.apiszen.com',
+  'https://annakshetram.onrender.com',
+];
+const extraOrigins = (process.env.CLIENT_URL || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+const allowedOrigins = [...new Set([...DEFAULT_ORIGINS, ...extraOrigins])];
 
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -11,22 +30,21 @@ const reviewRoutes = require('./routes/reviewRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
+app.set('trust proxy', 1);
+
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: false,
+  })
+);
 
 // Connect to MongoDB
 connectDB();
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  const allowed = [
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'http://localhost:5175',
-    'http://localhost:3000',
-    'https://apiszen.com',
-    'https://www.apiszen.com',
-    'https://annakshetram.onrender.com',
-  ];
-  if (!origin || allowed.includes(origin)) {
+  if (!origin || allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin || '*');
   }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -40,6 +58,7 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(requestLogger);
 
 
 // API Routes
@@ -51,9 +70,9 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/orders', orderRoutes);
 
-// Health check
+// Health check (no internal details)
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: 'Annakshetram API is running 🌿', timestamp: new Date().toISOString() });
+  res.json({ success: true });
 });
 
 // Seed endpoint — protected by secret key
@@ -67,8 +86,13 @@ app.post('/api/seed', async (req, res) => {
     await runSeed();
     res.json({ success: true, message: 'Seed completed' });
   } catch (err) {
-    console.error('Seed error:', err);
-    res.status(500).json({ success: false, message: err.message });
+    logger.error('Seed failed', {
+      category: 'seed',
+      success: false,
+      meta: { message: err.message },
+      stack: err.stack,
+    });
+    res.status(500).json({ success: false, message: 'Seed failed' });
   }
 });
 
@@ -77,14 +101,10 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
 });
 
-// Error handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(err.status || 500).json({ success: false, message: err.message || 'Internal Server Error' });
-});
+// Error handler (no stack or raw DB errors in response)
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Annakshetram Server running on port ${PORT}`);
-  console.log(`📡 API: http://localhost:${PORT}/api`);
+  logger.info(`Server listening on port ${PORT}`, { category: 'startup', success: true, meta: { port: PORT } });
 });

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Star, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import api from '../lib/api';
+import ReviewAdminReply from '../components/ReviewAdminReply';
+import ReviewTeamBadge from '../components/ReviewTeamBadge';
 
 function StarDisplay({ rating }) {
   return (
@@ -101,6 +103,8 @@ export default function AllReviewsPage() {
               <div key={r.reviewId} className="bg-white rounded-xl border border-border shadow-card p-6 hover:-translate-y-1 transition-all duration-300">
                 <StarDisplay rating={r.rating} />
                 <p className="text-text-secondary text-sm leading-relaxed my-4 italic">"{r.text}"</p>
+                <ReviewTeamBadge count={r.reviewTeamLikes} />
+                <ReviewAdminReply reviewId={r.reviewId} adminReply={r.adminReply} replyLikes={r.replyLikes} />
                 <div className="flex items-center gap-3 border-t border-border pt-4">
                   <div className="w-9 h-9 bg-gradient-maroon rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-sm">{r.name[0]}</span>

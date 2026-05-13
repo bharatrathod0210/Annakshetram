@@ -3,7 +3,7 @@ const Product = require('../models/Product');
 
 // @desc  Get user cart
 // @route GET /api/cart
-const getCart = async (req, res) => {
+const getCart = async (req, res, next) => {
   try {
     let cart = await Cart.findOne({ userId: req.user.userId, isDeleted: false });
     if (!cart) cart = await Cart.create({ userId: req.user.userId, items: [] });
@@ -20,13 +20,13 @@ const getCart = async (req, res) => {
 
     res.json({ success: true, data: { cart } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // @desc  Add item to cart
 // @route POST /api/cart/add
-const addToCart = async (req, res) => {
+const addToCart = async (req, res, next) => {
   try {
     const { productId, quantity = 1 } = req.body;
     const product = await Product.findOne({ productId, isDeleted: false });
@@ -51,13 +51,13 @@ const addToCart = async (req, res) => {
     await cart.save();
     res.json({ success: true, message: 'Added to cart', data: { cart } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // @desc  Update item quantity
 // @route PUT /api/cart/update
-const updateCartItem = async (req, res) => {
+const updateCartItem = async (req, res, next) => {
   try {
     const { productId, quantity } = req.body;
     const cart = await Cart.findOne({ userId: req.user.userId, isDeleted: false });
@@ -74,13 +74,13 @@ const updateCartItem = async (req, res) => {
     await cart.save();
     res.json({ success: true, data: { cart } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // @desc  Remove item from cart
 // @route DELETE /api/cart/remove/:productId
-const removeFromCart = async (req, res) => {
+const removeFromCart = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({ userId: req.user.userId, isDeleted: false });
     if (!cart) return res.status(404).json({ success: false, message: 'Cart not found' });
@@ -88,19 +88,19 @@ const removeFromCart = async (req, res) => {
     await cart.save();
     res.json({ success: true, message: 'Item removed', data: { cart } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // @desc  Clear cart
 // @route DELETE /api/cart/clear
-const clearCart = async (req, res) => {
+const clearCart = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({ userId: req.user.userId, isDeleted: false });
     if (cart) { cart.items = []; await cart.save(); }
     res.json({ success: true, message: 'Cart cleared' });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 

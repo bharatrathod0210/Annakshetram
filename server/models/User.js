@@ -32,6 +32,7 @@ userSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.passwordHash;
   delete obj.__v;
+  delete obj._id;
   return obj;
 };
 

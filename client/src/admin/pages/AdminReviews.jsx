@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Star, Trash2, Pencil, X, Save, Eye, EyeOff } from 'lucide-react';
+import { Star, Trash2, Pencil, X, Save, Eye, EyeOff, MessageSquareReply, Heart } from 'lucide-react';
 import api from '../../lib/api';
 import toast from 'react-hot-toast';
+import useAuthStore from '../../store/useAuthStore';
 
 function StarDisplay({ rating }) {
   return (
@@ -14,11 +15,15 @@ function StarDisplay({ rating }) {
 }
 
 export default function AdminReviews() {
+  const user = useAuthStore((s) => s.user);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(null);
   const [editForm, setEditForm] = useState({});
   const [saving, setSaving] = useState(false);
+  const [replyingId, setReplyingId] = useState(null);
+  const [replyDraft, setReplyDraft] = useState('');
+  const [replySaving, setReplySaving] = useState(false);
 
   const fetchReviews = async () => {
     setLoading(true);
@@ -50,7 +55,47 @@ export default function AdminReviews() {
 
   const startEdit = (r) => {
     setEditing(r.reviewId);
-    setEditForm({ name: r.name, location: r.location || '', rating: r.rating, text: r.text, isApproved: r.isApproved });
+    setEditForm({
+      name: r.name,
+      location: r.location || '',
+      rating: r.rating,
+      text: r.text,
+      isApproved: r.isApproved,
+    });
+  };
+
+  const openReplyModal = (r) => {
+    setReplyingId(r.reviewId);
+    setReplyDraft(r.adminReply || '');
+  };
+
+  const closeReplyModal = () => {
+    setReplyingId(null);
+    setReplyDraft('');
+  };
+
+  const toggleTeamLike = async (r) => {
+    try {
+      const res = await api.post(`/reviews/${r.reviewId}/team-review-like`);
+      const { likedByMe } = res.data.data;
+      toast.success(likedByMe ? 'Marked as appreciated' : 'Removed appreciation');
+      fetchReviews();
+    } catch {
+      toast.error('Could not update');
+    }
+  };
+
+  const handleSaveReply = async () => {
+    setReplySaving(true);
+    try {
+      await api.put(`/reviews/${replyingId}`, { adminReply: replyDraft });
+      toast.success('Team reply saved');
+      closeReplyModal();
+      fetchReviews();
+    } catch {
+      toast.error('Could not save reply');
+    }
+    setReplySaving(false);
   };
 
   const handleSave = async () => {
@@ -66,6 +111,7 @@ export default function AdminReviews() {
 
   const approved = reviews.filter(r => r.isApproved).length;
   const pending = reviews.filter(r => !r.isApproved).length;
+  const replyTarget = replyingId ? reviews.find(x => x.reviewId === replyingId) : null;
 
   return (
     <div className="space-y-6">
@@ -131,6 +177,47 @@ export default function AdminReviews() {
         </div>
       )}
 
+      {/* Team reply modal (separate from edit review) */}
+      {replyingId && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4">
+          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+              <h2 className="font-semibold text-gray-800">Team reply</h2>
+              <button type="button" onClick={closeReplyModal} className="text-gray-400 hover:text-gray-600">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-4">
+              {replyTarget && (
+                <div className="rounded-lg bg-gray-50 border border-gray-100 px-3 py-2 text-xs text-gray-600">
+                  <p className="font-medium text-gray-800">{replyTarget.name}</p>
+                  <p className="mt-1 italic line-clamp-3">"{replyTarget.text}"</p>
+                </div>
+              )}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Public reply (under this review on site)</label>
+                <textarea
+                  value={replyDraft}
+                  onChange={e => setReplyDraft(e.target.value)}
+                  rows={4}
+                  placeholder="Thank them or respond publicly…"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+                />
+                <p className="text-[11px] text-gray-400 mt-1">Clear all text and save to remove the reply (likes reset).</p>
+              </div>
+              <button
+                type="button"
+                onClick={handleSaveReply}
+                disabled={replySaving}
+                className="w-full flex items-center justify-center gap-2 bg-primary text-cream py-2.5 rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-60"
+              >
+                <Save className="w-4 h-4" /> {replySaving ? 'Saving...' : 'Save reply'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Table */}
       {loading ? (
         <div className="bg-white rounded-2xl p-8 text-center text-gray-400">Loading...</div>
@@ -162,6 +249,12 @@ export default function AdminReviews() {
                   </td>
                   <td className="px-5 py-4 hidden md:table-cell max-w-xs">
                     <p className="text-gray-600 text-xs line-clamp-2">{r.text}</p>
+                    <div className="flex flex-wrap gap-x-2 gap-y-0.5 mt-1 text-[10px] font-medium text-primary/80">
+                      {(r.reviewTeamLikes || 0) > 0 && <span>{r.reviewTeamLikes} team ♥ review</span>}
+                      {r.adminReply && (
+                        <span>Reply · {(r.replyLikes || 0)} ♥</span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-5 py-4">
                     <StarDisplay rating={r.rating} />
@@ -176,7 +269,29 @@ export default function AdminReviews() {
                   </td>
                   <td className="px-5 py-4">
                     <div className="flex items-center gap-2 justify-end">
-                      <button onClick={() => startEdit(r)} className="p-1.5 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
+                      <button
+                        type="button"
+                        title={(r.reviewLikedByAdmins || []).includes(user?.userId) ? 'Remove team like on review' : 'Team like review'}
+                        onClick={() => toggleTeamLike(r)}
+                        className={`p-1.5 rounded-lg transition-colors ${
+                          (r.reviewLikedByAdmins || []).includes(user?.userId)
+                            ? 'text-rose-600 bg-rose-50 hover:bg-rose-100'
+                            : 'text-gray-400 hover:text-rose-600 hover:bg-rose-50/80'
+                        }`}
+                      >
+                        <Heart className={`w-4 h-4 ${(r.reviewLikedByAdmins || []).includes(user?.userId) ? 'fill-current' : ''}`} strokeWidth={2} />
+                      </button>
+                      <button
+                        type="button"
+                        title="Team reply"
+                        onClick={() => openReplyModal(r)}
+                        className={`p-1.5 rounded-lg transition-colors ${
+                          r.adminReply ? 'text-primary bg-primary/10 hover:bg-primary/15' : 'text-gray-400 hover:text-primary hover:bg-primary/10'
+                        }`}
+                      >
+                        <MessageSquareReply className="w-4 h-4" />
+                      </button>
+                      <button type="button" onClick={() => startEdit(r)} className="p-1.5 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
                         <Pencil className="w-4 h-4" />
                       </button>
                       <button onClick={() => handleDelete(r.reviewId)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">

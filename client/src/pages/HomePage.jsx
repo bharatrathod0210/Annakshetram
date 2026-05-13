@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { ShoppingBag, Leaf, Shield, Award, Truck, ChevronRight, Star, ShoppingCart } from 'lucide-react';
 import api, { imgUrl } from '../lib/api';
 import ProductCard from '../components/ProductCard';
-
+import ReviewAdminReply from '../components/ReviewAdminReply';
+import ReviewTeamBadge from '../components/ReviewTeamBadge';
 import heroBg from '../assets/hero-bg.png';
 
 export default function HomePage() {
@@ -725,14 +726,16 @@ export default function HomePage() {
                 <div className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none" style={{ background: 'linear-gradient(to left, #f5ede0, transparent)' }} />
                 <div className="flex animate-marquee gap-6 w-max">
                   {[...reviews, ...reviews].map((t, i) => (
-                    <div key={i} className="w-80 flex-shrink-0 bg-white rounded-xl border border-border shadow-card p-6">
+                    <div key={`${t.reviewId}-${i}`} className="w-80 flex-shrink-0 bg-white rounded-xl border border-border shadow-card p-6">
                       <div className="flex items-center gap-1 mb-3">
                         {[...Array(5)].map((_, s) => (
                           <Star key={s} className={`w-4 h-4 ${s < t.rating ? 'text-accent' : 'text-gray-200'}`} fill="currentColor" />
                         ))}
                       </div>
-                      <p className="text-text-secondary text-sm leading-relaxed mb-5 italic line-clamp-3">"{t.text}"</p>
-                      <div className="flex items-center gap-3 border-t border-border pt-4">
+                      <p className="text-text-secondary text-sm leading-relaxed mb-2 italic line-clamp-3">"{t.text}"</p>
+                      <ReviewTeamBadge count={t.reviewTeamLikes} compact />
+                      <ReviewAdminReply reviewId={t.reviewId} adminReply={t.adminReply} replyLikes={t.replyLikes} compact />
+                      <div className="flex items-center gap-3 border-t border-border pt-4 mt-2">
                         <div className="w-9 h-9 bg-gradient-maroon rounded-full flex items-center justify-center flex-shrink-0">
                           <span className="text-white font-bold text-sm">{t.name[0]}</span>
                         </div>

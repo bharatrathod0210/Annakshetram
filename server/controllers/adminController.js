@@ -7,38 +7,39 @@ const Category = require('../models/Category');
 const Order = require('../models/Order');
 const { generateOrderPDF } = require('../utils/pdfGenerator');
 const PaymentLogger = require('../utils/paymentLogger');
+const { HttpError } = require('../utils/httpError');
 
 // --- BANNER CONTROLLERS ---
-const getBanners = async (req, res) => {
+const getBanners = async (req, res, next) => {
   try {
     const banners = await Banner.find({ isDeleted: false, isActive: true }).sort({ order: 1 });
     res.json({ success: true, data: { banners } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const getAllBannersAdmin = async (req, res) => {
+const getAllBannersAdmin = async (req, res, next) => {
   try {
     const banners = await Banner.find().sort({ order: 1 });
     res.json({ success: true, data: { banners } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const createBanner = async (req, res) => {
+const createBanner = async (req, res, next) => {
   try {
     const { title, subtitle, ctaText, ctaLink, isActive, order } = req.body;
     const image = req.file ? req.file.path : '';
     const banner = await Banner.create({ title, subtitle, image, ctaText, ctaLink, isActive: isActive !== 'false', order: Number(order) || 0 });
     res.status(201).json({ success: true, data: { banner } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const updateBanner = async (req, res) => {
+const updateBanner = async (req, res, next) => {
   try {
     const banner = await Banner.findOne({ bannerId: req.params.id });
     if (!banner) return res.status(404).json({ success: false, message: 'Banner not found' });
@@ -50,11 +51,11 @@ const updateBanner = async (req, res) => {
     await banner.save();
     res.json({ success: true, data: { banner } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const deleteBanner = async (req, res) => {
+const deleteBanner = async (req, res, next) => {
   try {
     const banner = await Banner.findOne({ bannerId: req.params.id });
     if (!banner) return res.status(404).json({ success: false, message: 'Banner not found' });
@@ -62,22 +63,22 @@ const deleteBanner = async (req, res) => {
     await banner.save();
     res.json({ success: true, message: 'Banner deleted' });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // --- SETTINGS CONTROLLERS ---
-const getSettings = async (req, res) => {
+const getSettings = async (req, res, next) => {
   try {
     let settings = await Settings.findOne();
     if (!settings) settings = await Settings.create({});
     res.json({ success: true, data: { settings } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const updateSettings = async (req, res) => {
+const updateSettings = async (req, res, next) => {
   try {
     let settings = await Settings.findOne();
     if (!settings) settings = await Settings.create({});
@@ -85,12 +86,12 @@ const updateSettings = async (req, res) => {
     await settings.save();
     res.json({ success: true, data: { settings } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // Update shipping configuration
-const updateShippingConfig = async (req, res) => {
+const updateShippingConfig = async (req, res, next) => {
   try {
     let settings = await Settings.findOne();
     if (!settings) settings = await Settings.create({});
@@ -106,12 +107,12 @@ const updateShippingConfig = async (req, res) => {
     await settings.save();
     res.json({ success: true, message: 'Shipping configuration updated', data: { settings } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // --- ADMIN CONTROLLERS ---
-const getDashboard = async (req, res) => {
+const getDashboard = async (req, res, next) => {
   try {
     const [totalUsers, totalProducts, totalCategories, featuredProducts, totalOrders, pendingOrders, completedOrders, totalRevenue] = await Promise.all([
       User.countDocuments({ isDeleted: false }),
@@ -150,20 +151,20 @@ const getDashboard = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find().sort({ createdAt: -1 });
     res.json({ success: true, data: { users } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const toggleUserStatus = async (req, res) => {
+const toggleUserStatus = async (req, res, next) => {
   try {
     const user = await User.findOne({ userId: req.params.id });
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
@@ -171,12 +172,12 @@ const toggleUserStatus = async (req, res) => {
     await user.save();
     res.json({ success: true, message: `User ${user.isDeleted ? 'deactivated' : 'activated'}`, data: { user } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // --- ORDER CONTROLLERS ---
-const getAllOrders = async (req, res) => {
+const getAllOrders = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
@@ -229,11 +230,11 @@ const getAllOrders = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const getOrderDetails = async (req, res) => {
+const getOrderDetails = async (req, res, next) => {
   try {
     const order = await Order.findOne({ orderId: req.params.orderId, isDeleted: false });
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
@@ -247,11 +248,11 @@ const getOrderDetails = async (req, res) => {
     
     res.json({ success: true, data: { order } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const markOrderAsSeen = async (req, res) => {
+const markOrderAsSeen = async (req, res, next) => {
   try {
     const order = await Order.findOne({ orderId: req.params.orderId, isDeleted: false });
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
@@ -262,20 +263,20 @@ const markOrderAsSeen = async (req, res) => {
     
     res.json({ success: true, message: 'Order marked as seen' });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const getUnseenOrdersCount = async (req, res) => {
+const getUnseenOrdersCount = async (req, res, next) => {
   try {
     const count = await Order.countDocuments({ isDeleted: false, isSeenByAdmin: false });
     res.json({ success: true, count });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res, next) => {
   try {
     const { status, note, trackingNumber, estimatedDelivery } = req.body;
     const order = await Order.findOne({ orderId: req.params.orderId, isDeleted: false });
@@ -297,11 +298,11 @@ const updateOrderStatus = async (req, res) => {
 
     res.json({ success: true, message: 'Order status updated', data: { order } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const updateAdminNotes = async (req, res) => {
+const updateAdminNotes = async (req, res, next) => {
   try {
     const { adminNotes } = req.body;
     const order = await Order.findOne({ orderId: req.params.orderId, isDeleted: false });
@@ -313,11 +314,11 @@ const updateAdminNotes = async (req, res) => {
 
     res.json({ success: true, message: 'Admin notes updated', data: { order } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res, next) => {
   try {
     const order = await Order.findOne({ orderId: req.params.orderId });
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
@@ -327,11 +328,11 @@ const deleteOrder = async (req, res) => {
     
     res.json({ success: true, message: 'Order deleted' });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const downloadOrderReceipt = async (req, res) => {
+const downloadOrderReceipt = async (req, res, next) => {
   try {
     const order = await Order.findOne({ orderId: req.params.orderId, isDeleted: false });
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
@@ -339,11 +340,11 @@ const downloadOrderReceipt = async (req, res) => {
     // Generate and send PDF
     generateOrderPDF(order, res);
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
-const refundOrder = async (req, res) => {
+const refundOrder = async (req, res, next) => {
   try {
     const order = await Order.findOne({ orderId: req.params.orderId, isDeleted: false });
     if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
@@ -436,26 +437,17 @@ const refundOrder = async (req, res) => {
     });
   } catch (err) {
     console.error('Refund error:', err);
-    
-    // Handle Razorpay specific errors
     if (err.error && err.error.description) {
-      return res.status(400).json({ 
-        success: false, 
-        message: `Razorpay Error: ${err.error.description}` 
-      });
+      return next(new HttpError(400, 'Refund could not be processed. Please try again.'));
     }
-    
-    res.status(500).json({ 
-      success: false, 
-      message: err.message || 'Failed to process refund' 
-    });
+    return next(err);
   }
 };
 
 // @desc    Get payment logs
 // @route   GET /api/admin/payment-logs
 // @access  Private/Admin
-const getPaymentLogs = asyncHandler(async (req, res) => {
+const getPaymentLogs = asyncHandler(async (req, res, next) => {
   const PaymentLog = require('../models/PaymentLog');
   const { page = 1, limit = 50, orderId, userId, operation, status, startDate, endDate } = req.query;
 
@@ -497,13 +489,12 @@ const getPaymentLogs = asyncHandler(async (req, res) => {
 // @desc    Get payment log details
 // @route   GET /api/admin/payment-logs/:id
 // @access  Private/Admin
-const getPaymentLogDetails = asyncHandler(async (req, res) => {
+const getPaymentLogDetails = asyncHandler(async (req, res, next) => {
   const PaymentLog = require('../models/PaymentLog');
   const log = await PaymentLog.findById(req.params.id);
 
   if (!log) {
-    res.status(404);
-    throw new Error('Payment log not found');
+    throw new HttpError(404, 'Payment log not found');
   }
 
   res.json({
@@ -515,7 +506,7 @@ const getPaymentLogDetails = asyncHandler(async (req, res) => {
 // @desc    Get payment logs by order
 // @route   GET /api/admin/payment-logs/order/:orderId
 // @access  Private/Admin
-const getOrderPaymentLogs = asyncHandler(async (req, res) => {
+const getOrderPaymentLogs = asyncHandler(async (req, res, next) => {
   const PaymentLog = require('../models/PaymentLog');
   const logs = await PaymentLog.find({ orderId: req.params.orderId })
     .sort({ timestamp: -1 });
@@ -529,7 +520,7 @@ const getOrderPaymentLogs = asyncHandler(async (req, res) => {
 // @desc    Get log files list
 // @route   GET /api/admin/payment-logs/files
 // @access  Private/Admin
-const getLogFiles = asyncHandler(async (req, res) => {
+const getLogFiles = asyncHandler(async (req, res, next) => {
   const fileLogger = require('../utils/fileLogger');
   const files = fileLogger.getLogFiles('payment');
 
@@ -542,15 +533,14 @@ const getLogFiles = asyncHandler(async (req, res) => {
 // @desc    Download log file
 // @route   GET /api/admin/payment-logs/files/:date
 // @access  Private/Admin
-const downloadLogFile = asyncHandler(async (req, res) => {
+const downloadLogFile = asyncHandler(async (req, res, next) => {
   const fileLogger = require('../utils/fileLogger');
   const { date } = req.params;
   
   const logContent = fileLogger.readLog(date, 'payment');
   
   if (!logContent) {
-    res.status(404);
-    throw new Error('Log file not found');
+    throw new HttpError(404, 'Log file not found');
   }
 
   res.setHeader('Content-Type', 'text/plain');
@@ -561,7 +551,7 @@ const downloadLogFile = asyncHandler(async (req, res) => {
 // @desc    Get payment statistics
 // @route   GET /api/admin/payment-logs/stats
 // @access  Private/Admin
-const getPaymentStats = asyncHandler(async (req, res) => {
+const getPaymentStats = asyncHandler(async (req, res, next) => {
   const PaymentLog = require('../models/PaymentLog');
   const { startDate, endDate } = req.query;
 

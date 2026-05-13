@@ -8,6 +8,8 @@ const Settings = require('../models/Settings');
 const { calculateShippingCharge, getNextFreeShippingThreshold } = require('../utils/shippingCalculator');
 const { generateOrderPDF } = require('../utils/pdfGenerator');
 const PaymentLogger = require('../utils/paymentLogger');
+const { HttpError } = require('../utils/httpError');
+const { sanitizeOrderForCustomer, sanitizeOrdersForCustomer } = require('../utils/sanitizeOrder');
 
 // Initialize Razorpay
 const Razorpay = require('razorpay');
@@ -28,22 +30,19 @@ const createOrder = asyncHandler(async (req, res) => {
   if (!shippingAddress || !shippingAddress.fullName || !shippingAddress.phone || 
       !shippingAddress.line1 || !shippingAddress.city || !shippingAddress.state || 
       !shippingAddress.pincode) {
-    res.status(400);
-    throw new Error('Complete shipping address is required');
+    throw new HttpError(400, 'Complete shipping address is required');
   }
 
   // Get user cart
   const cart = await Cart.findOne({ userId, isDeleted: false });
   if (!cart || cart.items.length === 0) {
-    res.status(400);
-    throw new Error('Cart is empty');
+    throw new HttpError(400, 'Cart is empty');
   }
 
   // Get user details
   const user = await User.findOne({ userId });
   if (!user) {
-    res.status(404);
-    throw new Error('User not found');
+    throw new HttpError(404, 'User not found');
   }
 
   // Verify products and calculate total
@@ -54,13 +53,11 @@ const createOrder = asyncHandler(async (req, res) => {
     const product = await Product.findOne({ productId: item.productId, isDeleted: false });
     
     if (!product) {
-      res.status(400);
-      throw new Error(`Product ${item.name} not found`);
+      throw new HttpError(400, `Product ${item.name} not found`);
     }
 
     if (product.stock < item.quantity) {
-      res.status(400);
-      throw new Error(`Insufficient stock for ${product.name}. Available: ${product.stock}`);
+      throw new HttpError(400, `Insufficient stock for ${product.name}. Available: ${product.stock}`);
     }
 
     const itemSubtotal = product.price * item.quantity;
@@ -98,8 +95,7 @@ const createOrder = asyncHandler(async (req, res) => {
   const total = subtotal + deliveryCharge - discount;
 
   if (total <= 0) {
-    res.status(400);
-    throw new Error('Invalid order total');
+    throw new HttpError(400, 'Invalid order total');
   }
 
   // Create Razorpay order
@@ -175,8 +171,7 @@ const createOrder = asyncHandler(async (req, res) => {
       notes: `Failed to create order for user ${user.name}`
     });
     
-    res.status(500);
-    throw new Error('Failed to create payment order. Please try again.');
+    throw new HttpError(500, 'Failed to create payment order. Please try again.');
   }
 
   // Create order in database
@@ -235,15 +230,13 @@ const verifyPayment = asyncHandler(async (req, res) => {
   const requestMetadata = PaymentLogger.getRequestMetadata(req);
 
   if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-    res.status(400);
-    throw new Error('Missing payment verification details');
+    throw new HttpError(400, 'Missing payment verification details');
   }
 
   // Find order
   const order = await Order.findOne({ razorpayOrderId: razorpay_order_id });
   if (!order) {
-    res.status(404);
-    throw new Error('Order not found');
+    throw new HttpError(404, 'Order not found');
   }
 
   // Verify signature
@@ -289,8 +282,7 @@ const verifyPayment = asyncHandler(async (req, res) => {
       notes: `Signature verification failed for order ${order.orderId}`
     });
 
-    res.status(400);
-    throw new Error('Payment verification failed');
+    throw new HttpError(400, 'Payment verification failed');
   }
 
   // Fetch payment details from Razorpay
@@ -402,14 +394,12 @@ const handlePaymentFailure = asyncHandler(async (req, res) => {
   const { razorpay_order_id, error } = req.body;
 
   if (!razorpay_order_id) {
-    res.status(400);
-    throw new Error('Order ID is required');
+    throw new HttpError(400, 'Order ID is required');
   }
 
   const order = await Order.findOne({ razorpayOrderId: razorpay_order_id });
   if (!order) {
-    res.status(404);
-    throw new Error('Order not found');
+    throw new HttpError(404, 'Order not found');
   }
 
   order.paymentStatus = 'failed';
@@ -445,7 +435,7 @@ const getMyOrders = asyncHandler(async (req, res) => {
 
   res.json({
     success: true,
-    orders,
+    orders: sanitizeOrdersForCustomer(orders),
     pagination: {
       page,
       limit,
@@ -465,19 +455,19 @@ const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findOne({ orderId, isDeleted: false });
 
   if (!order) {
-    res.status(404);
-    throw new Error('Order not found');
+    throw new HttpError(404, 'Order not found');
   }
 
   // Check if user owns this order or is admin
   if (order.userId !== userId && req.user.role !== 'admin') {
-    res.status(403);
-    throw new Error('Not authorized to view this order');
+    throw new HttpError(403, 'Not authorized to view this order');
   }
+
+  const payload = req.user.role === 'admin' ? order : sanitizeOrderForCustomer(order);
 
   res.json({
     success: true,
-    order,
+    order: payload,
   });
 });
 
@@ -492,14 +482,12 @@ const cancelOrder = asyncHandler(async (req, res) => {
   const order = await Order.findOne({ orderId, userId, isDeleted: false });
 
   if (!order) {
-    res.status(404);
-    throw new Error('Order not found');
+    throw new HttpError(404, 'Order not found');
   }
 
   // Check if order can be cancelled
   if (['shipped', 'delivered', 'cancelled'].includes(order.orderStatus)) {
-    res.status(400);
-    throw new Error(`Cannot cancel order with status: ${order.orderStatus}`);
+    throw new HttpError(400, `Cannot cancel order with status: ${order.orderStatus}`);
   }
 
   order.orderStatus = 'cancelled';
@@ -525,7 +513,7 @@ const cancelOrder = asyncHandler(async (req, res) => {
   res.json({
     success: true,
     message: 'Order cancelled successfully',
-    order,
+    order: sanitizeOrderForCustomer(order),
   });
 });
 
@@ -536,8 +524,7 @@ const calculateShipping = asyncHandler(async (req, res) => {
   const { state, orderTotal } = req.body;
 
   if (!state) {
-    res.status(400);
-    throw new Error('State is required');
+    throw new HttpError(400, 'State is required');
   }
 
   const settings = await Settings.findOne();
@@ -585,14 +572,12 @@ const downloadReceipt = asyncHandler(async (req, res) => {
   const order = await Order.findOne({ orderId, isDeleted: false });
 
   if (!order) {
-    res.status(404);
-    throw new Error('Order not found');
+    throw new HttpError(404, 'Order not found');
   }
 
   // Check if user owns this order or is admin
   if (order.userId !== userId && req.user.role !== 'admin') {
-    res.status(403);
-    throw new Error('Not authorized to download this receipt');
+    throw new HttpError(403, 'Not authorized to download this receipt');
   }
 
   // Generate and send PDF
@@ -609,20 +594,17 @@ const retryPayment = asyncHandler(async (req, res) => {
   const order = await Order.findOne({ orderId, userId, isDeleted: false });
 
   if (!order) {
-    res.status(404);
-    throw new Error('Order not found');
+    throw new HttpError(404, 'Order not found');
   }
 
   // Check if order can retry payment
   if (!['pending', 'failed'].includes(order.paymentStatus)) {
-    res.status(400);
-    throw new Error(`Cannot retry payment for order with payment status: ${order.paymentStatus}`);
+    throw new HttpError(400, `Cannot retry payment for order with payment status: ${order.paymentStatus}`);
   }
 
   // Check if order is not cancelled
   if (order.orderStatus === 'cancelled') {
-    res.status(400);
-    throw new Error('Cannot retry payment for cancelled order');
+    throw new HttpError(400, 'Cannot retry payment for cancelled order');
   }
 
   // Create new Razorpay order
@@ -642,8 +624,7 @@ const retryPayment = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error('Razorpay order creation error:', error);
-    res.status(500);
-    throw new Error('Failed to create payment order. Please try again.');
+    throw new HttpError(500, 'Failed to create payment order. Please try again.');
   }
 
   // Update order with new Razorpay order ID

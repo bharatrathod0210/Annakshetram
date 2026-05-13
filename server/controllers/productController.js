@@ -2,7 +2,7 @@ const Product = require('../models/Product');
 
 // @desc  Get all products (public, with filters)
 // @route GET /api/products
-const getProducts = async (req, res) => {
+const getProducts = async (req, res, next) => {
   try {
     const { category, search, featured, page = 1, limit = 12 } = req.query;
     const query = { isDeleted: false };
@@ -24,13 +24,13 @@ const getProducts = async (req, res) => {
       data: { products, total, page: Number(page), pages: Math.ceil(total / Number(limit)) },
     });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // @desc  Get single product
 // @route GET /api/products/:id
-const getProduct = async (req, res) => {
+const getProduct = async (req, res, next) => {
   try {
     const product = await Product.findOne({
       $or: [{ productId: req.params.id }, { slug: req.params.id }],
@@ -39,13 +39,13 @@ const getProduct = async (req, res) => {
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
     res.json({ success: true, data: { product } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // @desc  Create product (admin)
 // @route POST /api/products
-const createProduct = async (req, res) => {
+const createProduct = async (req, res, next) => {
   try {
     const { name, description, longDescription, categoryId, price, mrp, unit, stock, isFeatured, tags } = req.body;
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -59,13 +59,13 @@ const createProduct = async (req, res) => {
     });
     res.status(201).json({ success: true, data: { product } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // @desc  Update product (admin)
 // @route PUT /api/products/:id
-const updateProduct = async (req, res) => {
+const updateProduct = async (req, res, next) => {
   try {
     const product = await Product.findOne({ productId: req.params.id });
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
@@ -83,13 +83,13 @@ const updateProduct = async (req, res) => {
     await product.save();
     res.json({ success: true, data: { product } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // @desc  Soft delete product (admin)
 // @route DELETE /api/products/:id
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findOne({ productId: req.params.id });
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
@@ -97,18 +97,18 @@ const deleteProduct = async (req, res) => {
     await product.save();
     res.json({ success: true, message: 'Product deleted successfully' });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
 // @desc  Get all products including deleted (admin)
 // @route GET /api/products/admin/all
-const getAllProductsAdmin = async (req, res) => {
+const getAllProductsAdmin = async (req, res, next) => {
   try {
     const products = await Product.find({ isDeleted: false }).sort({ createdAt: -1 });
     res.json({ success: true, data: { products } });
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
+    next(err);
   }
 };
 
